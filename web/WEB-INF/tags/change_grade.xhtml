@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+ <ui:composition>
+      <!--Normal Grades/scores--> 
+      <p:fragment rendered="#{model.there_is_sub_distribution==false}">
+      <div class="card" style="padding: 1px !important">
+          <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" tableStyleClass="grade_sheet_table" id="grades_table" value="null" >
+                 <f:facet name="header"><h:outputText value="Marks Breakdown"/></f:facet>
+                  <p:columnGroup type="header">
+                        <p:row>
+                            <p:column width="130"  headerText="#{model.student_scores.score_title1} of #{model.student_scores.max_classwork}" />
+                            <p:column width="130" headerText="#{model.student_scores.score_title2} of #{model.student_scores.max_midterm}" />
+                            <p:column width="130" headerText="#{model.student_scores.score_title3} of #{model.student_scores.max_final}" />
+                            <p:column width="50" headerText="Total" />
+                            <p:column width="50" headerText="Points" />
+                            <p:column width="50" headerText="Grade" />
+                        </p:row>
+                 
+                  </p:columnGroup>
+                
+               
+                 <p:column style="text-align:center;"><h:outputText value="#{model.student_scores.old_classwork_score}"  style="font-weight: bold;color:Blue;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText rendered="#{model.student_scores.old_midterm_score!=-1}" value="#{model.student_scores.old_midterm_score}" style="font-weight: bold;color:Blue;"/><h:outputText rendered="#{model.student_scores.old_midterm_score==-1}" value="Absent" style="font-weight: bold;color:red;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText rendered="#{model.student_scores.old_final_score!=-1}" value="#{model.student_scores.old_final_score}" style="font-weight: bold;color:Blue;"/><h:outputText rendered="#{model.student_scores.old_final_score==-1}" value="Absent" style="font-weight: bold;color:red;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText value="#{model.student_scores.old_grand_total}" style="font-weight: bold;color:Blue;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText value="#{model.student_scores.old_points}" style="font-weight: bold;color:Blue;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText value="#{model.student_scores.old_grade}" style="font-weight: bold;color:Blue;"/></p:column>
+                 
+                 
+               
+                <p:columnGroup rendered="#{show_new_grades_row}" type="footer">
+                <p:row>
+                <p:column width="130" style="text-align:center;"><f:facet name="footer"><p:inputNumber inputStyleClass="score_input" size="3" disabled="#{model.enable_classwork_edit==false}" required="true" requiredMessage="Please enter #{model.student_scores.score_title1} Score..." decimalPlaces="2" minValue="0" maxValue="#{model.student_scores.max_classwork}" value="#{model.student_scores.new_classwork_score}" ><p:ajax listener="#{model.student_scores.update_total_score_grade()}" update="grades_table" global="false"/></p:inputNumber></f:facet></p:column>
+                 
+                 <p:column width="130" style="text-align:center;">
+                      <f:facet name="footer">
+                      <p:inputNumber inputStyleClass="score_input" size="3"  disabled="#{model.enable_midterm_exam_edit==false}" required="true" requiredMessage="Please enter #{model.student_scores.score_title2} Score..." rendered="#{model.student_scores.new_was_abs_in_midterm==false}" decimalPlaces="2" minValue="0" maxValue="#{model.student_scores.max_midterm}" value="#{model.student_scores.new_midterm_score}"><p:ajax listener="#{model.student_scores.update_total_score_grade()}" update="grades_table" global="false"/></p:inputNumber>
+                      <h:outputText styleClass="absent" rendered="#{model.student_scores.new_was_abs_in_midterm}" value="ABSENT"/>
+                      <p:selectBooleanCheckbox style="padding-left:10px" disabled="#{model.enable_midterm_exam_edit==false}" id="midterm_boolean" title="Student Was Absent In Midterm Exam"  value="#{model.student_scores.new_was_abs_in_midterm}"><p:ajax update="grades_table" listener="#{model.student_scores.check_midterm_abs_status()}" global="false"/></p:selectBooleanCheckbox>
+                            
+                      </f:facet>
+                 </p:column>
+                 
+                 <p:column width="130" style="text-align:center;">
+                      <f:facet name="footer">
+                       <p:inputNumber inputStyleClass="score_input" size="3" disabled="#{model.enable_final_exam_edit==false}" required="true" requiredMessage="Please enter #{model.student_scores.score_title3} Score..." rendered="#{model.student_scores.new_was_abs_in_final==false}" decimalPlaces="2" minValue="0" maxValue="#{model.student_scores.max_final}" value="#{model.student_scores.new_final_score}"   ><p:ajax  update="grades_table" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                       <h:outputText styleClass="absent" rendered="#{model.student_scores.new_was_abs_in_final}" value="ABSENT"/>
+                       <p:selectBooleanCheckbox style="padding-left:10px" disabled="#{model.enable_final_exam_edit==false}" id="final_boolean" title="Student Was Absent In Final Exam"  value="#{model.student_scores.new_was_abs_in_final}"><p:ajax update="grades_table" global="false" listener="#{model.student_scores.check_final_exam_abs_status()}" /></p:selectBooleanCheckbox>
+                      </f:facet>
+                </p:column>
+                 
+                 
+                 <p:column width="50" style="text-align:center;"><f:facet name="footer"><h:outputText id="new_total" style="font-weight: bold;color:black;" value="#{model.student_scores.new_grand_total}"/></f:facet></p:column>
+                 <p:column width="50" style="text-align:center;"><f:facet name="footer"><h:outputText  id="new_points" style="font-weight: bold;color:black;" value="#{model.student_scores.new_points}"/></f:facet></p:column>
+                 <p:column width="50" style="text-align:center;"><f:facet name="footer"><h:outputText  id="new_grade" style="font-weight: bold;#{model.student_scores.new_grade=='F' or model.student_scores.new_grade=='FA' or model.student_scores.new_grade=='NO'?'color:red;':'color:black;'}" value="#{model.student_scores.new_grade}"/></f:facet></p:column>
+         
+                 </p:row>
+                 </p:columnGroup>
+                 
+                 
+                 
+             </p:dataTable>
+          </div>   
+      </p:fragment>
+      
+      
+      
+      <p:fragment rendered="#{model.there_is_sub_distribution}">
+       <div class="card" style="padding: 1px !important">       
+              <!--Sub-distribution-->
+               <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" tableStyleClass="grade_sheet_table" id="dataTable2" rowIndexVar="rowIndex" var="app" value="null">
+                   <f:facet name="header"><h:outputText value="Marks Breakdown"/></f:facet>
+                   <p:columnGroup type="header">
+                        <p:row>
+                            
+                            <p:column width="250" colspan="#{model.sub_distribution_header.classwork_columns_count}"  headerText="#{model.sub_distribution_header.main_title1}(#{model.sub_distribution_header.max_score1})" style="text-align:center;"/> 
+                            <p:column width="250"  colspan="#{model.sub_distribution_header.midterm_columns_count}"  headerText="#{model.sub_distribution_header.main_title2}(#{model.sub_distribution_header.max_score2})" style="text-align:center;"/> 
+                            <p:column width="250"  colspan="#{model.sub_distribution_header.final_exam_columns_count}"  headerText="#{model.sub_distribution_header.main_title3}(#{model.sub_distribution_header.max_score3})" style="text-align:center;"/> 
+                        
+                            <p:column colspan="#{model.sub_distribution_header.grand_total_columns_count+1}" width="200" headerText="Total" style="text-align:center;"/>
+                            <p:column rowspan="2" width="40" headerText="G.D."/>
+                            <p:column rowspan="2" width="40" headerText="Pnts"/>
+                        </p:row>
+                        <p:row>
+                            <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=1}" headerText="#{model.sub_distribution_header.classwork1_title}(#{model.sub_distribution_header.classwork1_max_score})"  style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=2}" headerText="#{model.sub_distribution_header.classwork2_title}(#{model.sub_distribution_header.classwork2_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=3}" headerText="#{model.sub_distribution_header.classwork3_title}(#{model.sub_distribution_header.classwork3_max_score})" style="text-align:center;"/> 
+                            
+                            <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=1}" headerText="#{model.sub_distribution_header.midterm1_title}(#{model.sub_distribution_header.midterm1_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=2}" headerText="#{model.sub_distribution_header.midterm2_title}(#{model.sub_distribution_header.midterm2_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=3}" headerText="#{model.sub_distribution_header.midterm3_title}(#{model.sub_distribution_header.midterm3_max_score})" style="text-align:center;"/> 
+                            
+                            
+                            <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=1}" headerText="#{model.sub_distribution_header.final_exam1_title}(#{model.sub_distribution_header.final_exam1_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=2}" headerText="#{model.sub_distribution_header.final_exam2_title}(#{model.sub_distribution_header.final_exam2_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=3}" headerText="#{model.sub_distribution_header.final_exam3_title}(#{model.sub_distribution_header.final_exam3_max_score})" style="text-align:center;"/> 
+                            
+                            <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=1}" headerText="#{model.sub_distribution_header.grand_total_1_title}"  style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=2}" headerText="#{model.sub_distribution_header.grand_total_2_title}" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=3}" headerText="#{model.sub_distribution_header.grand_total_3_title}" style="text-align:center;"/> 
+                            <p:column headerText="Grand" style="text-align:center;"/> 
+                            
+                            
+                        </p:row>
+                    </p:columnGroup>
+                    
+                    
+                    
+                    
+                    <!--Classwork1-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=1}" style="text-align:center;"><h:outputText value="#{model.student_scores.old_classwork1_score}" style="font-weight: bold;color:Black;"/></p:column>
+                     <!--Classwork2-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=2}" style="text-align:center;"><h:outputText value="#{model.student_scores.old_classwork2_score}" style="font-weight: bold;color:Black;"/></p:column>
+                     <!--Classwork3-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=3}" style="text-align:center;"><h:outputText value="#{model.student_scores.old_classwork3_score}" style="font-weight: bold;color:Black;"/></p:column>
+                            
+                     <!--Midterm1-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=1}" style="text-align:center;">
+                        <h:panelGroup>
+                           <h:outputText rendered="#{model.student_scores.old_is_abs_in_midterm1==false}" value="#{model.student_scores.old_midterm1_score}" style="font-weight: bold;color:Black;"/>
+                           <h:outputText styleClass="absent" rendered="#{model.student_scores.old_is_abs_in_midterm1}" value="ABSENT"/>
+                        </h:panelGroup>
+                     </p:column>
+                     <!--Midterm2-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=2}" style="text-align:center;">
+                        <h:panelGroup>
+                                <h:outputText rendered="#{model.student_scores.old_is_abs_in_midterm2==false}" value="#{model.student_scores.old_midterm2_score}" style="font-weight: bold;color:Black;"/>
+                                <h:outputText styleClass="absent" rendered="#{model.student_scores.old_is_abs_in_midterm2}" value="ABSENT"/>
+                        </h:panelGroup>
+                     </p:column>
+                     <!--Midterm3-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=3}" style="text-align:center;">
+                        <h:panelGroup>
+                                <h:outputText rendered="#{model.student_scores.old_is_abs_in_midterm3==false}" value="#{model.student_scores.old_midterm3_score}" style="font-weight: bold;color:Black;"/>
+                                <h:outputText styleClass="absent" rendered="#{model.student_scores.old_is_abs_in_midterm3}" value="ABSENT"/>
+                        </h:panelGroup>
+                     </p:column>
+                     
+                     <!--Final Exam1-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=1}" style="text-align:center;">
+                           <h:panelGroup>
+                              <h:outputText rendered="#{model.student_scores.old_is_abs_in_final_exam1==false}" value="#{model.student_scores.old_final_exam1_score}" style="font-weight: bold;color:Black;"/>
+                              <h:outputText styleClass="absent" rendered="#{model.student_scores.old_is_abs_in_final_exam1}" value="ABSENT"/>
+                            </h:panelGroup> 
+                     </p:column>
+                     
+                     <!--Final Exam2-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=2}" style="text-align:center;">
+                         <h:panelGroup >
+                              <h:outputText rendered="#{model.student_scores.old_is_abs_in_final_exam2==false}" value="#{model.student_scores.old_final_exam2_score}" style="font-weight: bold;color:Black;"/>
+                              <h:outputText styleClass="absent" rendered="#{model.student_scores.old_is_abs_in_final_exam2}" value="ABSENT"/>
+                           </h:panelGroup>  
+                     </p:column>
+                     
+                     <!--Final Exam3-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=3}" style="text-align:center;">
+                         <h:panelGroup >
+                              <h:outputText rendered="#{model.student_scores.old_is_abs_in_final_exam3==false}" value="#{model.student_scores.old_final_exam3_score}" style="font-weight: bold;color:Black;"/>
+                              <h:outputText styleClass="absent" rendered="#{model.student_scores.old_is_abs_in_final_exam3}" value="ABSENT"/>
+                         </h:panelGroup>  
+                     </p:column>
+                     
+                     <!--Total(1)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=1}" style="text-align:center"><h:outputText title="Min Score=#{model.sub_distribution_header.min_total_1}" value="#{model.student_scores.old_total_1}" style="font-weight: bold;#{model.sub_distribution_header.min_total_1>model.student_scores.old_total_1?'color:red;':'color:green;'}"/></p:column>
+                     <!--Total(2)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=2}" style="text-align:center"><h:outputText title="Min Score=#{model.sub_distribution_header.min_total_2}" value="#{model.student_scores.old_total_2}" style="font-weight: bold;#{model.sub_distribution_header.min_total_2>model.student_scores.old_total_2?'color:red;':'color:green;'}"/></p:column>
+                     <!--Total(3)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=3}" style="text-align:center"><h:outputText title="Min Score=#{model.sub_distribution_header.min_total_3}" value="#{model.student_scores.old_total_3}" style="font-weight: bold;#{model.sub_distribution_header.min_total_3>model.student_scores.old_total_3?'color:red;':'color:green;'}"/></p:column>
+                     <!--Grand Total-->
+                     <p:column style="text-align:center;" ><h:outputText style="font-weight: bold;#{model.student_scores.old_grade=='W' or model.student_scores.old_grade=='F' or model.student_scores.old_grade=='FA' or model.student_scores.old_grade=='NP'?'color:red;':'color:blue;'}" value="#{model.student_scores.old_grand_total}"/></p:column>
+                     <!--Grade-->
+                     <p:column style="text-align:center;"><h:outputText style="font-weight: bold;#{model.student_scores.old_grade=='W' or model.student_scores.old_grade=='F' or model.student_scores.old_grade=='FA' or model.student_scores.old_grade=='NP'?'color:red;':'color:blue;'};text-align:center;" value="#{model.student_scores.old_grade}"/></p:column>
+                     <!--Points-->
+                     <p:column style="text-align:center;"><h:outputText style="font-weight: bold;#{model.student_scores.old_grade=='W' or model.student_scores.old_grade=='F' or model.student_scores.old_grade=='FA' or model.student_scores.old_grade=='NP'?'color:red;':'color:blue;'};text-align:center;" value="#{model.student_scores.old_points}"/></p:column>
+              
+              
+              
+              <p:columnGroup rendered="#{show_new_grades_row}" type="footer" id="data_row">
+               <p:row>
+                  <!--Classwork1-->
+                  <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=1}">
+                       <f:facet name="footer">
+                         <p:inputNumber disabled="#{model.enable_classwork_edit==false}"  inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.classwork1_max_score}" value="#{model.student_scores.new_classwork1_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                       </f:facet>
+                  </p:column>
+                  <!--Classwork2-->
+                  <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=2}">
+                       <f:facet name="footer">
+                         <p:inputNumber disabled="#{model.enable_classwork_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.classwork2_max_score}" value="#{model.student_scores.new_classwork2_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                       </f:facet>
+                  </p:column>
+                     <!--Classwork3-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=3}" >
+                         <f:facet name="footer">
+                           <p:inputNumber disabled="#{model.enable_classwork_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.classwork3_max_score}" value="#{model.student_scores.new_classwork3_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                         </f:facet>  
+                     </p:column>
+                            
+                     <!--Midterm1-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=1}">
+                            <f:facet name="footer">
+                            <h:panelGroup id="md_panel1">
+                                <h:outputText styleClass="absent" rendered="#{model.student_scores.new_is_abs_in_midterm1==true }" value="ABSENT"/>
+                                <p:inputNumber disabled="#{model.enable_midterm_exam_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.midterm1_max_score}" rendered="#{model.student_scores.new_is_abs_in_midterm1==false}" value="#{model.student_scores.new_midterm1_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                                <p:selectBooleanCheckbox disabled="#{model.enable_midterm_exam_edit==false}" style="padding-left:10px" title="Student Was Absent In Midterm Exam" tabindex="99999" value="#{model.student_scores.new_is_abs_in_midterm1}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.check_midetrm_abs_status('1')}"/></p:selectBooleanCheckbox>
+                            </h:panelGroup>
+                            </f:facet>
+                     </p:column>
+                     <!--Midterm2-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=2}">
+                            <f:facet name="footer">
+                            <h:panelGroup id="md_panel2">
+                                <h:outputText styleClass="absent" rendered="#{model.student_scores.new_is_abs_in_midterm2==true }" value="ABSENT"/>
+                                <p:inputNumber disabled="#{model.enable_midterm_exam_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.midterm2_max_score}" rendered="#{model.student_scores.new_is_abs_in_midterm2==false}" value="#{model.student_scores.new_midterm2_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                                <p:selectBooleanCheckbox disabled="#{model.enable_midterm_exam_edit==false}" style="padding-left:10px" title="Student Was Absent In Midterm Exam" tabindex="99999" value="#{model.student_scores.new_is_abs_in_midterm2}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.check_midetrm_abs_status('2')}"/></p:selectBooleanCheckbox>
+                            </h:panelGroup>
+                            </f:facet>
+                     </p:column>
+                     <!--Midterm3-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=3}">
+                            <f:facet name="footer">
+                            <h:panelGroup id="md_panel3">
+                                <h:outputText styleClass="absent" rendered="#{model.student_scores.new_is_abs_in_midterm3==true }" value="ABSENT"/>
+                                <p:inputNumber disabled="#{model.enable_midterm_exam_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.midterm3_max_score}" rendered="#{model.student_scores.new_is_abs_in_midterm3==false}" value="#{model.student_scores.new_midterm3_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                                <p:selectBooleanCheckbox disabled="#{model.enable_midterm_exam_edit==false}" style="padding-left:10px" title="Student Was Absent In Midterm Exam" tabindex="99999" value="#{model.student_scores.new_is_abs_in_midterm3}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.check_midetrm_abs_status('3')}"/></p:selectBooleanCheckbox>
+                            </h:panelGroup>
+                            </f:facet>
+                     </p:column>
+                     
+                     <!--Final Exam1-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=1}">
+                           <f:facet name="footer">
+                           <h:panelGroup id="fe_panel1" >
+                              <h:outputText styleClass="absent" rendered="#{model.student_scores.new_is_abs_in_final_exam1}" value="ABSENT"/>
+                              <p:inputNumber disabled="#{model.enable_final_exam_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.final_exam1_max_score}"  rendered="#{model.student_scores.new_is_abs_in_final_exam1==false and model.student_scores.new_grade!='W' and model.student_scores.new_grade!='FA'}" value="#{model.student_scores.new_final_exam1_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                              <p:selectBooleanCheckbox disabled="#{model.enable_final_exam_edit==false}" style="padding-left:10px" title="Student Was Absent In Final Exam" tabindex="99999" rendered="#{model.student_scores.old_grade!='W'}" value="#{model.student_scores.new_is_abs_in_final_exam1}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.check_final_exam_abs_status('1')}"/></p:selectBooleanCheckbox>
+                           </h:panelGroup> 
+                           </f:facet>
+                     </p:column>
+                     
+                     <!--Final Exam2-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=2}">
+                         <f:facet name="footer">
+                         <h:panelGroup id="fe_panel2" >
+                             <h:outputText styleClass="absent" rendered="#{model.student_scores.new_is_abs_in_final_exam2}" value="ABSENT"/>
+                             <p:inputNumber disabled="#{model.enable_final_exam_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.final_exam2_max_score}"  rendered="#{model.student_scores.new_is_abs_in_final_exam2==false and model.student_scores.new_grade!='W' and model.student_scores.new_grade!='FA'}" value="#{model.student_scores.new_final_exam2_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                             <p:selectBooleanCheckbox disabled="#{model.enable_final_exam_edit==false}" style="padding-left:10px" title="Student Was Absent In Final Exam" tabindex="99999" rendered="#{model.student_scores.old_grade!='W'}" value="#{model.student_scores.new_is_abs_in_final_exam2}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.check_final_exam_abs_status('2')}"/></p:selectBooleanCheckbox>
+                         </h:panelGroup>  
+                         </f:facet>
+                     </p:column>
+                     
+                     <!--Final Exam3-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=3}">
+                         <f:facet name="footer">
+                         <h:panelGroup id="fe_panel3" >
+                              <h:outputText styleClass="absent" rendered="#{model.student_scores.new_is_abs_in_final_exam3}" value="ABSENT"/>
+                              <p:inputNumber disabled="#{model.enable_final_exam_edit==false}" inputStyleClass="score_input"  emptyValue="empty" decimalPlaces="2" minValue="0" maxValue="#{model.sub_distribution_header.final_exam3_max_score}"  rendered="#{model.student_scores.new_is_abs_in_final_exam3==false and model.student_scores.new_grade!='W' and model.student_scores.new_grade!='FA'}" value="#{model.student_scores.new_final_exam3_score}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.update_total_score_grade()}" /></p:inputNumber>
+                              <p:selectBooleanCheckbox disabled="#{model.enable_final_exam_edit==false}" style="padding-left:10px" title="Student Was Absent In Final Exam" tabindex="99999" rendered="#{model.student_scores.old_grade!='W'}" value="#{model.student_scores.new_is_abs_in_final_exam3}"><p:ajax update="@parent,total,grade,points,total_1,total_2,total_3" global="false" listener="#{model.student_scores.check_final_exam_abs_status('3')}"/></p:selectBooleanCheckbox>
+                           </h:panelGroup>  
+                           </f:facet>
+                     </p:column>
+                     
+                     <!--Total(1)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=1}" style="text-align:center"><f:facet name="footer"><h:outputText id="total_1" title="Min Score=#{model.sub_distribution_header.min_total_1}" value="#{model.student_scores.new_total_1}" style="font-weight: bold;#{model.sub_distribution_header.min_total_1>model.student_scores.new_total_1?'color:red;':'color:green;'}"/></f:facet></p:column>
+                     <!--Total(2)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=2}" style="text-align:center"><f:facet name="footer"><h:outputText id="total_2" title="Min Score=#{model.sub_distribution_header.min_total_2}" value="#{model.student_scores.new_total_2}" style="font-weight: bold;#{model.sub_distribution_header.min_total_2>model.student_scores.new_total_2?'color:red;':'color:green;'}"/></f:facet></p:column>
+                     <!--Total(3)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=3}" style="text-align:center"><f:facet name="footer"><h:outputText id="total_3" title="Min Score=#{model.sub_distribution_header.min_total_3}" value="#{model.student_scores.new_total_3}" style="font-weight: bold;#{model.sub_distribution_header.min_total_3>model.student_scores.new_total_3?'color:red;':'color:green;'}"/></f:facet></p:column>
+                     <!--Grand Total-->
+                     <p:column style="text-align:center;" ><f:facet name="footer"><h:outputText id="total" style="font-weight: bold;#{model.student_scores.new_grade=='W' or model.student_scores.new_grade=='F' or model.student_scores.new_grade=='FA' or model.student_scores.new_grade=='NP'?'color:red;':'color:blue;'}" value="#{model.student_scores.new_grand_total}"/></f:facet></p:column>
+                     
+                     <p:column ><f:facet name="footer"><h:outputText id="grade" style="font-weight: bold;#{model.student_scores.new_grade=='W' or model.student_scores.new_grade=='F' or model.student_scores.new_grade=='FA' or model.student_scores.new_grade=='NP'?'color:red;':'color:blue;'}" value="#{model.student_scores.new_grade}"/></f:facet></p:column>
+                     <p:column ><f:facet name="footer"><h:outputText id="points" style="font-weight: bold;#{model.student_scores.new_grade=='W' or model.student_scores.new_grade=='F' or model.student_scores.new_grade=='FA' or model.student_scores.new_grade=='NP'?'color:red;':'color:blue;'}" value="#{model.student_scores.new_points}"/></f:facet></p:column>
+                  
+               </p:row>
+              </p:columnGroup>
+              
+               </p:dataTable>
+              
+       </div>       
+      </p:fragment>
+      
+        
+       
+ </ui:composition>    
+  
+</html>

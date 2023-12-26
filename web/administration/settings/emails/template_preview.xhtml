@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/window_template.xhtml">
+    <ui:define name="PageTitle">Email Template Preview</ui:define>  
+    <ui:define name="content">
+        <h:outputText value="#{email_templates.preview_template_content}"  escape="false"/>
+    </ui:define>
+</ui:composition>    

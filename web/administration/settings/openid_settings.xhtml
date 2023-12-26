@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">MS 365/OpenID Settings</ui:define>
+    <ui:define name="MainTitle">MS 365/OpenID Settings</ui:define>
+    <ui:param name="page_id" value="383"/>
+    <ui:define name="content"> 
+        <p:card>
+            <f:facet name="header"><h:outputText value="MS 365 Settings" /></f:facet>
+            <p:selectBooleanCheckbox style="color:red;font-weight:bold;" itemLabel="Enable MS Office 365 Authentication?" value="#{openid_settings.is_ms365_enabled}"><p:ajax update="@form" global="false"/></p:selectBooleanCheckbox>
+                <br/>  <br/>    
+                    <h:panelGrid style="width:100%;" columns="3" id="ms_panel" cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd" columnClasses="column1,column2">
+                    
+                        <p:outputLabel for="@next" styleClass="bold" value="Authority URL"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_ms365_enabled}" requiredMessage="Please enter Authority URL...." disabled="#{openid_settings.is_ms365_enabled==false}"  style="width:300px"  value="#{openid_settings.ms_authority_url}" maxlength="500" />
+                        <h:outputText value="The Authority URL = MS Login URL/{Tenant ID} For example https://login.microsoftonline.com/d90ee235-811c-4a55-8ecd-c4965bc12345"/>
+                    
+                        <p:outputLabel for="@next" styleClass="bold" value="Application (Client) ID"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_ms365_enabled}" requiredMessage="Please enter Application (Client) ID...." disabled="#{openid_settings.is_ms365_enabled==false}"  style="width:300px"  value="#{openid_settings.ms_application_id}" maxlength="500" />
+                        <h:outputText value="The Application ID assigned to your app when you registered it with Azure AD. You can find this in the Azure portal. Click Azure Active Directory, click App Registrations, choose the application and locate the Application ID on the application page."/>
+                        
+                        
+                        <p:outputLabel for="@next" styleClass="bold" value="Secret"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_ms365_enabled}" requiredMessage="Please enter Resource URL...." disabled="#{openid_settings.is_ms365_enabled==false}"  style="width:300px"  value="#{openid_settings.ms_secret}" maxlength="500" />
+                        <h:outputText value="The secret is used when exchanging an authorization code for an access token"/>
+                    
+                        <p:outputLabel for="@next" styleClass="bold" value="Scopes"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_ms365_enabled}" requiredMessage="Please enter Resource URL...." disabled="#{openid_settings.is_ms365_enabled==false}"  style="width:300px"  value="#{openid_settings.ms_scopes}" maxlength="500" />
+                        <h:outputText value="Authentication scopes, Default :(openid profile offline_access)"/>
+                    
+                        
+                        <p:outputLabel for="@next" styleClass="bold" value="Home Page"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_ms365_enabled}" requiredMessage="Please enter LDAP Server IP...." disabled="#{openid_settings.is_ms365_enabled==false}"  style="width:300px"  value="#{openid_settings.ms_home_page}" maxlength="500" />
+                        <h:outputText value="Home page of SIS application"/>
+                  
+                    </h:panelGrid>
+        </p:card>
+            
+        <p:card>
+            <f:facet name="header"><h:outputText value="OPENID Settings" /></f:facet>
+            <p:selectBooleanCheckbox style="color:red;font-weight:bold;" itemLabel="Enable OpenID Authentication?" value="#{openid_settings.is_openid_enabled}"><p:ajax update="@form" global="false"/></p:selectBooleanCheckbox>
+                <br/>  <br/>    
+                    <h:panelGrid style="width:100%;" columns="3" id="openid_panel" cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd" columnClasses="column1,column2">
+                    
+                        <p:outputLabel for="openid_application_id" styleClass="bold" value="Application (Client) ID"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_openid_enabled}" requiredMessage="Please enter Application (Client) ID...." disabled="#{openid_settings.is_openid_enabled==false}"  style="width:300px" id="openid_application_id" value="#{openid_settings.openid_application_id}" maxlength="500" />
+                        <h:outputText value="The Application ID assigned to your app when you registered it with Azure AD. You can find this in the Azure portal. Click Azure Active Directory, click App Registrations, choose the application and locate the Application ID on the application page."/>
+                        
+                        <p:outputLabel for="openid_authority_url" styleClass="bold" value="Authority URL"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_openid_enabled}" requiredMessage="Please enter OpenID Authority URL...." disabled="#{openid_settings.is_openid_enabled==false}"  style="width:300px" id="openid_authority_url" value="#{openid_settings.openid_authority_url}" maxlength="500" />
+                        <h:outputText value="The Authority to use when making OpenIdConnect calls. For example: https://login.microsoftonline.com/common"/>
+                    
+                        <p:outputLabel for="openid_resource_url" styleClass="bold" value="Resource URL"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_openid_enabled}" requiredMessage="Please enter Resource URL...." disabled="#{openid_settings.is_openid_enabled==false}"  style="width:300px" id="openid_resource_url" value="#{openid_settings.openid_resource_url}" maxlength="500" />
+                        <h:outputText value="The resource parameter is used to specify the URI of the resource (resource=https://graph.microsoft.com) that authorization (for administrator consent) or a token is being requested for.."/>
+                    
+                        <p:outputLabel for="openid_domain" styleClass="bold" value="OpenID(Office 365) Domain"/>
+                        <p:inputText converter="trim" autocomplete="off"  required="#{openid_settings.is_openid_enabled}" requiredMessage="Please enter LDAP Server IP...." disabled="#{openid_settings.is_openid_enabled==false}"  style="width:300px" id="openid_domain" value="#{openid_settings.openid_domain}" maxlength="500" />
+                        <h:outputText value="Your Azure AD domain name. You can find this on your Azure AD directory's overview page in the Microsoft Azure portal."/>
+                  
+                    </h:panelGrid>
+        </p:card>
+        
+        <p:card>
+            <div class="center_button"><p:commandButton action="#{openid_settings.save()}" value="Save Settings" update="@form" icon="fa fa-fw fa-save"/></div>
+        </p:card>
+        
+                 
+</ui:define>
+</ui:composition>

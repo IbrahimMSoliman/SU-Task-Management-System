@@ -1,0 +1,179 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+       >
+ <ui:composition>
+     <div style="text-align: right"><p:commandButton type="button" onclick="PF('advancedsearchdialog').show()" title="Advanced Search" icon="fa fa-w fa-search-plus" styleClass="ui-button-outlined"/></div>
+     
+    <p:dialog styleClass="custom-header" blockScroll="true" style="text-align: left" my="center center" widgetVar="advancedsearchdialog" modal="true" closeOnEscape="true" closable="true">   
+        <f:facet name="header"><i class="fa fa-w fa-search-plus"/><h:outputText value=" Advanced Search"/></f:facet>
+        
+        <p:card style="height: 300px">            
+            <p:tabView  style="width:600px;margin:0 auto;"> 
+                <p:tab title="Basics" id="studentTab" >  
+                    <p:outputPanel deferred="true" class="mt-2">
+                           <h:panelGrid columns="4"   width="100%" border="0"  rowClasses="even,odd">
+                         
+                           <p:outputLabel rendered="#{show_student_id}"  styleClass="bold" value="Student ID" for="studentId"/>    
+                           <p:inputTextarea rendered="#{show_student_id}" style="width:180px" autoResize="false" value="#{model.student_id}" id="studentId" ><p:ajax event="blur" update="@parent" global="false"/></p:inputTextarea>
+                           
+                           
+                           <p:outputLabel styleClass="bold" value="Civil ID" for="civilid"/>                                       
+                           <p:inputTextarea style="width:180px" autoResize="false" value="#{model.civil_id}" id="civilid" ><p:ajax event="blur" update="@parent" global="false"/></p:inputTextarea>
+                         
+                           <p:outputLabel styleClass="bold" value="Student Name" for="studentName"/> 
+                           <p:inputText autocomplete="off" converter="trim" style="width:180px" value="#{model.student_name}" id="studentName" ><p:ajax event="blur" update="@parent" global="false"/></p:inputText>
+                           
+                           <p:outputLabel styleClass="bold" value="Student Type" for="studentType"/> 
+                           <p:selectCheckboxMenu style="width:180px" id="studentType" value="#{model.student_type}"> <f:selectItems  value="#{model.student_type_list}" /> <p:ajax event="change" update="@parent" global="false"/> <p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                           
+                           <p:outputLabel styleClass="bold" value="Study Mode" for="studyMode"/> 
+                           <p:selectOneMenu style="width:180px" id="studyMode" value="#{model.study_mode}" label="Study Mode"> 
+                               <f:selectItem itemLabel="All" itemValue="#{null}"/>
+                               <f:selectItems value="#{model.study_mode_list}" />
+                               <p:ajax event="change" update="@parent" global="false"/>
+                           </p:selectOneMenu>
+                           
+                           <p:outputLabel styleClass="bold" value="Gender" for="gender"/> 
+                           <p:selectOneMenu style="width:180px" id="gender" value="#{model.gender}" label="Gender"> 
+                               <f:selectItem itemLabel="All" itemValue="#{null}"/>
+                               <f:selectItems value="#{model.gender_list}" />
+                               <p:ajax event="change" update="@parent" global="false"/>
+                           </p:selectOneMenu>
+                           
+                           
+                           <p:outputLabel styleClass="bold" value="Nationality" for="nationality"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="nationality" value="#{model.nationality_id}" label="Nationality" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.nationality_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                           
+                           <p:outputLabel styleClass="bold" value="City" for="@next"/> 
+                           <p:selectCheckboxMenu style="width:180px" id="cities_id" value="#{model.cities_id}" label="Cities" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.cities_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                           
+                           
+                           <p:outputLabel styleClass="bold" value="Mobile" for="mobile"/> 
+                           <p:inputText autocomplete="off" converter="trim" style="width:180px" value="#{model.mobile}" id="mobile" ><p:ajax event="blur" update="@parent" global="false"/></p:inputText>
+                           
+                           <p:outputLabel styleClass="bold" value="Work Status" for="work"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="work" value="#{model.parent_work_status}" label="Work Status" filter="true" filterMatchMode="contains"  > <f:selectItems value="#{model.parent_work_status_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                        
+                           </h:panelGrid>
+                    </p:outputPanel>
+                </p:tab> 
+                
+                <p:tab title="High School" id="hischoolTab">  
+                    <p:outputPanel deferred="true" class="mt-2">
+                           <h:panelGrid columns="4"   width="100%" border="0"  rowClasses="even,odd">
+                           <p:outputLabel styleClass="bold" value="School Certificate" for="cert"/> 
+                           <p:selectOneMenu autoWidth="false" style="width:180px" id="cert" value="#{model.school_cert_id}" label="School Certificates" filter="true" filterMatchMode="contains"  ><f:selectItem itemValue="#{null}" itemLabel=" "/> <f:selectItems value="#{model.school_cert_list}" /><p:ajax event="change" update="@parent" global="false"/></p:selectOneMenu>
+                           
+                           <p:outputLabel styleClass="bold" value="School Name" for="school_name"/> 
+                           <p:selectOneMenu autoWidth="false" style="width:180px" id="school_name" value="#{model.school_id}" label="School Name" filter="true" filterMatchMode="contains"  ><f:selectItem itemValue="#{null}" itemLabel=" "/> <f:selectItems value="#{model.schools_list}" /><p:ajax event="change" update="@parent" global="false"/></p:selectOneMenu>
+                         
+                           <p:outputLabel styleClass="bold" value="School Branch" for="sbranch"/> <p:selectOneMenu autoWidth="false" style="width:180px" id="sbranch" value="#{model.school_branch}" label="School Branch" filter="true" filterMatchMode="contains"  ><f:selectItem itemValue="#{null}" itemLabel=" "/> <f:selectItems  value="#{model.school_branchs_list}" /><p:ajax event="change" update="@parent" global="false"/></p:selectOneMenu>
+                           <p:outputLabel styleClass="bold" value="School Year" for="syear"/> <p:selectOneMenu style="width:180px"    id="syear" value="#{model.school_year}" label="School Year" filter="true" filterMatchMode="contains"  ><f:selectItem itemValue="#{null}" itemLabel=" "/> <f:selectItems value="#{model.schools_years_list}" /><p:ajax event="change" update="@parent" global="false"/></p:selectOneMenu>
+                         
+                           </h:panelGrid>
+                    </p:outputPanel>
+                </p:tab> 
+                
+                <p:tab title="Sponsorship" id="SponsorshipTab"> 
+                    <p:outputPanel deferred="true" class="mt-2">
+                           <h:panelGrid columns="4"   width="100%" border="0"  rowClasses="even,odd">
+                           
+                           <p:outputLabel styleClass="bold" value="Sponsor" for="sponsor"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="sponsor" value="#{model.sponsor_id}" label="Sponsors" filter="true" filterMatchMode="contains" > <f:selectItems  value="#{model.sponsor_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                           
+                           <p:outputLabel styleClass="bold" value="Fund.No" for="fundNo"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="fundNo" value="#{model.fund_no}" label="Fund.No" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.fund_no_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                            
+                           <p:outputLabel styleClass="bold" value="Fund Code" for="fundcode"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="fundcode" value="#{model.fund_code}" label="Fund Code" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.fund_code_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                           
+                           <p:outputLabel styleClass="bold" value="Finance Fund Code" for="ffcode"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="ffcode" value="#{model.financial_fund_code}" label="Finance Fund Code" filter="true" filterMatchMode="contains"  > <f:selectItems value="#{model.financial_fund_code_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+                           
+                         
+                           </h:panelGrid>
+                    </p:outputPanel>
+                </p:tab>    
+                    
+                    
+                <p:tab title="Academics" id="academicTab"> 
+                   
+                    <p:outputPanel deferred="true" class="mt-2">
+                        <h:panelGrid columns="4"  width="100%" border="0" rowClasses="even,odd">
+                           <p:outputLabel styleClass="bold" value="College " for="college"/> 
+                                <p:selectCheckboxMenu  style="width:180px"  id="college" value="#{model.college_id}" label="Colleges" filter="true" filterMatchMode="contains" > 
+                                <f:selectItems value="#{model.colleges_list}" />
+                                <p:ajax listener="#{model.ValueChanged}" event="change" update="major,curriculum" process="@this"/>
+                                <p:ajax listener="#{model.ValueChangedSelectAll('College')}" event="toggleSelect" update="major,curriculum" process="@this"/>
+                                </p:selectCheckboxMenu>
+
+                           <p:outputLabel styleClass="bold" value="Major" for="major"/> 
+                           <p:selectCheckboxMenu style="width:180px"    id="major" value="#{model.major_id}" label="Majors" filter="true" filterMatchMode="contains" > 
+                           <f:selectItems  value="#{model.majors_list}" />
+                           <p:ajax listener="#{model.ValueChanged}" event="change" update="curriculum" process="@this"/>
+                           <p:ajax listener="#{model.ValueChangedSelectAll('Major')}" event="toggleSelect" update="curriculum" process="@this"/>
+                           </p:selectCheckboxMenu>
+
+                           <p:outputLabel styleClass="bold" value="Degree" for="degree"/> <p:selectCheckboxMenu style="width:180px"    id="degree" value="#{model.degree_id}" label="Degree" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.degrees_list}" /><p:ajax listener="#{model.ValueChanged}" event="change" update="curriculum" process="@this"/></p:selectCheckboxMenu>
+                           <p:outputLabel styleClass="bold" value="Curriculum" for="curriculum"/> <p:selectCheckboxMenu style="width:180px"    id="curriculum" value="#{model.curriculum_id}" label="Curriculum" filter="true" filterMatchMode="contains"> <f:selectItems value="#{model.curriculum_list}" /><p:ajax event="change" update="@parent" global="false"/><p:ajax event="toggleSelect" update="@parent"/></p:selectCheckboxMenu>
+
+
+                        </h:panelGrid>
+                    </p:outputPanel>  
+                    
+                </p:tab> 
+                
+                
+                <p:tab title="Others" id="othersTab"> 
+                    <p:outputPanel deferred="true" class="mt-2">
+                        <p:card>
+                        <h:panelGrid columns="3"  width="100%" border="0" rowClasses="even,odd">
+                           <p:selectCheckboxMenu style="width:180px" id="acstatus" value="#{model.student_status}" label="Academic Status" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.student_status_list}" /></p:selectCheckboxMenu>
+                           <p:selectCheckboxMenu style="width:180px" id="advregin" value="#{model.registered_in}" label="Registered In" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.registered_in_list}" /></p:selectCheckboxMenu>
+                           <p:selectCheckboxMenu style="width:180px" id="advgradin" value="#{model.graduated_in}" label="Graduated In" filter="true" filterMatchMode="contains" > <f:selectItems value="#{model.graduated_in_list}" /></p:selectCheckboxMenu>
+                        </h:panelGrid>
+                        </p:card>
+                        
+                        <p:card>
+                        <h:panelGrid columns="4"  width="100%" border="0" rowClasses="even,odd">
+                            <p:outputLabel styleClass="bold" value="CGPA" for="@next"/>
+                            <h:panelGrid columns="3">
+                               <p:spinner max="4" size="10" min="0" id="cgpafrom" value="#{model.from_cgpa}" stepFactor="0.25"/> 
+                               <p:outputLabel value=" : "/>
+                               <p:spinner max="4" size="10" min="0" id="cgpato" value="#{model.to_cgpa}" stepFactor="0.25"/> 
+                            </h:panelGrid>
+
+                            <p:outputLabel styleClass="bold" value="E.C.H." for="@next"/>
+                            <h:panelGrid columns="3">
+                               <p:spinner max="200" size="11" min="0" id="echfrom" value="#{model.from_ech}" stepFactor="0.5"/> 
+                               <p:outputLabel value=" : "/>
+                               <p:spinner max="200" size="11" min="0" id="echto" value="#{model.to_ech}" stepFactor="0.5"/> 
+                            </h:panelGrid>
+                        </h:panelGrid>   
+                        </p:card>
+                        
+                        <p:card>    
+                            <h:panelGrid columns="9"  width="100%" border="0" rowClasses="even,odd">
+                                <p:outputLabel styleClass="bold" value="Foundation Levels" for="@next"/>
+                                <p:selectCheckboxMenu style="width:100px"  id="enfoundation2" value="#{model.foundation_english_level}" label="English" > <f:selectItem itemLabel="Pass" itemValue="P"/><f:selectItem itemLabel="Level One" itemValue="L1"/><f:selectItem itemLabel="Level Two" itemValue="L2"/><f:selectItem itemLabel="Level Three" itemValue="L3"/></p:selectCheckboxMenu>
+                                <p:outputLabel styleClass="bold" value=":" /> 
+                                <p:selectCheckboxMenu style="width:100px"  id="mathfoundation2" value="#{model.foundation_math_level}" label="Math" > <f:selectItem itemLabel="Pass" itemValue="P"/><f:selectItem itemLabel="Level One" itemValue="L1"/><f:selectItem itemLabel="Level Two" itemValue="L2"/><f:selectItem itemLabel="Level Three" itemValue="L3"/></p:selectCheckboxMenu>
+                                <p:outputLabel styleClass="bold" value=":" />
+                                <p:selectCheckboxMenu style="width:100px"  id="itfoundation2" value="#{model.foundation_it_level}" label="IT" > <f:selectItem itemLabel="Pass" itemValue="P"/><f:selectItem itemLabel="Level One" itemValue="L1"/><f:selectItem itemLabel="Level Two" itemValue="L2"/><f:selectItem itemLabel="Level Three" itemValue="L3"/></p:selectCheckboxMenu>
+                                <p:outputLabel styleClass="bold" value=":" />
+                                <p:selectCheckboxMenu style="width:100px"  id="skillsfoundation2" value="#{model.foundation_skills_level}" label="Skills" > <f:selectItem itemLabel="Pass" itemValue="P"/><f:selectItem itemLabel="Level One" itemValue="L1"/><f:selectItem itemLabel="Level Two" itemValue="L2"/><f:selectItem itemLabel="Level Three" itemValue="L3"/></p:selectCheckboxMenu>
+                            </h:panelGrid>
+                        </p:card>
+                    </p:outputPanel>  
+                    
+                </p:tab> 
+                
+                
+          </p:tabView>  
+        </p:card>
+     </p:dialog>
+</ui:composition>    
+</html>

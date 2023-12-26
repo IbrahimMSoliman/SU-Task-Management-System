@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+    <div class="layout-footer">
+        <div class="grid">
+            <div class="col-12 md:col-3">
+                <h:link id="footerlogolink" outcome="/dashboard">
+                    <p:graphicImage style="width:50px !important;height:45px !important;margin-bottom:0 !important;"   library="tms" name="images/logo/sis_footer_logo.png" />
+                </h:link>
+            </div>
+            <div class="col-12 md:col-3">
+                <span >Quick Links</span>
+                <ul>
+                    <li><p:link style="text-decoration: none;color: #65686a;margin-top:1px" styleClass="socials" rendered="#{not empty tmsApplicationBean.university_website}"  href="#{tmsApplicationBean.university_website}" target="_blank">#{tmsApplicationBean.en_university_name} Website </p:link></li>
+                    <li><p:link style="text-decoration: none;color: #65686a;margin-top:1px" styleClass="socials" href="https://moodle.com" target="_blank">Moodle</p:link></li>
+                </ul>
+            </div>
+            <div class="col-12 md:col-3">
+                <span style="font-weight: bold">SIS Links</span>
+                <ul>
+                    <li><p:link style="text-decoration: none;color: #65686a;margin-top:1px" styleClass="socials" href="#{tmsApplicationBean.contextPath}/dashboard.xhtml" >Dashboard</p:link></li>
+                    <li><p:link style="text-decoration: none;color: #65686a;margin-top:1px" styleClass="socials" href="#{tmsApplicationBean.contextPath}/users/profile.xhtml" >Profile</p:link></li>
+                </ul>
+            </div>
+            <div class="col-12 md:col-3">
+                <span >SOCIAL</span>
+                <div class="socials">
+                    <p:link style="text-decoration: none;" styleClass="socials" rendered="#{not empty tmsApplicationBean.facebook_url}"  href="#{tmsApplicationBean.facebook_url}" target="_blank"><i class="pi pi-facebook" /></p:link>
+                    <p:link style="text-decoration: none;" styleClass="socials" rendered="#{not empty tmsApplicationBean.twitter_url}"  href="#{tmsApplicationBean.twitter_url}" target="_blank"><i class="fa fa-twitter" /></p:link>
+                    <p:link style="text-decoration: none;" styleClass="socials" rendered="#{not empty tmsApplicationBean.youtube_url}"  href="#{tmsApplicationBean.youtube_url}" target="_blank"><i class="fa fa-youtube"/></p:link>
+                    <p:link style="text-decoration: none;" styleClass="socials" rendered="#{not empty tmsApplicationBean.instagram_url}"  href="#{tmsApplicationBean.instagram_url}" target="_blank"><i class="fa fa-instagram"/></p:link>
+                    <p:link style="text-decoration: none;" styleClass="socials" rendered="#{not empty tmsApplicationBean.university_website}"  href="#{tmsApplicationBean.university_website}" target="_blank"><i class="pi pi-globe"/></p:link>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

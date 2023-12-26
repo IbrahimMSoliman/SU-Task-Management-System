@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis"
+                template="/WEB-INF/templates/window_template.xhtml">
+    
+    <ui:define name="PageTitle">Quickview - #{courseQuickview.course_code} #{courseQuickview.course_title}</ui:define>
+    <ui:define name="content">
+        
+        
+         <div class="surface-card p-2 shadow-2 border-round ui-fluid" style="margin-top: 10px !important;">
+             <div class="grid formgrid ui-fluid">
+                <div class="field mb-3 col-6 md:col-6"  >
+                    <p:graphicImage id="course_image" url="/#{courseQuickview.image_path}" style="max-width: 100%; height: auto;"/>
+                    <pe:imageZoom for="course_image"/>
+                </div>
+            
+                <div class="field mb-3 col-6 md:col-6">
+                    <div class="flex align-items-center justify-content-between mb-3 mt-3"><span class="text-l font-medium text-900">#{courseQuickview.course_code} #{courseQuickview.course_title}</span></div>
+                    <div class="flex align-items-center justify-content-between mb-3"><div class="text-l text-700">#{courseQuickview.college_department}</div></div>
+                    <div class="flex align-items-center justify-content-between mb-3"><div class="text-l text-700">#{courseQuickview.program_name}</div></div>
+                    <div class="center_button"><p:rating readonly="true" stars="5" value="#{courseQuickview.int_rating_value}"/></div>
+                    <div class="flex flex-wrap justify-content-between xl:h-2rem mt-auto"><p class="text-base flex align-items-center text-900 mt-0 mb-1"><i class="pi pi-users mr-2"></i><span class="font-medium">#{courseQuickview.instructors_count} #{courseQuickview.instructors_count>0?"Instructors":"Instructor"}</span></p></div>
+                    <div class="flex flex-wrap justify-content-between xl:h-2rem mt-auto"><p class="text-base flex align-items-center text-900 mt-0 mb-1"><i class="fa fw fa-clock-o mr-2"></i><span class="font-medium"><h:outputText rendered="#{courseQuickview.nch==0}" style="color:blue;" value="#{courseQuickview.ch} Credit Hours"/><h:outputText rendered="#{courseQuickview.ch==0}" style="color:red;" value="#{courseQuickview.nch} Non-Credit Hours"/></span></p></div>
+                </div>
+                
+                 
+                <div class="field mb-3 col-12 md:col-12"> 
+                    <div class="flex flex-wrap justify-content-between xl:h-2rem mt-auto">
+                        <p class="text-base flex align-items-center text-900 mt-0 mb-1"><i class="pi pi-book mr-2"></i><span class="font-medium">Scores Distribution</span></p>
+                        <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" value="null">
+                            <p:column style="text-align: center" headerText="#{courseQuickview.score_title1}"><h:outputText value="#{courseQuickview.max_score1}" /></p:column>
+                            <p:column style="text-align: center" headerText="#{courseQuickview.score_title2}"><h:outputText value="#{courseQuickview.max_score2}" /></p:column>
+                            <p:column style="text-align: center" headerText="#{courseQuickview.score_title3}"><h:outputText value="#{courseQuickview.max_score3}" /></p:column>
+                        </p:dataTable>
+                    </div> 
+                </div>    
+            
+                 <div class="field mb-3 col-12 md:col-12"> 
+                    <div class="flex flex-wrap justify-content-between xl:h-2rem mt-auto">
+                        <p class="text-base flex align-items-center text-900 mt-0 mb-1"><i class="fa fw fa-pie-chart mr-2"></i><span class="font-medium">Offering Details</span></p>
+                        <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" value="null">
+                            <p:column responsivePriority="1" style="text-align: center" width="140" headerText="First Academic.Sem"><h:outputText style="white-space: nowrap" title="The first offering academic semester" value="#{courseQuickview.first_offering_semester}" /></p:column>
+                            <p:column responsivePriority="1" style="text-align: center" headerText="Offered.Sec#"><h:outputText  style="color:blue;" title="Total number of offered sections" value="#{courseQuickview.offered_sections_count}" /></p:column>
+                            <p:column responsivePriority="1" style="text-align: center" headerText="Reg.Std#"><h:outputText title="Total number of registered students" value="#{courseQuickview.registered_std_count}" /></p:column>
+                            <p:column style="text-align: center" headerText="Pass.Std#"><h:outputText style="color:green;" title="Total number of students with pass grades" value="#{courseQuickview.pass_std_count}" /></p:column>
+                            <p:column style="text-align: center" headerText="Fail.Std#"><h:outputText style="color:red;" title="Total number of students with F/NP grades" value="#{courseQuickview.fails_std_count}" /></p:column>
+                            <p:column style="text-align: center" headerText="FA.Std#"><h:outputText style="color:red;" title="Total number of students with FA grades" value="#{courseQuickview.fa_std_count}" /></p:column>
+                            <p:column responsivePriority="1" style="text-align: center" headerText="Pass%"><h:outputText style="font-weight: bold;" title="Pass Percentage" value="#{courseQuickview.pass_percentage}%" /></p:column>
+                        </p:dataTable>
+                    </div> 
+                </div>
+                 
+                 
+            <div class="field mb-3 col-12 md:col-12">
+                <p:card id="rating_panel">
+                    <f:facet name="header"><i class="fa fa-w fa-star mr-2"></i><h:outputText value="Rating Details" /></f:facet>
+                    <sis:ratingResult rendered="true" model="#{courseQuickview.rating_result_model}" id="rating" showDetails="false" showStdCount="true" showUsersCount="false"/>
+                    <p:commandButton rendered="#{user_details.user_type!='Student' and  courseQuickview.show_rates_buttons}" value="Show Students Reviews" icon="fa fa-w fa-star" style="width: 220px;" action="#{courseQuickview.load_rates()}" update="rating_panel"/>
+                    <p:dataView  layout="list" rendered="#{courseQuickview.show_rates_buttons==false}" var="rate" value="#{courseQuickview.rates_list}" rows="5" paginator="true" rowsPerPageTemplate="5,10,20" gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+                        <f:facet name="header"><i class="fa fa-w fa-users"></i><h:outputText value="Students Reviews (#{courseQuickview.rates_list.size()} Reviews)" /></f:facet>
+                        <p:dataViewGridItem>
+                            
+                            <div class="col-12 xl:col-4">
+                                <div class="p-2">
+                                    <div class="shadow-2 p-4 surface-card" style="border-radius: 1rem">
+                                        <div class="flex">
+                                            <div class="flex flex-column w-9 pr-4">
+                                                <span class="mb-4 text-900 font-medium"><sis:std_popup_window student_id="#{rate.student_id}" app_id="#{rate.app_id}"/>-#{rate.student_name}</span>
+                                                <span class="mb-3"><p:rating readonly="true" stars="5" value="#{rate.rating_value}"/></span>
+                                                <p class="text-700 m-0 p-0 line-height-3" style="text-align: justify">#{rate.rating_notes}</p>
+                                            </div>
+                                            <div class="w-3 flex align-items-start justify-content-end"><p:graphicImage url="/#{rate.student_image_path}" class="w-full" />
+                                            </div>
+                                        </div>
+                                        <div class="border-top-1 surface-border pt-3 mt-3 flex align-items-center">
+
+                                            <div>
+                                                <span class="block mb-2 text-900 font-medium"><pe:timeAgo value="#{rate.rating_date}"/></span>
+                                                <p class="text-600 m-0 p-0 text-sm">#{rate.academic_semester_title}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </p:dataViewGridItem>
+
+                        <p:dataViewListItem>
+                            <div class="grid -mt-3 -ml-3 -mr-3">
+                                <div class="col-12 lg:col-6">
+                                    <div class="p-2">
+                                        <div class="border-1 surface-border border-round p-3">
+                                            <div  class="flex align-items-center mb-3">
+                                                <p:graphicImage url="/#{rate.student_image_path}" class="w-2rem flex-shrink-0 mr-2"/><pe:imageZoom for="@previous"/>
+                                                <div class="flex flex-column">
+                                                    <span class="text-900 font-medium mr-3"><sis:std_popup_window student_id="#{rate.student_id}" app_id="#{rate.app_id}"/>-#{rate.student_name}</span>
+                                                    <span class="mr-3 font-small text-500"><h:outputText value="#{rate.academic_semester_title}"/></span>
+                                                </div>
+                                                <span style="margin-top: -17px !important;" class="text-sm font-medium text-500"><pe:timeAgo value="#{rate.rating_date}"/></span>
+                                                <span style="margin-top: -17px !important;" class="ml-auto"><p:rating readonly="true" stars="5" value="#{rate.rating_value}"/></span>
+                                            </div>
+                                            <p class="m-0 p-0 line-height-3 text-600" style="text-align: justify">#{rate.rating_notes}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:dataViewListItem>  
+                    </p:dataView>
+                </p:card>
+            </div>
+            
+          
+            
+            
+            <p:fragment rendered="#{not empty courseQuickview.description}">
+                <div class="col-12 lg:col-6 py-0 lg:pl-5">
+                    <p:card>
+                    <div class="font-bold text-900 mb-1">Course Description</div>
+                    <p style="text-align: justify !important" class="p-0 mt-0 mb-3 line-height-3 text-800">#{courseQuickview.description}</p>
+                    </p:card>
+                </div>
+            </p:fragment>
+            
+            
+             </div></div>
+      </ui:define>
+</ui:composition>

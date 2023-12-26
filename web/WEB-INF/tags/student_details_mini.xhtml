@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis">
+ <ui:composition>
+     <style>
+         @media (min-width: 768px){.container { max-width: 100% !important;}}
+         @media (min-width: 576px){.container { max-width: 100% !important;}}
+         </style>
+     <div class="container-fluid std_details_body" style="width:100%">
+        <div class="container web-portion">
+            
+            <div class="row top-det">
+                <div class="col-md-6">
+                    <div class="profil-det-img d-flex">
+                        <p:fragment rendered="#{empty showStudentPhoto or showStudentPhoto==true}">
+                            <div class="img-circle text-center mb-3">
+                                <p:graphicImage id="app_photo" cache="false" value="#{model.photo_path}"/>
+                                <pe:imageZoom for="app_photo"/>
+                                <p:graphicImage rendered="#{not empty model.disability_type}" styleClass="disability" title="Disability type: #{model.disability_type}" height="42" id="disability_icon" library="tms" name="images/disability_icon.png"/>
+                                <p:tooltip rendered="#{not empty model.disability_type}" id="toolTipFade" for="disability_icon" value="Disability type: #{model.disability_type}" position="top"/>
+                            </div> 
+                         
+                            
+                        </p:fragment>
+                        
+                        <div class="pd" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><h2 title="#{model.en_short_name}">#{model.en_short_name}</h2>
+                            <p>#{model.student_id} 
+                                <p:button title="Copy Student ID To Clipboard" id="copystudent_id" onclick="return false;" styleClass="ui-button-info ui-button-flat" icon="pi pi-copy"/> 
+                            <pe:clipboard id="clipContextCopy3" trigger="copystudent_id" action="copy" text="#{model.student_id}"/>
+                                <p:fragment rendered="#{not empty model.previous_student_id}"> <h:outputText style="color: red;" value="(Old ID #{model.previous_student_id})"/></p:fragment></p>
+                                <sis:academicStatusChip value="#{model.current_status}"/>
+                                <div>
+                                    <p:graphicImage style="margin-top: 3px;" title="The student got the first Dose of Covid 19 Vaccine" rendered="#{model.covid_19_dose=='1'}" library="tms" height="35"  name="images/covidv1.png"/>
+                                    <p:graphicImage style="margin-top: 3px;" title="The student got the Second Dose of Covid 19 Vaccine" rendered="#{model.covid_19_dose=='2'}" library="tms" height="35"  name="images/covidv2.png"/>
+                      
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 eml-mob">
+                    <ul>
+                        <li><i class="fa fa-graduation-cap"></i>#{model.college_name}</li>
+                        <li><div style="color: darkgrey;padding-left: 32px;"> #{model.major_full_name}</div></li>
+                        <ui:fragment rendered="#{model.student_id!='000000' and model.student_id!='0000000' and model.admission_status!='Applied'}">
+                        <li><i class="fas fa-envelope"></i> 
+                                <p:link href="mailto:#{model.email}">#{model.email}</p:link>
+                                <p:button title="Copy Email To Clipboard" id="copyemail" onclick="return false;" styleClass="ui-button-info ui-button-flat" icon="pi pi-copy"/> 
+                                <pe:clipboard id="clipContextCopy" trigger="copyemail" action="copy" text="#{model.email}"/>
+                        </li>
+                        </ui:fragment> 
+                        <li>
+                            <i class="fas fa-phone-square"></i> #{model.mobile}
+                            <p:button title="Copy Mobile To Clipboard" id="copymobile" onclick="return false;" styleClass="ui-button-info ui-button-flat" icon="pi pi-copy"/> 
+                            <pe:clipboard id="clipContextCopy2" trigger="copymobile" action="copy" text="#{model.mobile}"/>
+                        </li>
+                    </ul>
+                    <h:outputText style="font-size: 11px;font-weight: bold" value="CGPA: #{model.gpa}"/>
+                    <div style="float: right"><h:outputText style="font-size: 11px;font-weight: bold" value="Earned C.H.: #{model.ech} of #{model.curriculum_ch}"/></div>
+           
+                    <h:panelGrid style="font-size: 11px;font-weight: bold" rendered="#{not empty model.expectd_graduation_sem}" columns="4">
+                        <h:outputText value="Expected to graduate in -"/>
+                        <h:outputText style="color:red;" value="#{model.expectd_graduation_sem}"/>  
+                        <h:outputText value="- (#{model.expectd_graduation_date})"/>  
+                    </h:panelGrid>
+                    
+                </div>
+                
+                
+            </div>
+                <div class="nav-detail">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item"><p:commandLink id="tabid1" disabled="#{model.active_tab==1}" action="#{model.activate_tab(1)}" class="nav-link #{model.active_tab==1?'active':''}" update="tabs_container,tabid1,tabid2,tabid3"><i class="fa fa-home"/> Home</p:commandLink></li>
+                        <li class="nav-item"><p:commandLink id="tabid2" disabled="#{model.active_tab==2}" action="#{model.activate_tab(2)}" class="nav-link #{model.active_tab==2?'active':''}" update="tabs_container,tabid1,tabid2,tabid3"><i class="fa fa-folder-open-o"/> Registration History</p:commandLink></li>
+                        <li class="nav-item"><p:commandLink id="tabid3" disabled="#{model.active_tab==3}" action="#{model.activate_tab(3)}" class="nav-link #{model.active_tab==3?'active':''}" update="tabs_container,tabid1,tabid2,tabid3"><i class="fa fa-area-chart"/> Academic Progress</p:commandLink></li>
+                    </ul>
+                    
+                    
+                    <!--Tabs container-->
+                    <h:panelGrid  columns="1" id="tabs_container" style="width: 100%;">
+                    <div class="tab-content" id="myTabContent">
+                        <!--Start of Home-->
+                        <p:card style="min-height: 310px;" rendered="#{model.active_tab==1}">
+                            <!--================Row 1==================-->
+                            <div class="grid formgrid ui-fluid surface-50 border-bottom-1 border-300">
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Name[EN]</div>
+                                    <div class="inline-block">
+                                        <h:outputText escape="false" value="#{model.en_name}" />  
+                                    </div>
+                                </div>
+                                
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Name[AR]</div>
+                                    <div class="inline-block">
+                                        <h:outputText escape="false" styleClass="text-lg" value="#{model.ar_name}" />  
+                                    </div>
+                                </div>
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Admission Status</div>
+                                    <div class="inline-block">
+                                        <h:outputText escape="false" value="#{model.admission_status}" />
+                                        <h:outputText rendered="#{model.is_conditional_acceptance}" style="color:Red;font-weight: bold;" escape="false" value=" (Conditional Admission)" />
+                                    </div>
+                                    
+                                </div>
+                            </div> 
+                            <!--================Row 2==================-->
+                            <div class="grid formgrid ui-fluid">
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Civil ID</div>
+                                    <div class="inline-block">
+                                        <h:outputText style="color:blue" escape="false" value="#{model.civil_id}" />  
+                                        <p:button style="float: right;display: inline;height: 22px" title="Copy To Clipboard" id="copycivil_id" onclick="return false;" styleClass="ui-button-info ui-button-flat" icon="pi pi-copy"/>  
+                                        <pe:clipboard trigger="copycivil_id" action="copy" text="#{model.civil_id}"/>
+                                    </div> 
+                                </div>
+                                
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Gender</div>
+                                    <h:outputText  escape="false" value="#{model.gender}" /> 
+                                </div>
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Nationality</div>
+                                    <h:outputText  escape="false" value="#{model.nationality}" />
+                                </div>
+                            </div>  
+                            <!--================Row 3==================-->
+                            <div class="grid formgrid ui-fluid surface-50 border-top-1 border-bottom-1 border-300">
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Academic Degree</div>
+                                    <div class="inline-block">
+                                        <h:outputText  escape="false" value="#{model.degree}" /> 
+                                        <h:outputText style="color:Red;font-weight: bold;" escape="false" value=" (#{model.degree_type})" />
+                                    </div>
+                                </div>
+                                
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Study Mode</div>
+                                    <h:outputText  escape="false" value="#{model.smode}" />
+                                </div>
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Student Type</div>
+                                    <h:outputText  escape="false" value="#{model.student_type}" /> 
+                                </div>
+                            </div>
+                            <!--================Row 4==================-->
+                            <div class="grid formgrid ui-fluid">
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Sponsor</div>
+                                    <h:outputText  escape="false" value="#{model.sponsor_name}" /> 
+                                </div>
+                                
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Fund Code/NO</div>
+                                    <h:outputText  escape="false" value="#{model.fund_code}-#{model.fund_no}" />
+                                </div>
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Foundation Levels</div>
+                                    <h:outputText  style="color:blue !important;font-weight:bold !important;" escape="false" value="#{model.foundation_levels}" title="#{model.foundation_levels_title}" />
+                                </div>
+                            </div>
+                            <!--================Row 5==================-->
+                            <div class="grid formgrid ui-fluid surface-50 border-top-1 border-bottom-1 border-300">
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium"><h:outputText value="#{model.degree_type=='Undergraduate'?'School Name':'Prev.University Name'}"/></div>
+                                    <h:outputText escape="false" value="#{model.school_name}" />
+                                </div>
+ 
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium"><h:outputText value="#{model.degree_type=='Undergraduate'?'School Score':'Prev.University GPA'}"/></div>
+                                    <h:outputText rendered="#{model.degree_type=='Undergraduate'}" escape="false" value="#{model.school_score}%" />
+                                    <h:outputText rendered="#{model.degree_type!='Undergraduate'}" escape="false" value="#{model.school_score}" />
+                                </div>
+ 
+                                
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Academic Advisor</div>
+                                    <h:outputText style="color: blue;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" title="#{model.academic_advisor}" escape="false" value="#{model.academic_advisor}" />
+                                </div>
+                            </div>
+                            <!--================Row 6 Due Amount==================-->
+                            <ui:fragment rendered="#{showFinanceStatement}">
+                            <div class="grid formgrid ui-fluid">
+                                <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Due Amount</div>
+                                    <h:outputText escape="false" style="color:red;font-weight: bold" value="#{model.due_amount}" />
+                                </div>
+ 
+                               <div class="field mb-2 col-12 md:col-4">
+                                    <div class="text-500 w-full md:w-4 font-medium">Discount Type</div>
+                                    <h:outputText rendered="#{not empty model.discount_title}" escape="false" style="color:green;font-weight: bold" value="#{model.discount_title}" />
+                                    <h:outputText rendered="#{empty model.discount_title}" escape="false" style="color:red;font-weight: bold" value="N/A" />
+                                </div>
+                            </div>
+                            </ui:fragment>
+                            
+                            <!--Buttons area-->
+                            <div class="center_button">
+                                <p:commandButton styleClass="ui-button-outlined mr-2 mb-2" disabled="#{showTranscript==false or model.admission_status=='Applied'}"  value="Transcript" icon="fa fa-w fa-file-text-o" action="#{pdf_document_viewer.showTranscript(model.app_id)}" />
+                                <p:commandButton styleClass="ui-button-outlined mr-2 mb-2" disabled="#{showCurriculum==false}" value="Curriculum" icon="fa fa-w fa-file-text" action="#{pdf_document_viewer.showStudentCurriculum(model.app_id)}"/>
+                                <p:commandButton styleClass="ui-button-outlined mr-2 mb-2" rendered ="#{model.foundation_curriculum_id!='0' and (empty showCurriculum or showCurriculum==true) }" value="Foundation Curriculum" icon="fa fa-w fa-copy" action="#{pdf_document_viewer.showStudentFoundationCurriculum(model.app_id)}"/>
+                                <p:commandButton styleClass="ui-button-outlined mr-2 mb-2" disabled="#{showGraduationPlan==false}" value="Graduation Plan" icon="fa fa-w fa-mortar-board" action="#{pdf_document_viewer.showStudentGraduationPlan(model.app_id)}"/>
+                               
+                                <p:splitButton styleClass="ui-button-outlined mr-2 mb-2" rendered="#{showFinanceStatement}" value="Finance Statement" icon="fa fa-w fa-usd" action="#{pdf_document_viewer.showStudentFinanceStatement1(model.app_id)}">
+                                    <p:menuitem styleClass="ui-button-outlined mr-2 mb-2" value="Finance Statement(2)" icon="fa fa-w fa-money" action="#{pdf_document_viewer.showStudentFinanceStatement2(model.app_id)}"/>
+                                </p:splitButton>
+                              </div>
+                            
+                        </p:card>
+                         
+                        
+                        <!--start of registration history-->
+                        <p:outputPanel  style="min-height: 310px;" id="tab2" deferred="true" rendered="#{model.active_tab==2 and (empty miniView or miniView==false)}">    
+                            <div style="width: 100%;">
+                                <p:card>
+                                    <f:facet name="title">#{model.current_semester_registration.ac_semester_title}</f:facet>
+                                    <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" stripedRows="true" showGridlines="true" rowIndexVar="rowIndex" emptyMessage="No registered courses available" value="#{model.current_semester_registration.registered_courses_list}" var="reg">
+                                        <p:column responsivePriority="3" width="20" headerText="#" ><h:outputText value="#{rowIndex+1}" /></p:column>
+                                        <p:column responsivePriority="2" width="60" headerText="Sec.No."><h:outputText style="text-align: right;" value="#{reg.section_no}" /></p:column>
+                                        <p:column responsivePriority="1" headerText="Course Title"><h:outputText value="#{reg.course_title}" /></p:column>
+                                        <p:column responsivePriority="1" width="50" headerText="C.H." styleClass="center"><h:outputText style="color:Blue;" value="#{reg.ch}" /></p:column>
+                                        <p:column responsivePriority="4" width="50" headerText="N.C.H." styleClass="center"><h:outputText style="color:Red;" value="#{reg.nch}" /></p:column>
+                                        <p:column responsivePriority="1" width="50" styleClass="center" headerText="ABS%"><p:commandLink disabled="#{reg.abs_percentage==0}" title="Absent Percentage" actionListener="#{reg.show_absences()}" ><h:outputText escape="false" value="#{reg.abs_warnings}" /></p:commandLink></p:column>
+                                        <p:column responsivePriority="1" width="40" headerText="GD."><h:outputText style="font-weight: bold;" value="#{reg.grade}" escape="false" /></p:column>
+                                        <f:facet name="footer">
+                                            <p:commandButton disabled="#{showRegClassSchedule==false or empty model.current_semester_registration.registered_courses_list}" style="margin-top: 3px !important;" icon="fa fa-fw fa-print" action="#{pdf_document_viewer.showStudentClassSchedule(model.app_id,model.current_semester_registration.ac_semester_id)}" value="Class Schedule"/>
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:card>
+                                <!--Dropdown list of registration history-->
+                                <ui:fragment rendered="#{not empty model.select_reg_semester_list}" >
+                                    <p:card>
+                                        <p:outputLabel value="Previous Registrations: "/>
+                                        <p:selectOneMenu style="width:250px" id="semidstd" value="#{model.select_reg_semester_id}" label=" " > 
+                                            <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                            <f:selectItem itemLabel="Show All Academic Semester" itemValue="0"/>
+                                            <f:selectItems value="#{model.select_reg_semester_list}"/>
+                                            <p:ajax update="@this:@parent:@parent:@parent" event="change" listener="#{model.load_previous_semesters_registration()}"/> 
+                                        </p:selectOneMenu>
+                                     </p:card>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{not empty model.semester_registrations_list}">
+                                    <ui:repeat value="#{model.semester_registrations_list}" var="regsem">
+                               
+                                    <p:card>
+                                        <f:facet name="title">#{regsem.ac_semester_title}</f:facet>
+                                        <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" stripedRows="true" showGridlines="true" rowIndexVar="rowIndex" emptyMessage="No registered courses available" value="#{regsem.registered_courses_list}" var="reg">
+                                            <p:column responsivePriority="3" width="20" headerText="#" ><h:outputText value="#{rowIndex+1}" /></p:column>
+                                            <p:column responsivePriority="2" width="60" headerText="Sec.No."><h:outputText style="text-align: right;" value="#{reg.section_no}" /></p:column>
+                                            <p:column responsivePriority="1" headerText="Course Title"><h:outputText value="#{reg.course_title}" /></p:column>
+                                            <p:column responsivePriority="1"  width="50" headerText="C.H." styleClass="center"><h:outputText style="color:Blue;" value="#{reg.ch}" /></p:column>
+                                            <p:column responsivePriority="4" width="50" headerText="N.C.H." styleClass="center"><h:outputText style="color:Red;" value="#{reg.nch}" /></p:column>
+                                            <p:column responsivePriority="1" width="50" styleClass="center" headerText="ABS%"><p:commandLink disabled="#{reg.abs_percentage==0}" title="Absent Percentage" actionListener="#{absencesLatesWindow.show_absences(model.app_id,reg.section_id,reg.popup_window_header)}" ><h:outputText escape="false" value="#{reg.abs_warnings}" /></p:commandLink></p:column>
+                                            <p:column responsivePriority="1" width="40" headerText="GD."><h:outputText style="font-weight: bold;" value="#{reg.grade}" escape="false" /></p:column>
+                                            <f:facet name="footer">
+                                                <p:commandButton disabled="#{showRegClassSchedule==false or empty regsem.registered_courses_list}" style="margin-top: 3px !important;" icon="fa fa-fw fa-print" action="#{pdf_document_viewer.showStudentClassSchedule(model.app_id,regsem.ac_semester_id)}" value="Class Schedule"/>
+                                            </f:facet>
+                                        </p:dataTable>
+                                    </p:card>
+                                
+                                </ui:repeat>
+                            </ui:fragment>
+                        
+                        
+                        
+                    </div>
+                </p:outputPanel>
+                <!--Start of academic progress-->
+                <p:card style="min-height: 310px;" rendered="#{model.active_tab==3}">
+                    <h:outputText rendered="#{not empty model.studentAcademicProgress.error_message}" value="#{model.studentAcademicProgress.error_message}" style="color:Red;font-weight: bold;"/>
+                    <p:fragment rendered="#{not empty model.studentAcademicProgress.semesters_list}">
+                    <div class="card">
+                        <p:lineChart model="#{model.studentAcademicProgress.cartesianLinerModel}"  style="height:300px;width:100% !important;"/>
+                    </div>
+                
+                    <div class="card">
+                        <p:dataTable styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines"  emptyMessage="No data Found." rowIndexVar="rowIndex" id="Table"  var="reg"  value="#{model.studentAcademicProgress.semesters_list}">
+                            <f:facet name="header"><h:outputText value="Registered Academic Semesters" /></f:facet>       
+                            <p:column responsivePriority="4" width="30" headerText="#"><h:outputText value="#{rowIndex+1}" /></p:column>
+                            <p:column responsivePriority="1" headerText="Academic Semester" ><h:outputText value="#{reg.semester_name}" /></p:column> 
+
+                            <p:column responsivePriority="3" width="120" headerText="Registered C.H." style="text-align:center;"><h:outputText style="#{reg.registered_ch==0?'color:red;':''}" value="#{reg.registered_ch}" /></p:column>
+                            <p:column responsivePriority="2" width="70" headerText="Sem.E.C.H." style="text-align:center;"><h:outputText style="#{reg.semester_ech==0?'color:red;':''}" value="#{reg.semester_ech}" /></p:column>
+                            <p:column responsivePriority="1" width="60" headerText="Sem.GPA" style="text-align:center;"><h:outputText style="#{reg.semester_gpa>=2?'color:green;':'color:red'}"  value="#{reg.semester_gpa}" /></p:column>
+                            <p:column responsivePriority="2" width="60" headerText="C.E.C.H." style="text-align:center;"><h:outputText style="#{reg.cech==0?'color:red;':''}"  value="#{reg.cech}" /></p:column>
+                            <p:column responsivePriority="1" width="40" headerText="CGPA" style="text-align:center;"><h:outputText style="#{reg.cgpa>=2?'color:green;':'color:red'}"  value="#{reg.cgpa}" /></p:column>
+                            <f:facet name="footer"><h:outputText value=" "/></f:facet>
+                        </p:dataTable>
+                    </div>
+                    </p:fragment>
+                </p:card>
+                        
+                
+            </div>
+        </h:panelGrid>    
+        </div>
+        </div>
+        </div> 
+   
+    <h:outputStylesheet name="css/std_details/style.css" library="tms" />  
+    <h:outputStylesheet name="css/std_details/bootstrap.min.css" library="tms" />  
+</ui:composition>    
+</html>

@@ -1,0 +1,11 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    <ui:param name="show_toolbar" value="false"/>
+    <ui:define name="PageTitle">Access Level Preview</ui:define>
+    <ui:define name="content">
+        <p:menubar model="#{access_group_preview.menu_model}"/>
+    </ui:define>
+
+</ui:composition>

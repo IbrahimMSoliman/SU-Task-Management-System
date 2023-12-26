@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">User Profile</ui:define>
+    <ui:define name="MainTitle">User Profile</ui:define>
+    
+    
+        <ui:define name="head">
+          
+    </ui:define>
+    
+    <ui:param name="page_id" value=""/>
+    <ui:define name="content">            
+             <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                
+                <div style="text-align: center;">
+                  
+		     <p:graphicImage cache="false" url="#{user_profile.photo_path}" style="border :Gray  solid 2px;width:100px; height: 100px;border-radius: 50%;" styleClass="profile-image"/>
+		     
+                     <div class="single_photo_auto_upload"><p:fileUpload auto="true" immediate="true" rendered="#{user_profile.user_type!='Student'}"  label="Update Photo" listener="#{user_profile.handleFilePhotoUpload}" value="#{user_profile.file}" mode="advanced" skinSimple="false"
+                                                 invalidSizeMessage="Ivalid image size, User photo size should be less than 4MB."  
+                                                 invalidFileMessage="User photo should be GIF/JPG/PNG/BMP"
+                                                 update="@all" sizeLimit="4194304" allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                     </div>
+		 
+               </div>
+                
+                <p:panel header="User/Student Details" >
+                    <h:panelGrid columns="4"  cellpadding="6"  width="100%" border="0" cellspacing="5" rowClasses="even,odd">
+                       <p:row styleClass="odd">
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Name : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.name}" /></p:column> 
+                       </p:row>
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Title : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.title}" /></p:column> 
+                       </p:row>
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Type : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.user_type}" /></p:column> 
+                       </p:row>
+                    
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Work(Study) Mode : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.work_mode}" /></p:column> 
+                       </p:row>
+                    
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Nationality : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.nationality}" /></p:column> 
+                       </p:row>
+                    
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Sponsor : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.sponsor_name}" /></p:column> 
+                       </p:row>
+                    
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Email : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.email}" /></p:column> 
+                       </p:row>
+                    
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Mobile : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.mobile}" /></p:column> 
+                       </p:row>
+                    
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Active Directory usrename :" /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.ad_username}" /></p:column> 
+                       </p:row>
+                    
+                       <p:row>
+                         <p:column style="width:250px"><p:outputLabel styleClass="bold" value="Last Login : " /></p:column>    
+                         <p:column style="width:250px"><h:outputText value="#{user_profile.last_login_date}" /></p:column> 
+                       </p:row>
+                    
+                    </h:panelGrid>
+                          
+                         
+                    </p:panel>
+                    
+                    <p:commandButton value="Update Extra Username/Password" type="button" onclick="PF('dlg_access').show();" />
+                    
+                  <p:dialog styleClass="custom-header" header="Extra Username/Password" widgetVar="dlg_access" modal="true" height="180">
+                        <h:panelGrid columns="2"  cellpadding="6"  width="100%" border="0" cellspacing="5" rowClasses="even,odd">
+                            <p:outputLabel styleClass="bold" value="Username : " />
+                            <p:inputText autocomplete="off" converter="trim" required="true" requiredMessage="Please enter the username....." readonly="#{user_profile.user_type=='Student'}" value="#{user_profile.username}" maxlength="100"/> 
+                  
+                            <p:outputLabel styleClass="bold" value="Password :      " />
+                            <p:password required="true" requiredMessage="Please enter the password....." feedback="true" value="#{user_profile.password}" maxlength="20"/> 
+                  
+                            <p:outputLabel styleClass="bold" value="Retype Password : " />
+                            <p:password required="true" requiredMessage="Please retype the password....." feedback="true" value="#{user_profile.confirm_password}" maxlength="20"/> 
+                     </h:panelGrid>
+                     <div style="text-align: center;margin:0 auto ;"><p:commandButton icon="fa fa-w fa-save" iconPos="left" ajax="true"  value="Save" action="#{user_profile.save()}" ><p:confirm escape="false" header="Confirmation" message="Are you sure about saving the Altranative password?" icon="fa fa-w fa-warning" /></p:commandButton></div>
+                   
+                   
+                    
+                   </p:dialog> 
+                    
+                </div>
+                
+                
+                
+            </div>
+            
+            
+            
+            
+        </div>  
+</ui:define>
+</ui:composition>

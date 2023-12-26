@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+ <ui:composition>
+    
+ 
+	  
+	       
+               <div id="#{model.app_id}">
+               <p:commandLink title="#{model.title}" styleClass="empty_active" rendered="#{model.value=='0' and model.disabled==false}" action="#{model.action}" update="@form" global="false"/>
+               <p:commandLink title="#{model.title}" styleClass="present_active" rendered="#{model.value=='1' and model.disabled==false}" action="#{model.action}" update="@form" global="false"/>
+               <p:commandLink title="#{model.title}" styleClass="late_active" rendered="#{model.value=='2' and model.disabled==false}" action="#{model.action}" update="@form" global="false"/>
+               <p:commandLink title="#{model.title}" styleClass="absent_active" rendered="#{model.value=='3' and model.disabled==false}" action="#{model.action}" update="@form" global="false" />
+               
+               <p:commandLink title="#{model.title}" styleClass="blocked" rendered="#{model.value=='b'}"  ></p:commandLink>
+               <p:commandLink title="#{model.title}" styleClass="empty_disabled" rendered="#{model.value=='0' and model.disabled==true}" ></p:commandLink>
+               <p:commandLink title="#{model.title}" styleClass="present_disabled" rendered="#{model.value=='1' and model.disabled==true}" ></p:commandLink>
+               <p:commandLink title="#{model.title}" styleClass="late_disabled" rendered="#{model.value=='2' and model.disabled==true}" ></p:commandLink>
+               <p:commandLink title="#{model.title}" styleClass="absent_disabled" rendered="#{model.value=='3' and model.disabled==true}" ></p:commandLink>
+               <p:commandLink title="Late with Excise" styleClass="late_excuse" rendered="#{model.value=='22'}" ></p:commandLink>
+               <p:commandLink title="Absent with Excise" styleClass="absent_excuse" rendered="#{model.value=='33'}" ></p:commandLink>
+               </div>
+             
+	  
+  </ui:composition>
+</html>  

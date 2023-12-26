@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+ <h:head>
+ </h:head>
+   <ui:composition>
+       <p:chip rendered="#{value=='New Request' or value=='In Progress' or value=='In Process' or value=='New'}" icon="fa fa-edit" style="background:#93d1f4;color:white;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Submitted' }" icon="fa fa-send" style="background:lightgreen;color:black;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+    
+       <p:chip rendered="#{value=='Approved' or value=='Pass Approved' or value=='Complete'}" icon="fa fa-check-circle" style="background:#97fadb;color:black;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Rejected' or value=='Pass Rejected' or value=='Incomplete'}" icon="fa fa-ban" style="background:red;color:white;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Confirmed' or value=='Closed'}" icon="fa fa-thumbs-o-up" style="background:#06fc40;color:black;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Finance Approved'}" icon="fa fa-money" style="background:#a1e7ed;color:black;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Waiting For Final Approval'}" icon="fa fa-clock-o" style="background:#f29200;color:black;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Pending' or value=='Received'}" icon="fa fa-clock-o" style="background:#f29200;color:black;white-space: nowrap !important;min-width: 120px;height: 25px;font-weight: 600;font-size: 12px;" label="#{value}" styleClass="p-mr-2"/> 
+   
+     
+   
+   </ui:composition>    
+</html>

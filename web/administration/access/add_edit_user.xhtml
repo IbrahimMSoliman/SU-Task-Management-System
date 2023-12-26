@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    
+    
+    
+    <ui:define name="PageTitle">Add/Edit User</ui:define>
+    
+    <ui:define name="content">
+        <div class="surface-card p-2 shadow-2 border-round ui-fluid">
+            <div class="grid formgrid ui-fluid">
+            
+                <div class="field mb-2 col-12 md:col-4">
+                    <p:outputLabel for="@next" styleClass="bold" value="First Name"/>
+                    <p:inputText autocomplete="off" converter="trim" title="First Name" maxlength="100" required="true" value="#{users_management.first_name}" requiredMessage="Please enter user first name." />
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-4">
+                    <p:outputLabel for="@next" styleClass="bold" value="Mid Name"/>
+                    <p:inputText autocomplete="off" converter="trim" title="First Name" maxlength="100" value="#{users_management.mid_name}"/>
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-4">    
+                    <p:outputLabel for="@next" styleClass="bold" value="Last Name"/>
+                    <p:inputText autocomplete="off" converter="trim" title="Last Name" maxlength="100" required="true" value="#{users_management.last_name}" requiredMessage="Please enter user last name." />
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-6">    
+                    <p:outputLabel for="@next" styleClass="bold" value="Display Name"/>
+                    <p:inputText autocomplete="off" converter="trim" title="Last Name" maxlength="100" required="true" value="#{users_management.display_name}" requiredMessage="Please enter user display name." />
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-6">   
+                    <p:outputLabel for="@next" styleClass="bold" value="Department"/>
+                    <p:selectOneMenu filter="true" filterMatchMode="contains" required="true" requiredMessage="Please select user college/Dept."  id="user_clg_dep_id" value="#{users_management.department_id}"> 
+                        <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                        <f:selectItems  value="#{users_management.search_departments_list}" />
+                    </p:selectOneMenu>
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-6">   
+                    <p:outputLabel for="@next" styleClass="bold" value="Mobile"/>
+                    <p:inputText autocomplete="off" converter="trim" title="Mobile" maxlength="40" id="mobile" value="#{users_management.mobile}"/>
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-6">    
+                    <p:outputLabel for="@next" styleClass="bold" value="Email"/>
+                    <p:inputText value="#{users_management.email}" maxlength="50"/>
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-6">    
+                    <p:outputLabel for="@next" styleClass="bold" value="Username"/>
+                    <p:inputText converter="trim" id="txt" autocomplete="off" value="#{users_management.username}" maxlength="50"/>
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-6">    
+                    <p:outputLabel for="@next" styleClass="bold" value="Password"/>
+                    <p:password autocomplete="off" redisplay="true" value="#{users_management.password}" maxlength="50"/>
+                </div>
+                
+                <div class="field mb-2 col-12 md:col-12">   
+                    <p:outputLabel for="@next" styleClass="bold" value="User Skills"/>
+                    <p:selectCheckboxMenu multiple="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Please select user skills." value="#{users_management.user_skills}"> 
+                        <f:selectItems value="#{users_management.skills_list}" />
+                    </p:selectCheckboxMenu>
+                </div>
+               
+               
+                
+                <div class="surface-border border-top-1 opacity-50 mb-4 col-12"></div>
+            </div>
+            <p:commandButton styleClass="w-auto" actionListener="#{users_management.save_user()}" update="@form" rendered="#{users_management.process_type=='ADD_NEW'}" icon="fa fa-w fa-plus" value="Add" />
+            <p:commandButton styleClass="w-auto" actionListener="#{users_management.save_user()}" update="@form" rendered="#{users_management.process_type=='UPDATE_USER'}" icon="fa fa-w fa-save" value="Save" />
+        </div>
+    </ui:define>
+</ui:composition>

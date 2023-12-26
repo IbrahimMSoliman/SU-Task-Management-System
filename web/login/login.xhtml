@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <f:facet name="first">
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}#{tmsApplicationBean.application_favicon_path}"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </f:facet>
+    <title>Tasks Management System - Login</title>
+</h:head>
+  
+<h:body>
+    <p:focus context="myform"/>
+    <h:form id="myform"> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-7 col-md-5 col-lg-4 authfy-panel-left">
+                <div class="brand-logo text-center"><p:graphicImage library="tms" name="images/login/id_logo.png"/></div>
+                <div class="authfy-login">
+                    <!-- panel-login start -->
+                    <div class="authfy-panel panel-login text-center active" style="padding-top: 120px;">
+                        <div class="authfy-heading">
+                            <h3 class="auth-title">Tasks Management System</h3>
+                        </div>
+                        
+                        <p:messages escape="false" id="message" showDetail="true" showSummary="false"/>    
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                            
+                            <div class="form-group">
+                                <p:inputText styleClass="form-control email" id="username" converter="trim" autocomplete="off" disabled="#{user_details.login_counter>=3}" placeholder="Username or Student ID" required="true" requiredMessage="please enter username or student ID الرجاء ادخال اسم المستخدم او الرقم الجامعي" value="#{login.username}" />
+                            </div>
+                            <div class="form-group">
+                                <div class="pwdMask">
+                                    <p:password styleClass="form-control password" id="password" disabled="#{user_details.login_counter>=3}" redisplay="true" placeholder="Password" required="true" requiredMessage="Please enter password الرجاء ادخال رمز المرور" value="#{login.password}" /><span class="fa fa-eye-slash pwd-toggle"></span>
+                                </div>
+                            </div>
+                    
+                            <div class="row remember-row">
+                                <div class="col-xs-6 col-sm-6 text-left">
+                                     <p:selectBooleanCheckbox  itemLabel="Remember me" id="rememberme" disabled="#{user_details.login_counter>=3}" value="#{login.remember_me}"  />
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <p class="forgotPwd">
+                                        
+                                    </p>
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <p:commandButton styleClass="btn btn-lg btn-primary btn-block" widgetVar="signin" id="signin" ajax="true" update="@form" style="width:100%" disabled="#{user_details.login_counter>=3 or login.disable_login_button}" action="#{login.validateLogin()}" value="LOGIN" icon="fa fa-w fa-sign-in" />
+                            </div>
+                          
+                            
+                            
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        
+                        
+                        
+                         <!-- social login buttons start -->
+                        <div class="row social-buttons">
+                            <ui:fragment rendered="#{not empty tmsApplicationBean.facebook_url}">    <div class="col-xs-3 col-sm-3"><a href="#{tmsApplicationBean.facebook_url}" target="_blank" class="btn btn-lg btn-block btn-facebook"><i class="fa fa-facebook"></i></a></div></ui:fragment>
+                            <ui:fragment rendered="#{not empty tmsApplicationBean.twitter_url}"><div class="col-xs-3 col-sm-3"><a href="#{tmsApplicationBean.twitter_url}" target="_blank" class="btn btn-lg btn-block btn-twitter"><i class="fa fa-twitter"></i></a></div></ui:fragment>
+                            <ui:fragment rendered="#{not empty tmsApplicationBean.youtube_url}"><div class="col-xs-3 col-sm-3"><a  href="#{tmsApplicationBean.youtube_url}" target="_blank" class="btn btn-lg btn-block btn-google"><i class="fa fa-youtube"></i></a></div></ui:fragment>
+                            <ui:fragment rendered="#{not empty tmsApplicationBean.instagram_url}"><div class="col-xs-3 col-sm-3"><a href="#{tmsApplicationBean.instagram_url}" target="_blank" class="btn btn-lg btn-block btn-instagram"><i class="fa fa-instagram"></i></a></div></ui:fragment>
+                        </div>
+                        
+                     
+                  
+                    </div> 
+                
+            </div> <!-- ./authfy-login -->
+            </div> <!-- ./authfy-panel-left -->
+            <div class="col-md-7 col-lg-8 authfy-panel-right hidden-xs hidden-sm">
+              <div class="hero-heading row">
+                <div id="authfySlider" class="headline carousel slide" data-ride="carousel">
+                  <!-- Indicators -->
+                  <ol class="carousel-indicators">
+                    <li data-target="#authfySlider" data-slide-to="0" class="active"></li>
+                    <li data-target="#authfySlider" data-slide-to="1"></li>
+                  </ol>
+                  <!-- Wrapper for slides -->
+                  <div class="carousel-inner">
+                      <div class="item active" >
+                          <h3>Sohar University in Perspective</h3>
+                      <div style="width:600px;margin: 0 auto ;"><p style="text-align: justify">Sohar University(SU) opened in September 2001 and is proud of its status as the first private university in the Sultanate of Oman. The campus is located in the heart of Sohar, a central Omani industrial hub close to Sohar Port and Free Zone. Sohar is the second largest city in the Sultanate, with easy access to Muscat and the UAE.</p></div>
+                    </div>
+                    <div class="item">
+                      <h3>جامعة صحار في سطور</h3>
+                      <div dir="rtl" style="width:600px;margin: 0 auto ;"><p style="text-align: justify;font-size: 16px">افتتحت جامعة صحار في سبتمبر ٢٠٠١ ونحن فخورون كوننا أول جامعة خاصة في سلطنة عمان. يقع الحرم الجامعي في قلب مدينة صحار، وهي بدورها مدينة تمثل مركزا صناعيا مميزا بالقرب من ميناء صحار والمنطقة الحرة بالمدينة. وصحار هي ثاني أكبر مدينة في السلطنة، مع سهولة الوصول منها نحو العاصمة مسقط ودولة الإمارات العربية المتحدة.</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        </div> <!-- ./row -->
+        
+    </div> <!-- ./container -->
+    </h:form>
+    <h:outputStylesheet name="css/login/login4-style.css" library="tms" /> 
+    <h:outputScript name="js/login/jquery-2.2.4.min.js" library="tms" />
+    <h:outputScript name="js/login/bootstrap.min.js" library="tms" />
+    <h:outputScript name="js/login/custom.js" library="tms" />
+    <h:outputStylesheet name="css/std_details/bootstrap.min.css" library="tms" />  
+    <h:outputStylesheet name="css/primeicons.css" library="rain-layout" />
+    <h:outputStylesheet name="css/primeflex.min.css" library="rain-layout" />
+    
+    <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/all.min-jsf.css" />
+    <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+    <!--ajaxStatus--> 
+    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" style="position:fixed;right:50%;bottom:50%" >
+        <f:facet name="start">
+            <p:graphicImage library="tms" width="70" height="70" name="images/loading.gif" />
+        </f:facet>
+        
+        <f:facet name="complete">
+            <h:outputText value=""/>
+        </f:facet>
+    </p:ajaxStatus> 
+    <p:dialog styleClass="custom-header" style="opacity: 0 !important;" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+        
+</h:body>
+</html>

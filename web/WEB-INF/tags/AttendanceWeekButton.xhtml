@@ -1,0 +1,25 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <h:body>
+ 
+	 <ui:composition>
+	       
+            <div style="width:121px !important;" id="#{buttonid}">
+                <p:commandLink style="text-decoration: none !important;" value="#{model.weekNo}" styleClass="current_week" rendered="#{model.type=='current'}" disabled="#{model.disabled}" action="#{model.open_attendance_window}"> <p:ajax event="dialogReturn" listener="#{attendance.update_weeks_list_after_save()}" update="@form" /></p:commandLink>
+                    <p:commandLink style="text-decoration: none !important;" value="#{model.weekNo}" styleClass="active_old_week" rendered="#{model.type=='old' and model.disabled==false}" disabled="#{model.disabled}"  action="#{model.open_attendance_window}"><p:ajax event="dialogReturn"  listener="#{attendance.update_weeks_list_after_save()}" update="@form" /></p:commandLink>
+                    <p:commandLink style="text-decoration: none !important;" value="#{model.weekNo}" styleClass="disable_old_week" rendered="#{model.type=='old' and model.disabled==true}" disabled="#{model.disabled}" />
+                    <p:commandLink style="text-decoration: none !important;" value="#{model.weekNo}" styleClass="disable_old_week" rendered="#{model.type=='future'}" disabled="true" />
+                    <p:progressBar rendered="#{model.showProgressbar and 10>=model.completePercentage}" style="color:black;height:19px;" styleClass="animated10"  value="#{model.completePercentage}" labelTemplate="#{model.completePercentage}%" disabled="#{model.disabled}" />
+                    <p:progressBar rendered="#{model.showProgressbar and 25>=model.completePercentage and model.completePercentage>10}" style="color:black;height:19px;" styleClass="animated25"  value="#{model.completePercentage}" labelTemplate="#{model.completePercentage}%" disabled="#{model.disabled}" />
+                    <p:progressBar rendered="#{model.showProgressbar and 50>=model.completePercentage and model.completePercentage>25}" style="color:black;height:19px;" styleClass="animated50"  value="#{model.completePercentage}" labelTemplate="#{model.completePercentage}%" disabled="#{model.disabled}" />
+                    <p:progressBar rendered="#{model.showProgressbar and 100>model.completePercentage and model.completePercentage>50}" style="color:black;height:19px;" styleClass="animated75"  value="#{model.completePercentage}" labelTemplate="#{model.completePercentage}%" disabled="#{model.disabled}" />
+                    <p:progressBar rendered="#{model.showProgressbar and model.completePercentage==100}" style="color:black;height:19px;" styleClass="animated100"  value="#{model.completePercentage}" labelTemplate="#{model.completePercentage}%" disabled="#{model.disabled}" />
+            </div>
+             
+	    </ui:composition>
+    </h:body>
+</html> 

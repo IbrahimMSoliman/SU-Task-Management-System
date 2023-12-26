@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Tasks Assigning</ui:define>
+    <ui:define name="MainTitle">Tasks Assigning (#{user_details.department_name})</ui:define>
+    <ui:param name="page_id" value="11"/>
+    <ui:define name="content"> 
+    <p:card>
+        <h:panelGrid columns="9">
+            <p:selectOneMenu autoWidth="false" style="width:260px" value="#{task_assigning.search_status}"> 
+                <p:ajax listener="#{task_assigning.Search()}" event="change"  update="dataTable"  /> 
+                <f:selectItem itemLabel="All Status." itemValue="#{null}"/>
+                <f:selectItem itemLabel="New" itemValue="New"/>
+                <f:selectItem itemLabel="TODO" itemValue="TODO"/>
+                <f:selectItem itemLabel="In Progress" itemValue="In Progress"/>
+                <f:selectItem itemLabel="Completed" itemValue="Completed"/>
+            </p:selectOneMenu>
+
+
+            <p:selectOneMenu autoWidth="false" style="width:200px" value="#{task_assigning.search_assigning_status}"> 
+                <p:ajax listener="#{task_assigning.Search()}" event="change"  update="dataTable"  /> 
+                <f:selectItem itemLabel="All Assigning Status" itemValue="#{null}"/>
+                <f:selectItem itemLabel="Assigned Tasks Only" itemValue="1"/>
+                <f:selectItem itemLabel="Not Assigned Tasks Only" itemValue="0"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+    </p:card>
+    
+    <p:card>
+        <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No data Found." rowIndexVar="rowIndex" id="dataTable" var="task" widgetVar="table" value="#{task_assigning.tasks_list}" rows="25" paginator="true" rowsPerPageTemplate="25,50,100,{ShowAll|'All'}">
+            <p:ajax event="filter" global="false" /> 
+            <f:facet name="header"><div class="customers-table-header">List Of Tasks for #{user_details.department_name} Department<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{task_assigning.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>                         
+            <p:column width="30" headerText="#" ><h:outputText value="#{rowIndex+1}" /></p:column>
+            <p:column  filterBy="#{task.barcode}" width="170" sortBy="#{task.barcode}" headerText="Task Code"><p:barcode style="width: 160px;" value="#{task.barcode}" type="code39"/></p:column> 
+            <p:column filterBy="#{task.t_title}" sortBy="#{task.t_title}" headerText="Task Title"><h:outputText style="font-weight: bold;" value="#{task.t_title}" /></p:column> 
+            <p:column width="250" headerText="Task Description"><h:outputText value="#{task.t_description}" /></p:column> 
+            
+            <p:column width="120" headerText="Required Skills"><h:outputText escape="false" value="#{task.skills}" /></p:column>
+            <p:column width="150" headerText="Task Duration"><h:outputText value="#{task.t_start_date} : #{task.t_end_date}" /></p:column> 
+            <p:column width="70" headerText="Deadline"><h:outputText value="#{task.t_deadline_date}" /></p:column> 
+            <p:column width="80" headerText="Created By" style="text-align: center"><p:avatar title="#{task.added_by}" styleClass="mr-2" size="xlarge" shape="circle"><p:graphicImage url="/#{task.add_user_photo_path}"/></p:avatar></p:column>
+            <p:column width="120" headerText="Creation Date"><pe:timeAgo value="#{task.adding_date}"/></p:column>
+            <p:column width="80" headerText="Task Status"><h:outputText value="#{task.t_status}" /></p:column> 
+            <p:column width="150" headerText="Assigned To">
+                 <p:avatarGroup styleClass="mb-3">
+                        <ui:repeat value="#{task.assigned_users_list}" var="uu">
+                            <p:avatar title="#{uu.display_name}" size="large" shape="circle"><p:graphicImage url="/#{uu.photo_path}"/></p:avatar>
+                        </ui:repeat>
+            </p:avatarGroup>
+            </p:column> 
+            <p:column width="60" headerText="Options">
+                <p:commandButton action="#{task.assigning_window()}" title="Assign Users User" styleClass="ui-button-success" icon="fa fa-w fa-check"><p:ajax event="dialogReturn" update="dataTable" /> </p:commandButton>
+            </p:column>
+            
+            <f:facet name="footer">
+                <h:outputText value="Total Records: "/> <h:outputText value="#{task_assigning.tasks_list.size()}"/>
+            </f:facet>
+        </p:dataTable>
+    </p:card>
+</ui:define>
+</ui:composition>

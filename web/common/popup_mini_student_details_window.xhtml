@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis"
+                template="/WEB-INF/templates/window_template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <ui:define name="PageTitle"><h:outputText escape="false" value="#{popupStudentDetails.student_details.student_id} - #{popupStudentDetails.student_details.en_short_name}"/></ui:define>
+    <ui:define name="content">
+        <sis:studentDetailsMini model="#{popupStudentDetails.student_details}"/>
+     </ui:define>        
+  </ui:composition>
+  

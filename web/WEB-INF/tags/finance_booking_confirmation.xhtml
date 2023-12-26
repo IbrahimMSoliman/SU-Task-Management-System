@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+ <ui:composition>
+    <style>
+    .innerTable.ui-datatable thead th 
+        {
+        background-image: none !important;
+        background-color: black !important;
+        color: white !important;
+        }
+    </style>
+    
+<h:panelGrid id="fbookingconfirm">    
+     <p:staticMessage rendered="#{model.is_mohe_sponsorship_blocked}" severity="error" summary="WARN" detail="The student's sponsorship has been blocked by Admission And Registration Department...." style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 5px;"/>
+     <ui:fragment rendered="#{rendered}">
+         <!--List of registered courses and the registration/tuition fees-->
+        <ui:fragment rendered="#{model.is_mohe_student}">
+            <p:card>
+                <f:facet name="header"><h:outputText value="Bearing Rate نسب تحمل رسوم تسجيل المساقات" /></f:facet>
+                <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" id="BearingdataTable" var="reg" value="null">
+                    <p:column displayPriority="1" headerText="Financial Fund Code"><h:outputText style="font-weight: bold;color:blue;" value="#{model.financial_fund_code}" /></p:column> 
+                    <p:column displayPriority="1" headerText="MOHE Bearing Rate نسبة تحمل الوزارة" style="text-align: center;"><h:outputText style="font-weight: bold;" value="#{model.mohe_tf_bearing_rate}%" /></p:column> 
+                    <p:column displayPriority="2" headerText="University Bearing Rate نسبة تحمل الجامعة" style="text-align: center;"><h:outputText style="font-weight: bold;" value="#{model.university_tf_bearing_rate}%" /></p:column> 
+                    <p:column displayPriority="2" headerText="Private Bearing Rate نسبة تحمل الطالب" style="text-align: center;"><h:outputText style="font-weight: bold;" value="#{model.private_tf_bearing_rate}%" /></p:column> 
+                </p:dataTable>
+            </p:card>    
+        </ui:fragment>
+        
+        <!--List of registered courses and the registration/tuition fees-->
+        <p:card>
+            <f:facet name="header"><h:outputText value="List of Registered Courses" /></f:facet>
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No Registered Courses Found." rowIndexVar="rowIndex" id="dataTable" var="reg" value="#{model.registered_courses_list}">
+                <p:ajax event="rowToggle" global="false" />
+                <p:column responsivePriority="3" width="20" headerText="#"><h:outputText  value="#{rowIndex+1}" /></p:column>
+                <p:column responsivePriority="3" width="40" headerText="Sec#"><h:outputText style="font-weight: bold;" value="#{reg.section_no}" /></p:column> 
+                <p:column responsivePriority="1" width="80" headerText="C.Code"><h:outputText style="font-weight: bold;" value="#{reg.course_code}" /></p:column> 
+                <p:column responsivePriority="1" headerText="Course Title"><h:outputText value="#{reg.course_title}" /></p:column> 
+                <p:column responsivePriority="1" width="60" headerText="C.H" style="text-align:center"><h:outputText style="color:black;" value="#{reg.ch}" /></p:column>
+                <p:column responsivePriority="2" width="60" headerText="N.C.H" style="text-align:center"><h:outputText style="color:red;" value="#{reg.nch}" /></p:column>
+                <p:column responsivePriority="3" width="90" headerText="C.Type"><h:outputText  value="#{reg.course_type}" /></p:column>
+                <p:column responsivePriority="3" width="70" headerText="Retake" style="text-align:center"><h:outputText style="#{reg.retake_no>0?'color: red;':'color: black;'}font-weight: bold;" value="#{reg.retake_no}" /></p:column>
+                <p:column responsivePriority="1" width="60" headerText="Sponsor"><h:outputText style="#{reg.sponsor=='Private'?'color: black;':'color: blue;'}font-weight: bold;" value="#{reg.sponsor}" /></p:column>
+                <p:column responsivePriority="4" width="70" headerText="Fee.AMNT" style="text-align:right;"><h:outputText style="color: red;font-weight: bold;" value="#{reg.total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                <p:column responsivePriority="4" width="90" headerText="Discount.AMNT" style="text-align:right;"><h:outputText style="color: green;font-weight: bold;" value="#{reg.discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                <p:column responsivePriority="4" width="70" headerText="Final.AMNT"  style="text-align:right;"><h:outputText style="color: red;font-weight: bold;" value="#{reg.final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                <p:column responsivePriority="2" width="60" headerText="Option" style="text-align:center;#{dropall.row_background}">
+                    <p:commandButton title="Tuition Fee Details" type="button" icon="fa fa-w fa-external-link" onclick="PF('reg_more_info#{reg.section_id}').show()"/>
+                    <p:dialog styleClass="custom-header" header="Tuition Fee Details for #{reg.course_code} #{reg.course_title}" widgetVar="reg_more_info#{reg.section_id}" minHeight="80" width="800" showEffect="fade" modal="true">
+                        <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines innerTable" rowHover="true"  var="fee" value="#{reg.section_fees_list}">
+                            <p:column responsivePriority="1"  headerText="Sponsor Type" style="text-align: left"><h:outputText style="font-weight: bold;color: black;" value="#{fee.sponsor_type}" /></p:column> 
+                            <p:column responsivePriority="1" width="60" headerText="F.Code"><h:outputText style="font-weight: bold;color: black;" value="#{fee.sp_financial_fund_code}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column responsivePriority="5" width="90" headerText="Fee Amount" style="text-align:center;"><h:outputText style="color: red;font-weight: bold;" value="#{fee.sp_total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column responsivePriority="5" width="100" headerText="Discount" style="text-align:center;"><h:outputText style="color: green;font-weight: bold;" value="#{fee.sp_discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column responsivePriority="5" width="120" headerText="Discount Type" style="text-align:center;"><h:outputText style="color: black;" rendered="#{fee.sp_discount_percentage!=0}" value="#{fee.sp_discount_title}" /></p:column>
+                            <p:column responsivePriority="5" width="90" headerText="Discount%" style="text-align:center;"><h:outputText style="color: black;" rendered="#{fee.sp_discount_percentage!=0}" value="#{fee.sp_discount_percentage}%" /></p:column>
+                            <p:column responsivePriority="1" width="110" headerText="Final Amount"  style="text-align:center;"><h:outputText style="color: red;font-weight: bold;" value="#{fee.sp_final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column responsivePriority="2" width="100" headerText="Bearing Rate نسبة التحمل" style="text-align:center;"><h:outputText style="font-weight: bold;color: black;" value="#{fee.sp_tuition_fee_bearing_rate}%" /></p:column>
+                        </p:dataTable>
+                    </p:dialog>
+                </p:column>  
+                
+                <p:columnGroup  type="footer" rendered="#{not empty model.registered_courses_list}">
+                    <p:row >
+                        <p:column responsivePriority="3" colspan="2" style="background:#ccc;text-align:right;" footerText="Total:"></p:column>
+                        <p:column responsivePriority="1" colspan="2" style="background:#ccc;text-align:right;" footerText="Total:"></p:column>
+                        <p:column responsivePriority="1" style="background:#ccc;text-align:center;" ><f:facet name="footer"><h:outputText style="color: black;font-weight: bold;" value="#{model.reg_table_ch}" ></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="2" style="background:#ccc;text-align:center;" ><f:facet name="footer"><h:outputText style="color: red;font-weight: bold;" value="#{model.reg_table_nch}" ></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="3" colspan="2" style="background:#ccc;text-align:right;" footerText=""></p:column>
+                        
+                        <p:column responsivePriority="1"  style="background:#ccc;text-align:right;" footerText=""></p:column>
+                        
+                        
+                        <p:column responsivePriority="4" style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  value="#{model.reg_table_total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="4" style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText style="color: green;font-weight: bold;" value="#{model.reg_table_discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="4" style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  style="color: red;font-weight: bold;" value="#{model.reg_table_final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="4" style="background:#ccc;text-align:right;" footerText=""></p:column>
+                    </p:row>
+                </p:columnGroup>
+                
+                
+                <f:facet name="footer">
+                    <div style="text-align: left;"><p:commandButton icon="fa fa-w fa-print" rendered="#{not empty model.registered_courses_list}" value="Student Class Schedule" action="#{pdf_document_viewer.showStudentClassSchedule(model.app_id, model.academic_semester_id)}" /> 
+                     
+                         <p:commandButton update="myform:fbookingconfirm,myform:messages,myform:growl" icon="fa fa-w fa-refresh" style="float: right;" disabled="#{user_details.is_main_admin=false or model.is_student_included_in_bill or model.enable_recomputing_tuition_fees==false }" rendered="#{not empty model.registered_courses_list and model.user_type=='admin'}" value="Recompute The Tuition Fees" action="#{model.reconfirm_registered_courses()}" ><p:confirm escape="false" header="Confirmation" message="Are you sure about recomputing the tuition fees?" icon="fa fa-w fa-warning" /></p:commandButton>
+                       
+                        <h:outputText style="float: right;color:red;" rendered="#{user_details.is_main_admin and model.is_student_included_in_bill and not empty model.registered_courses_list}" value="The student is included in the finance bill for this academic semester....."/>
+                     </div>
+                </f:facet>
+            </p:dataTable>
+        </p:card>
+        
+        <p:card rendered="#{not empty model.registration_fees_list}">
+            <f:facet name="header"><h:outputText value="List Of Registration/Tuition Fees" /></f:facet>
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No Fees Found." rowIndexVar="rowIndex" id="FeesTable" var="regfee" value="#{model.registration_fees_list}">
+                <p:column responsivePriority="2" width="20" headerText="#" ><h:outputText value="#{rowIndex+1}" /></p:column>
+                <p:column responsivePriority="1" headerText="Fee Title"><h:outputText style="font-weight: bold;" value="#{regfee.fee_name}" /></p:column> 
+                <p:column responsivePriority="2" headerText="Fee Type"><h:outputText  value="#{regfee.fee_type}" /></p:column> 
+                <p:column responsivePriority="1" width="70" headerText="Total.AMNT" style="text-align:right;"><h:outputText  value="#{regfee.total_amount}" /></p:column> 
+                <p:column responsivePriority="1" width="70" headerText="Discounts" style="text-align:right;"><h:outputText style="color:green" value="#{regfee.discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column> 
+                <p:column responsivePriority="1" width="70" headerText="Final.AMNT" style="text-align:right;"><h:outputText  style="color:red;" value="#{regfee.final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column> 
+                
+                <p:columnGroup type="footer" rendered="#{not empty model.registration_fees_list}">
+                    <p:row>
+                        <p:column responsivePriority="2"  style="background:#ccc;text-align:right;" footerText=""></p:column>
+                        <p:column responsivePriority="1"  style="background:#ccc;text-align:right;" footerText="Total:"></p:column>
+                        <p:column responsivePriority="2"  style="background:#ccc;text-align:right;" footerText=""></p:column>
+                        
+                        <p:column responsivePriority="1" style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  value="#{model.reg_fees_total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="1" style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText style="color: green;font-weight: bold;" value="#{model.reg_fees_discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></f:facet></p:column>
+                        <p:column responsivePriority="1" style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  style="color: red;font-weight: bold;" value="#{model.reg_fees_final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></f:facet></p:column>
+                    </p:row>
+                </p:columnGroup>
+            </p:dataTable>
+        </p:card>
+        <!--List of added/dropped courses-->
+        <ui:fragment rendered="#{not empty model.added_dropped_courses_list and model.showRegisteredCoursesTableOnly==false}">
+            <p:staticMessage rendered="#{model.process_type=='Drop All'}" severity="warn" summary="WARN" detail="The student is planning to drop all course, Kindly, confirm this transaction with the student...." style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 5px;"/>  
+            <p:card>
+                <f:facet name="header"><h:outputText rendered="#{model.process_type=='Drop All'}" style="color:red;font-weight: bold;" value="List Of Dropped Courses (Dropping all Registered Courses"/><h:outputText rendered="#{model.process_type!='Drop All'}" style="color:blue;font-weight: bold;" value="List Of Added/Dropped Courses"/></f:facet>
+                <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No Add/Dropped Courses Found." rowIndexVar="rowIndex" id="DropAlldataTable" var="dropall" value="#{model.added_dropped_courses_list}">
+                    <p:ajax event="rowToggle" global="false" />
+                    <p:column responsivePriority="6" width="25" headerText="#" style="#{dropall.row_background}"><h:outputText style="color:black;" value="#{rowIndex+1}" /></p:column>
+                    <p:column responsivePriority="6" width="100" headerText="Process Type" style="#{dropall.row_background}"><h:outputText style="font-weight: bold;color:black" value="#{dropall.process_type}" /></p:column> 
+                    <p:column responsivePriority="2" width="40" headerText="Sec#" style="#{dropall.row_background}"><h:outputText style="font-weight: bold;color:black;" value="#{dropall.section_no}" /></p:column> 
+                    <p:column responsivePriority="2" width="80" headerText="C.Code" style="#{dropall.row_background}"><h:outputText style="font-weight: bold;color:black;" value="#{dropall.course_code}" /></p:column> 
+                    <p:column responsivePriority="1" headerText="Course Title" style="#{dropall.row_background}"><h:outputText style="color:black;" value="#{dropall.course_title}" /></p:column> 
+                    <p:column responsivePriority="2" width="30" headerText="C.H" style="#{dropall.row_background}"><h:outputText style="color:black;" value="#{dropall.ch}" /></p:column>
+                    <p:column responsivePriority="3" width="40" headerText="N.C.H" style="#{dropall.row_background}"><h:outputText style="color:red;" value="#{dropall.nch}" /></p:column>
+                    <p:column responsivePriority="3" width="90" headerText="C.Type" style="#{dropall.row_background}"><h:outputText style="color:black;" value="#{dropall.course_type}" /></p:column>
+                    <p:column responsivePriority="2" width="70" headerText="Retake" style="text-align:center;#{dropall.row_background}"><h:outputText style="#{dropall.retake_no>0?'color: red;':'color: black;'}font-weight: bold;" value="#{dropall.retake_no}" /></p:column>
+                    <p:column responsivePriority="1" width="60" headerText="Sponsor" style="#{dropall.row_background}"><h:outputText style="#{dropall.sponsor=='Private'?'color: black;':'color: blue;'}font-weight: bold;" value="#{dropall.sponsor}" /></p:column>
+                    <p:column responsivePriority="3" width="80" headerText="Fee.AMNT" style="text-align:center;#{dropall.row_background}"><h:outputText style="color: red;font-weight: bold;" value="#{dropall.total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                    <p:column responsivePriority="3" width="90" headerText="Discount.AMNT" style="text-align:center;#{dropall.row_background}"><h:outputText style="color: green;font-weight: bold;" value="#{dropall.discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                    <p:column responsivePriority="1" width="70" headerText="Final.AMNT"  style="text-align:center;#{dropall.row_background}"><h:outputText style="color: red;font-weight: bold;" value="#{dropall.final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                    
+                    <p:column responsivePriority="3" width="60" headerText="Option" style="text-align:center;#{dropall.row_background}">
+                        <p:commandButton title="Tuition Fee Details" type="button" icon="fa fa-w fa-external-link" onclick="PF('dd_more_info#{dropall.section_id}').show()"/>
+                        <p:dialog styleClass="custom-header" header="Tuition Fee Details for #{dropall.course_code} #{dropall.course_title}" widgetVar="dd_more_info#{dropall.section_id}" minHeight="80" width="800" showEffect="fade" modal="true">
+                            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines innerTable" rowHover="true"   var="fee" value="#{dropall.section_fees_list}">
+                            <p:column headerText="Sponsor Type" style="text-align: left"><h:outputText style="font-weight: bold;color: black;" value="#{fee.sponsor_type}" /></p:column> 
+                            <p:column width="60" headerText="F.Code"><h:outputText style="font-weight: bold;color: black;" value="#{fee.sp_financial_fund_code}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            
+                            <p:column width="90" headerText="Fee Amount" style="text-align:center;"><h:outputText style="color: red;font-weight: bold;" value="#{fee.sp_total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column width="100" headerText="Discount.AMNT" style="text-align:center;"><h:outputText style="color: green;font-weight: bold;" value="#{fee.sp_discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column width="120" headerText="Discount Type" style="text-align:center;"><h:outputText style="color: black;" rendered="#{fee.sp_discount_percentage!=0}" value="#{fee.sp_discount_title}" /></p:column>
+                            <p:column width="90" headerText="Discount %" style="text-align:center;"><h:outputText style="color: black;" rendered="#{fee.sp_discount_percentage!=0}" value="#{fee.sp_discount_percentage}%" /></p:column>
+                            <p:column width="110" headerText="Final Amount"  style="text-align:center;"><h:outputText style="color: red;font-weight: bold;" value="#{fee.sp_final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                            <p:column width="100" headerText="Bearing Rate نسبة التحمل" style="text-align:center;"><h:outputText style="font-weight: bold;color: black" value="#{fee.sp_tuition_fee_bearing_rate}%" /></p:column>
+                            </p:dataTable>
+                        </p:dialog>   
+                    </p:column>
+                </p:dataTable>
+            </p:card>
+        </ui:fragment>
+    
+        <!--Expected tuition fees summary-->
+        <ui:fragment rendered="#{not empty model.added_dropped_courses_list and model.showRegisteredCoursesTableOnly==false}">
+        <p:card>
+            <f:facet name="header"><h:outputText style="color:red;font-weight: bold;" value="Tuition Fees Summary"/></f:facet>
+                <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines innerTable" rowHover="true" var="fee" value="#{model.expected_tuition_fees_summary_list}">
+                    <p:column headerText="Sponsor" style="text-align: left"><h:outputText style="font-weight: bold;color: black;" value="#{fee.fee_name}" /></p:column> 
+                    <p:column width="70" headerText="Fee.AMNT" style="text-align:right;"><h:outputText style="color: red;font-weight: bold;" value="#{fee.total_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                    <p:column width="90" headerText="Discount.AMNT" style="text-align:right;"><h:outputText style="color: green;font-weight: bold;" value="#{fee.discount_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                    <p:column width="70" headerText="Final.AMNT"  style="text-align:right;"><h:outputText style="color: red;font-weight: bold;" value="#{fee.final_amount}" ><f:convertNumber type="currency" currencySymbol=""/></h:outputText></p:column>
+                    <p:columnGroup  type="footer">
+                        <p:row>
+                            <p:column style="background:#ccc;text-align:right;" footerText="Total:"></p:column>
+                            <p:column style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  style="color: black;font-weight: bold;" value="#{model.top_total_amount}" ><f:convertNumber type="currency" maxFractionDigits="2" minFractionDigits="2" currencySymbol=""/></h:outputText></f:facet></p:column>
+                            <p:column style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  style="color: green;font-weight: bold;" value="#{model.top_discount_amount}" ><f:convertNumber type="currency" maxFractionDigits="2" minFractionDigits="2" currencySymbol=""/></h:outputText></f:facet></p:column>
+                            <p:column style="background:#ccc;text-align:right;" ><f:facet name="footer"><h:outputText  style="color: red;font-weight: bold;" value="#{model.top_final_amount}" ><f:convertNumber type="currency" maxFractionDigits="2" minFractionDigits="2" currencySymbol=""/></h:outputText></f:facet></p:column>
+                        </p:row>
+                     </p:columnGroup>    
+                
+                </p:dataTable>
+                <br/>
+                <div style="text-align: center">
+                    <p:commandButton rendered="#{model.process_type=='Drop All'}" update="myform:fbookingconfirm,myform:messages,myform:growl" action="#{model.confirm_drop_all()}" disabled="#{model.show_confirmation_button==false}" value="Confirm (Drop All Courses)" icon="fa fa-w fa-remove"><p:confirm escape="false" header="Confirmation" message="Are you sure about dropping all registered courses?" icon="fa fa-w fa-warning" /></p:commandButton>
+                    <p:commandButton rendered="#{model.process_type!='Drop All'}" update="myform:fbookingconfirm,myform:messages,myform:growl" action="#{model.confirm_add_drop()}" disabled="#{model.show_confirmation_button==false}" value="Confirm Booking" icon="fa fa-w fa-check"><p:confirm escape="false" header="Confirmation" message="Are you sure about booking confirmation?" icon="fa fa-w fa-warning" /></p:commandButton>
+                </div>
+            </p:card>    
+        </ui:fragment>    
+    </ui:fragment>
+</h:panelGrid>
+ </ui:composition>
+</html>    

@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   
+    <ui:composition>
+         <o:methodParam name="actionListener" value="#{actionListener}"/>
+         <p:commandButton update="@next" rendered="#{rendered==true or empty rendered}" disabled="#{rendered==false}" title="Show #{title}" styleClass="  ui-button-outlined p-mr-2 p-mb-2"  immediate="true" actionListener="#{actionListener}" oncomplete="PF('charts_sidebar').show()" icon="fa fa-w fa-pie-chart"/>
+        <p:sidebar widgetVar="charts_sidebar" position="bottom" modal="true" blockScroll="true" fullScreen="true">
+            <h3>#{title}</h3>
+             
+            <div class="surface-ground" style="overflow: auto; max-height: 100vh;">
+                <div class="grid">
+                    <ui:repeat var="chart" value="#{model.charts_list}">
+                      
+                            <p:card style="height: 420px;width: #{chart.width}px;margin: 10px;">
+                                <div id="#{chart.chart_id}"/>
+                                <script>#{chart.script}</script>
+                                <p:selectBooleanCheckbox rendered="#{chart.show_options and (chart.chartType=='bar' or chart.chartType=='area' or chart.chartType=='line')}" itemLabel="Stacked?" value="#{chart.stacked}"><p:ajax global="false" event="change" update="@parent" listener="#{chart.reload_chart()}"/></p:selectBooleanCheckbox>
+                                
+                                <o:importConstants type="sis.charts.constants.StackType"/>
+                                 
+                                <p:selectOneMenu rendered="#{chart.show_options and chart.chartType=='bar'}" disabled="#{chart.stacked==false}" value="#{chart.stackType}" >
+                                    <f:selectItems value="#{StackType}" />
+                                    <p:ajax global="false" event="change" update="@parent" listener="#{chart.reload_chart()}"/>
+                                </p:selectOneMenu>
+                                
+                                <p:selectBooleanCheckbox rendered="#{chart.show_options and (chart.chartType=='area' or chart.chartType=='line')}" itemLabel="Area Chart?" value="#{chart.isAreaChart}"><p:ajax global="false" event="change" update="@parent" listener="#{chart.reload_chart()}"/></p:selectBooleanCheckbox>
+                            </p:card>
+                    </ui:repeat>
+                </div>
+                               <br/><br/>
+            </div>   
+            
+        </p:sidebar>
+    </ui:composition>    
+</html>

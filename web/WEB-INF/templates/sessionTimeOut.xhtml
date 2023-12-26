@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+       <h:form>
+           <p:idleMonitor multiWindowSupport="true" timeout="#{session.maxInactiveInterval * 1000 - 130000}" onidle="PF('idleDialog').show();PF('timeoutTimer').start();" />
+
+           <p:dialog styleClass="custom-header" id="timeoutDialog" header="Are you there?" widgetVar="idleDialog" modal="true" closable="false" draggable="false" resizable="false" >
+                <p:panelGrid columns="1" styleClass="ui-noborder">
+
+                    <p:panel>
+                        <h:outputText value="You are about to be redirected to the main page or the login page within" />
+                        <p:spacer width="5"/>
+                        <pe:timer style="color: red;font-weight: bold;" id="timeoutTimer" widgetVar="timeoutTimer" singleRun="true" timeout="120" format="mm:ss" autoStart="false"  listener="#{user_details.redirect_to_main_page()}"/>
+                        <p:spacer width="5"/>
+                        <h:outputText value=" mins." />
+                        <br/><br/>
+                        
+                        <h:outputText value="Please click on the next button to keep the session alive" />
+                    </p:panel>
+
+                    <p:panel style="text-align: center;">
+                        <p:commandButton id="confirm" value="Keep The Session Alive" actionListener="#{user_details.keepSessionAlive()}" onclick="PF('timeoutTimer').stop(true);" oncomplete="PF('idleDialog').hide();" process="@this"/>
+                    </p:panel>
+
+                </p:panelGrid>
+           </p:dialog>
+       </h:form>
+
+</ui:composition>

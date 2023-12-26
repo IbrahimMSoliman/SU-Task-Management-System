@@ -1,0 +1,366 @@
+.section_data
+{
+color:Black !important;
+font-weight: bold !important;
+white-space: nowrap !important;
+ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+ font-size: 12px !important;
+}
+
+.active_week_bg
+  {
+  background: url("../../resources/sis/images/tags/attendance/weeks_bg.jpg") no-repeat  ;
+  width: 122px;
+  height: 116px;
+  text-align: center;
+  color:blue;
+  font-weight: bold;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  padding-top: 16px;
+ 
+  }
+
+ .not_active_week_bg
+  {
+   background: url("../../resources/sis/images/tags/attendance/disabled_weeks_bg.jpg") no-repeat  ;
+  width: 122px;
+  height: 116px;
+  text-align: center;
+  color:Gray;
+  font-weight: bold;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  padding-top: 16px;
+  
+  }
+
+.old_week_bg
+  {
+  background: url("../../resources/sis/images/tags/attendance/disabled_weeks_bg.jpg") no-repeat  ;
+  width: 122px;
+  height: 116px;
+  text-align: center;
+  color:blue;
+  font-weight: bold;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  padding-top: 16px;
+  }
+  .week_a_tag
+  {
+  font-size: 35px;
+  width: 122px;
+  height: 100px;
+  text-align: center;
+  font-weight: bold;
+  display:inline-block; 
+  }
+  
+  .error_row
+  {
+ 
+  font-weight:bold !important;
+  background: #ff8484 ;
+  }
+  /*------------------------Attendance Icons---------------------------------*/
+  .empty_active
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/empty.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }
+
+.empty_disabled
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/empty.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }
+                
+                
+.present_active
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background: url("../../resources/sis/images/tags/attendance/icons/present.png") no-repeat   !important;
+    display: block !important;
+    border-style: none !important ;
+    }
+
+.present_disabled
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/disable_present.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }
+    
+.late_active
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/late.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }
+
+.late_disabled
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/disable_late.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }    
+                
+.absent_active
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/absent.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }
+
+.absent_disabled
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/disable_absent.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }                                
+
+.late_excuse
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/xlate.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }                                
+
+.absent_excuse
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/xabsent.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    }                                
+.blocked
+    { 
+    width: 24px !important;
+    height: 24px !important;
+    background-image: url("../../resources/sis/images/tags/attendance/icons/blocked.png") !important;
+    display: block !important;
+    border-style: none !important ;
+    } 
+    
+    
+/*------------------------------------Weeks Buttons---------------------------------------------*/    
+ .current_week
+  {
+  background: url("../../resources/sis/images/tags/attendance/weeks_bg.jpg") no-repeat  !important  ;
+  width: 120px !important;
+  height: 115px !important;
+  text-align: center;
+  color:blue !important;
+  font-weight: bold !important;
+  vertical-align: bottom !important;
+  margin: 0 !important ;
+  font-size: 35px !important;
+  padding-top: 16px !important; 
+  display: block !important;
+  border-style: none !important ;
+  line-height: 100px;
+  }
+   
+  
+
+ .disable_old_week
+  {
+  background: url("../../resources/sis/images/tags/attendance/disabled_weeks_bg.jpg") no-repeat !important ;
+  width: 120px !important;
+  height: 115px !important;
+  text-align: center;
+  color:Gray !important;
+  font-weight: bold !important;
+  vertical-align: bottom !important;
+  margin: 0 !important ;
+  font-size: 35px !important;
+  padding-top: 16px !important; 
+  display: block !important;
+  border-style: none !important ;
+  line-height: 100px;
+  
+  }
+
+.active_old_week
+  {
+  background: url("../../resources/sis/images/tags/attendance/disabled_weeks_bg.jpg")no-repeat !important;
+  width: 120px !important;
+  height: 115px !important;
+  text-align: center;
+  color:blue !important;
+  font-weight: bold !important;
+  vertical-align: bottom !important;
+  margin: 0 !important ;
+  font-size: 35px !important;
+  padding-top: 16px !important; 
+  display: block !important;
+  border-style: none !important ;
+  line-height: 100px !important;
+  }
+  
+  .ui-progressbar-label
+    {
+    font-weight: bold !important;
+    font-size: 13px !important;
+    padding-top: 2px !important;
+    }
+ .animated10 .ui-progressbar.ui-widget-content
+  { 
+  height: 0px !important;
+  bottom: 0;
+  }  
+  .animated10  
+  { 
+  background-color: Red !important;
+  }  
+  
+  .animated25 .ui-progressbar-value 
+  { 
+  height: 0px !important;
+  bottom: 0;
+  }  
+  
+   .animated25
+  { 
+  background-color: #f27011!important;
+  } 
+  
+  .animated50 .ui-progressbar.ui-widget-content
+  { 
+  height: 0px !important;
+  bottom: 0;
+  }
+  .animated50  
+  {
+  background-color: #f2b01e!important;
+  }
+  
+   
+  
+  
+  .animated75 .ui-progressbar.ui-widget-content
+  { 
+  height: 0px !important;
+  bottom: 0;
+  }  
+ 
+ .animated75
+  { 
+  background-color: #f2d31b!important;
+  } 
+ 
+ .animated100 .ui-progressbar.ui-widget-content
+  { 
+  height: 0px !important;
+  bottom: 0px !important;
+   
+  } 
+  
+  .animated100
+  { 
+  background-color: #86e01e!important;
+  } 
+  
+  
+  .animated100 .ui-progressbar-value .ui-widget-header .ui-corner-all
+  {
+   width: 55% !important; 
+   display: block !important;
+   }
+   
+   .ui-progressbar-value .ui-widget-header .ui-corner-all
+   {
+   border :10px solid red!important;
+   }
+   
+   .ui-progressbar .ui-progressbar-value.ui-widget-header 
+   {
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#149bdf', endColorstr='#0480be', GradientType=0);
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: width 0.6s ease;
+    -moz-transition: width 0.6s ease;
+    -ms-transition: width 0.6s ease;
+    -o-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+    }
+    
+ /*------------------------------------------------Attendance sessions and weeks----------------------------------------------------------*/   
+    
+  .left_sessions_column .ui-widget-content 
+   {
+   border:1px solid Black  !important ;
+   margin:1px !important ;
+   width:270px !important;
+   }
+   
+ .left_sessions_column .current_day .ui-widget-content 
+   {
+   background: #a5c6ff   !important ;
+   border:1px solid Black  !important ;
+   width:265px !important;
+   }
+   
+   
+   .left_sessions_column .ui-panel-content 
+   {
+   border:none !important ;
+   background: none !important ;
+   }
+     
+  .session_button
+    {
+    width:230px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    margin-bottom: 3px;
+    }
+  .selected_session_button  
+    {
+    background:#f4fd00 !important ;
+    border:3px solid red !important;
+    color:black !important;
+    }
+    
+ /*hover on students list row*/   
+ .ui-datatable tr.ui-datatable-even:hover, .ui-datatable tr.ui-datatable-odd:hover {
+    background: #78BCFF !important ;
+}  
+
+
+.weeks .ui-datagrid-column {width: 12.5%;}
+
+ .ui-state-highlight
+ {
+ color:Blue !important;
+ font-weight: bold;
+ }

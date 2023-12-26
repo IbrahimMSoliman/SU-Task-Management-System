@@ -1,0 +1,11 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+ <h:head>
+ </h:head>
+   <ui:composition>
+       <p:commandLink immediate="true" styleClass="ui-button-flat student_id_popup_link" action="#{popupStudentDetails.start(app_id)}" title="More Details"><h:outputText style="font-weight: 600;" value="#{student_id}" /></p:commandLink>
+   </ui:composition>    
+</html>

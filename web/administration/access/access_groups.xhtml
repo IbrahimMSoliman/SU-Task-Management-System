@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Access Groups</ui:define>
+    <ui:define name="MainTitle">Access Groups</ui:define>
+    <ui:param name="page_id" value="3"/>
+    <ui:define name="content">            
+        <p:card>
+            <p:commandButton style="float: right;" immediate="true" value="New Access Group" ajax="true" actionListener="#{access_groups.add_new()}" icon="fa fa-w fa-plus"><p:ajax event="dialogReturn" update="dataTable" listener="#{access_groups.Search()}" /></p:commandButton>
+            <div>
+                   <p:inputText autocomplete="off" converter="trim" style="width:250px" id="search_group" value="#{access_groups.search_group}" placeholder="Search Group Name/Users">
+                      <p:ajax global="false" listener="#{access_groups.ValueChanged()}" event="keyup"  update="dataTable"  />
+                   </p:inputText>
+            </div>
+        </p:card>        
+        
+        <p:card>
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" rowIndexVar="rowIndex" id="dataTable" var="group" widgetVar="table" value="#{access_groups.table}" rows="25" paginator="true" rowsPerPageTemplate="25,50,100,500,1000,{ShowAll|'All'}">
+                <p:ajax event="filter" global="false" /> 
+                <f:facet name="header"><div class="customers-table-header">List Of Access Groups<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{access_groups.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>        
+                <p:column width="30" headerText="#"><h:outputText value="#{rowIndex+1}" /></p:column>
+                <p:column filterBy="#{group.group_name}"  sortBy="#{group.group_name}" headerText="Access Group Name"><h:outputText style="font-weight:bold;#{group.status==0?'Color:red;':'color:black;'}" value="#{group.group_name}" /></p:column> 
+                <p:column width="140" sortBy="#{group.status}" headerText="Group Status" styleClass="center"><p:inputSwitch disabled="#{group.group_id=='1' or group.group_id=='0'}" value="#{group.status_boolean}"><p:ajax listener="#{group.change_status()}" update="dataTable" /></p:inputSwitch></p:column>
+                <p:column filterBy="#{group.users_no}" width="100" styleClass="center" sortBy="#{group.users_no}" headerText="Users#"><p:commandLink  action="#{group.show_user_list(group.group_id)}"  ><h:outputText value="#{group.users_no}"/></p:commandLink></p:column>
+                <p:column filterBy="#{group.items_no}" width="100" styleClass="center" sortBy="#{group.items_no}" headerText="Items#"><h:outputText value="#{group.items_no}"/></p:column>
+                <p:column  width="120" headerText="Options">
+                    <p:commandButton immediate="true" title="Access Group Preview" action="#{group.preview()}" icon="fa fa-fw fa-eye"></p:commandButton>
+                     <p:commandButton immediate="true" title="Edit Group" action="#{group.edit()}" styleClass="ui-button-success" icon="fa fa-w fa-edit"><p:ajax event="dialogReturn" update="dataTable" listener="#{access_groups.Search()}" /></p:commandButton>
+                    <p:commandButton immediate="true"  ajax="true" update="dataTable,myform:messages" title="Delete Group" disabled="#{group.group_id=='1' or group.group_id=='0' or group.deletable==false}" action="#{group.delete_group()}" styleClass="ui-button-danger" icon="fa fa-w fa-trash"><p:confirm escape="false" header="Confirmation" message="Are you sure about removing this Access Group?" icon="fa fa-w fa-warning" /></p:commandButton>
+                </p:column>
+
+                <f:facet name="footer">
+                    <h:outputText value="Total Records: "/> <h:outputText value="#{access_groups.table.size()}"/>
+                    <br/>
+                    <div class="center_button"> <p:commandButton rendered="#{not empty access_groups.table}" ajax="false"  value="Export To Excel" icon="fa fa-w fa-file-excel-o" action="#{access_groups.export_to_excel}"/></div>
+                </f:facet>
+            </p:dataTable>
+        </p:card>
+</ui:define>
+</ui:composition>
+ 

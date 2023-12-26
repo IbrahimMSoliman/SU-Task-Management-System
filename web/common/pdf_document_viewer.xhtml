@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/closable_window_template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="PageTitle"><h:outputText escape="false" value="#{pdf_document_viewer.window_title}"/></ui:define>
+    <ui:define name="content">
+        <div style="height: 100vh !important;">
+            <pe:documentViewer height="100%"  value="#{pdf_document_viewer.stream}"/> 
+        </div>
+    </ui:define>
+    </ui:composition>   

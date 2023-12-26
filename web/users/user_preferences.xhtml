@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">User Preferences</ui:define>
+    <ui:define name="MainTitle">User Preferences</ui:define>
+    <ui:param name="page_id" value="0"/>
+    <ui:define name="content">            
+                <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h1>Breadcrumbs</h1>
+                     
+                    <h:outputText styleClass="option_desc" value="Breadcrumb provides contextual information about the page hierarchy."/>
+                 <br/><br/>
+                    <p:breadCrumb>
+                            <p:menuitem icon="fa fa-fw fa-bars" value="Categories" url="#" />
+                            <p:menuitem icon="fa fa-fw fa-bars" value="Sports" url="#" />
+                            <p:menuitem icon="fa fa-fw fa-bars" value="Basketball" url="#" />
+                            <p:menuitem icon="fa fa-fw fa-bars" value="NBA" url="#" />
+                            <p:menuitem icon="fa fa-fw fa-bars" value="Teams" url="#" />
+                    </p:breadCrumb>
+                    <br/>
+                    <p:selectBooleanCheckbox styleClass="item_label_blue" value="#{userPreferences.show_breadcrumbs}" itemLabel="Show breadcrumbs menu in the page top?"><p:ajax listener="#{userPreferences.update_show_hide_breadcrumbs()}" update="@all" /></p:selectBooleanCheckbox>
+                      
+                </div>
+                
+                
+                <div class="card">
+                <h1>Menu</h1>
+                     
+                    <h:outputText styleClass="option_desc" value="SIS is highly customizable, in total there are 10000+ layout combinations. Menu has 4 modes out of the box; Static, Overlay, Slim and Horizontal with Light and Dark color alternatives. In addition user profile menu can be placed inside the main menu or topbar."/>
+                 <br/><br/>
+                 <h2>Menu Background</h2>
+                    <p:selectOneRadio  value="#{userPreferences.menu_class}" layout="responsive" columns="4">
+                        <f:selectItem itemValue="light" itemLabel="Light Menu"/>
+                        <f:selectItem itemValue="dark" itemLabel="Dark Menu"/>
+                        <p:ajax listener="#{userPreferences.update_menu_bakground()}" update="@all" />
+                    </p:selectOneRadio>
+                    
+                    <br/><br/>
+                 <h2>Menu Layout</h2>
+                    <p:selectOneRadio  value="#{userPreferences.menu_layout}" layout="responsive" columns="4">
+                        <f:selectItem itemValue="static" itemLabel="Static Menu"/>
+                        <f:selectItem itemValue="overlay" itemLabel="Overlay Menu"/>
+                        <f:selectItem itemValue="slim" itemLabel="Slim Menu"/>
+                        <f:selectItem itemValue="horizontal" itemLabel="Horizontal Menu"/>
+                        <p:ajax listener="#{userPreferences.update_menu_layout()}" update="@all" />
+                    </p:selectOneRadio>
+                    
+                     <h2>Profile Mode</h2>
+                    <p:selectOneRadio  value="#{userPreferences.profile_Mode}" layout="responsive" columns="4">
+                        <f:selectItem itemValue="inline" itemLabel="Inline Profile"/>
+                        <f:selectItem itemValue="overlay" itemLabel="Top Profile"/>
+                        <p:ajax listener="#{userPreferences.update_profile_mode()}" update="@all" />
+                    </p:selectOneRadio>
+                            
+                </div>
+                
+                
+                
+                <div class="card">
+                    <h1>Layout Colors</h1>
+                    <h:outputText styleClass="option_desc" value="Like beauty, color is subjective. What arouses a reaction in you may evoke a very different effect on someone else, for that reason SIS provides many different configurable layout colors"/>
+                    <br/><br/>
+                    <h2>Flat Layout</h2>
+                    <p:selectOneRadio  value="#{userPreferences.layout}" layout="responsive" columns="4">
+                        <f:selectItems value="#{userPreferences.layout_color_flat_list}"/>
+                        <p:ajax listener="#{userPreferences.update_falt_layout()}" update="@all" />
+                    </p:selectOneRadio>
+                    
+                    <br/>
+                    
+                    <h2>Special Layout</h2>
+                    <p:selectOneRadio  value="#{userPreferences.layout}" layout="responsive" columns="4">
+                        <f:selectItems value="#{userPreferences.layout_color_special_list}"/>
+                        <p:ajax listener="#{userPreferences.update_specail_layout()}" update="@all" />
+                    </p:selectOneRadio>
+                    
+                </div>
+                
+                
+                
+                 <div class="card">
+                    <h1>Themes and Styles</h1>
+                    <h:outputText styleClass="option_desc" value="SIS Theme is highly customizable, there are 15 built-in themes, SIS  inspired by Bootstrap styling without depending on Bootstrap directly and can be used standalone"/>
+                    <br/><br/>
+                    <h2>Bootstrap</h2>
+                    <p:selectOneRadio  value="#{userPreferences.temp_version}" layout="responsive" columns="4">
+                        <f:selectItem itemValue="3" itemLabel="Bootstrap Version 3"/>
+                        <f:selectItem itemValue="4" itemLabel="Bootstrap Version 4"/>
+                   
+                        <p:ajax listener="#{userPreferences.update_version()}" update="@all" />
+                    </p:selectOneRadio>
+                    
+                    <br/>
+                    
+                    <h2>Themes</h2>
+                    <p:selectOneRadio  value="#{userPreferences.theme}" layout="responsive" columns="4">
+                        <f:selectItem itemLabel="Blue" itemValue="blue"/>
+                        <f:selectItem itemLabel="Cyan" itemValue="cyan"/>
+                        <f:selectItem itemLabel="Indigo" itemValue="indigo"/>
+                        <f:selectItem itemLabel="Purple" itemValue="purple"/>
+                        <f:selectItem itemLabel="Teal" itemValue="teal"/>
+                        <f:selectItem itemLabel="Orange" itemValue="orange"/>
+                        <f:selectItem itemLabel="Deep Purple" itemValue="deeppurple"/>
+                        <f:selectItem itemLabel="Light Blue" itemValue="lightblue"/>
+                        <f:selectItem itemLabel="Green" itemValue="green"/>
+                        <f:selectItem itemLabel="Light Green" itemValue="lightgreen"/>
+                        <f:selectItem itemLabel="Amber" itemValue="amber"/>
+                        <f:selectItem itemLabel="Brown" itemValue="brown"/>
+                        <f:selectItem itemLabel="Dark Grey" itemValue="darkgrey"/>
+                        <f:selectItem itemLabel="Pink" itemValue="pink"/>
+                        <f:selectItem itemLabel="Lime" itemValue="lime"/>
+                         
+                        <p:ajax listener="#{userPreferences.update_theme()}" update="@all" />
+                    </p:selectOneRadio>
+                    <p:commandButton type="button" onclick="return false;" icon="ui-icon-star" value="Sample Button"/>
+                </div>
+                
+                
+            </div>
+        </div>  
+</ui:define>
+</ui:composition>

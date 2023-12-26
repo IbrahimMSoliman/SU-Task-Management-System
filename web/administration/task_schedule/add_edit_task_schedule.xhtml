@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    
+    
+    
+    <ui:define name="PageTitle">Add/Edit Task</ui:define>
+    
+     
+     
+    <ui:define name="content">
+       <p:card style="margin:  10px;">
+            <f:facet name="header"><h:outputText value="Main Details" /></f:facet>
+            <h:panelGrid  columns="4"  cellpadding="5"  id="data"   border="0" cellspacing="3" rowClasses="even,odd">
+                    
+                    <p:outputLabel for="job_title" styleClass="bold" value="Job Title"/>
+                    <p:inputText autocomplete="off" converter="trim" style="width:200px;" id="job_title" value="#{task_schedule.job_title}" required="true" maxlength="200" requiredMessage="Please enter the job title....."  />
+                  
+                    <p:outputLabel style="width:100px" for="task_type" styleClass="bold" value="Task Type"/>
+                    <p:selectOneMenu  required="true" requiredMessage="Please select the task type..."  style="width:200px" id="type_id" value="#{task_schedule.task_type}" label=""> 
+                           <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                           <f:selectItems value="#{task_schedule.task_type_list}" />
+                    </p:selectOneMenu> 
+                    
+                    <p:outputLabel for="success_emails" styleClass="bold" value="Success Email"/>
+                    <p:inputTextarea style="width:200px;"  id="success_emails" value="#{task_schedule.success_emails}" maxlength="200" />
+                    
+                    <p:outputLabel for="fail_emails" styleClass="bold" value="Fail Email"/>
+                    <p:inputTextarea style="width:200px;"  id="fail_emails" value="#{task_schedule.fail_emails}" maxlength="200" />
+                   
+                   
+                
+                </h:panelGrid>
+       </p:card>
+            
+       <p:card style="margin:  10px;">
+            <f:facet name="header"><h:outputText value="Run Details" /></f:facet>
+            <h:panelGrid columns="2"  cellpadding="5"  id="data2"   border="0" cellspacing="3" rowClasses="even,odd">
+                    <p:outputLabel for="task_type" styleClass="bold" value="Run Duration"/>
+                    <p:selectOneMenu  required="true" requiredMessage="Please select run Duration..."  style="width:200px" id="task_type" value="#{task_schedule.cron_expression}" label=""> 
+                        <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                        <f:selectItems value="#{task_schedule.cron_expression_list}" />
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel style="width:100px" for="days" styleClass="bold" value="Run Duration"/>
+                    <p:selectManyCheckbox style="color:blue;font-weight: bold" layout="grid" columns="2" id="days" value="#{task_schedule.days}" label=""> 
+                        <f:selectItems value="#{task_schedule.days_list}" />
+                    </p:selectManyCheckbox>
+                   
+                 <f:facet name="footer">
+                     <p:selectBooleanCheckbox itemLabel="Run the task during the holidays?" value="#{task_schedule.run_on_holidays}" style="font-weight: bold;color:red;" />
+                   
+                   
+                 </f:facet>
+            </h:panelGrid>
+       </p:card>
+        <div class="center_button">
+                 <p:commandButton actionListener="#{task_schedule.save()}" update="@form" rendered="#{task_schedule.process_type=='new'}" icon="fa fa-w fa-plus" value="Add" />
+         <p:commandButton actionListener="#{task_schedule.save()}" update="@form" rendered="#{task_schedule.process_type!='new'}" icon="fa fa-w fa-save" value="Save" />
+    
+            
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">LDAP Server Settings</ui:define>
+    <ui:define name="MainTitle">LDAP Server Settings</ui:define>
+    <ui:param name="page_id" value="371"/>
+    <ui:define name="content">
+        
+    <p:card>
+        <f:facet name="header"><h:outputText value="Internal(Local) SIS Authentication" /></f:facet>    
+        <p:selectBooleanCheckbox style="font-weight: bold;" itemLabel="Enable Internal (Local) SIS Authentication." value="#{ldapsettings.enable_sis_internal_auth}"/>
+    </p:card>    
+        
+    <p:card>
+        <f:facet name="header"><h:outputText value="LDAP Settings" /></f:facet>    
+        <p:selectBooleanCheckbox style="font-weight: bold;color:blue;" itemLabel="Enable Ldap/AD Authentication and Users' Account Creation." value="#{ldapsettings.enable_ldap}"><p:ajax event="change" update="settings_panel,testbutton,myform:settings_panel2"/></p:selectBooleanCheckbox>
+        <br/><br/>
+        <h:panelGrid id="settings_panel" style="width:100%;" columns="1" columnClasses="column1,column2"  cellpadding="4" border="0" cellspacing="4" rowClasses="odd,even">
+                <p:outputLabel for="host" styleClass="bold" value="LDAP Server"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputText autocomplete="off" converter="trim" disabled="#{ldapsettings.enable_ldap==false}" required="true" requiredMessage="Ldap Server IP or name is required....."   style="width:300px" id="host" value="#{ldapsettings.host}" maxlength="200" />
+                    <h:outputText value="Add LDAP server name or IP address(for Example 192.168.1.55 or example.com)."/>
+                </h:panelGrid> 
+                
+                <p:outputLabel for="email_server_port" styleClass="bold" value="Server Port"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputNumber disabled="#{ldapsettings.enable_ldap==false}" emptyValue="636" decimalPlaces="0" thousandSeparator="" size="6" style="width:300px" id="email_server_port" value="#{ldapsettings.port}" />
+                    <h:outputText value="Add LDAP server port number (it is recommended to use secure port number like 636)."/>
+                </h:panelGrid> 
+                
+                <p:outputLabel for="ldap_domain" styleClass="bold" value="LDAP Domain"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputText autocomplete="off" converter="trim" disabled="#{ldapsettings.enable_ldap==false}" required="true" requiredMessage="Ldap Domain is required..."   style="width:300px" id="ldap_domain" value="#{ldapsettings.ldap_domain}" maxlength="200" />
+                    <h:outputText value="Add LDAP Domain like example.com (It is not recommended to enter Distinguished Names DC)."/>
+                </h:panelGrid> 
+                
+                <p:outputLabel for="email_domain" styleClass="bold" value="Email Domain"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputText autocomplete="off" converter="trim" disabled="#{ldapsettings.enable_ldap==false}" required="true" requiredMessage="Email domain is required...."   style="width:300px" id="email_domain" value="#{ldapsettings.email_domain}" maxlength="200" />
+                    <h:outputText value="Email domain is required to add email attribute to new created user."/>
+                </h:panelGrid> 
+                
+                <p:outputLabel for="admin_username" styleClass="bold" value="Admin Username"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputText autocomplete="off" converter="trim" disabled="#{ldapsettings.enable_ldap==false}" required="true" requiredMessage="Admin username is required...."   style="width:300px" id="admin_username" value="#{ldapsettings.admin_username}" maxlength="200" />
+                    <h:outputText value="Enter LDAP administrator Username."/>
+                </h:panelGrid> 
+                
+                <p:outputLabel for="admin_password" styleClass="bold" value="Admin Password"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inplace disabled="#{ldapsettings.enable_ldap==false}" emptyLabel="*****" label="*****" editor="false">
+                        <p:inputText autocomplete="off" converter="trim"  label="text"  style="width:300px" id="admin_password" value="#{ldapsettings.admin_password}" maxlength="100" />
+                    </p:inplace>
+                     <h:outputText value="Enter LDAP administrator password (click on the stars to edit the password)."/>
+                </h:panelGrid> 
+                
+                <p:outputLabel for="new_password_prefix" styleClass="bold" value="New Student Password Prefix"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputText autocomplete="off" converter="trim" disabled="#{ldapsettings.enable_ldap==false}"   style="width:300px" id="new_password_prefix" value="#{ldapsettings.new_password_prefix}" maxlength="20" />
+                    <h:outputText value="Defualt password for the new student will be (Password Prefix) + Civil No."  />
+                </h:panelGrid> 
+                
+                <p:outputLabel for="ou_for_short_admission" styleClass="bold" value="OU For Short Admission Students"/>
+                <h:panelGrid cellpadding="3" cellspacing="3" columns="1">
+                    <p:inputText autocomplete="off" converter="trim" disabled="#{ldapsettings.enable_ldap==false}" required="true" requiredMessage="OU For Short Admission Students is required...."   style="width:300px" id="ou_for_short_admission" value="#{ldapsettings.ou_for_short_admission}" maxlength="400" />
+                    <h:outputText value="OU for short admission student with student ID 0000000"/>
+                </h:panelGrid> 
+                     <h:outputText value="SIS will force the student to change the password if it contains the student civil ID or mobile number within specific duration after admission semester start date"/>
+            </h:panelGrid> 
+    </p:card>     
+                   
+    
+    <p:card>
+        <f:facet name="header"><h:outputText value="Password Settings" /></f:facet>
+        <h:panelGrid id="settings_panel2" columns="2"  cellpadding="4" border="0" cellspacing="4" rowClasses="even,odd">
+                <p:outputLabel for="@next" styleClass="bold" value="Required Password Strength"/>
+                <p:selectOneMenu disabled="#{ldapsettings.enable_ldap==false}" style="width:300px"  value="#{ldapsettings.password_strength}" >
+                    <f:selectItem itemValue="All" itemLabel="All"/>
+                    <f:selectItem itemValue="Weak" itemLabel="Weak"/>
+                    <f:selectItem itemValue="Medium" itemLabel="Medium"/>
+                    <f:selectItem itemValue="Strong" itemLabel="Strong"/>
+                </p:selectOneMenu>
+                
+                
+                <p:outputLabel for="@next" styleClass="bold" value="Force Admin To Change Password"/>
+                <p:selectOneMenu disabled="#{ldapsettings.enable_ldap==false}" style="width:300px"  value="#{ldapsettings.force_change_for_admin}" >
+                    <f:selectItem itemValue="0" itemLabel="Do not force Admin to change Password"/>
+                    <f:selectItem itemValue="1" itemLabel="Every one Day"/><f:selectItem itemValue="2" itemLabel="Every 2 Days"/><f:selectItem itemValue="3" itemLabel="Every 3 Days"/>
+                    <f:selectItem itemValue="4" itemLabel="Every 4 Days"/><f:selectItem itemValue="5" itemLabel="Every 5 Days"/><f:selectItem itemValue="6" itemLabel="Every 6 Days"/>
+                    <f:selectItem itemValue="7" itemLabel="Every One Week"/><f:selectItem itemValue="14" itemLabel="Every 2 Weeks"/><f:selectItem itemValue="21" itemLabel="Every 3 Weeks"/>
+                    <f:selectItem itemValue="30" itemLabel="Every One Month"/><f:selectItem itemValue="60" itemLabel="Every 2 Months"/><f:selectItem itemValue="90" itemLabel="Every 3 Months"/> <f:selectItem itemValue="180" itemLabel="Every 6 Months"/> <f:selectItem itemValue="270" itemLabel="Every 9 Months"/><f:selectItem itemValue="365" itemLabel="Every One Year"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="@next" styleClass="bold" value="Force Instructor To Change Password"/>
+                <p:selectOneMenu disabled="#{ldapsettings.enable_ldap==false}" style="width:300px"  value="#{ldapsettings.force_change_for_inst}" >
+                    <f:selectItem itemValue="0" itemLabel="Do not force Instructor to change Password"/>
+                    <f:selectItem itemValue="1" itemLabel="Every one Day"/><f:selectItem itemValue="2" itemLabel="Every 2 Days"/><f:selectItem itemValue="3" itemLabel="Every 3 Days"/>
+                    <f:selectItem itemValue="4" itemLabel="Every 4 Days"/><f:selectItem itemValue="5" itemLabel="Every 5 Days"/><f:selectItem itemValue="6" itemLabel="Every 6 Days"/>
+                    <f:selectItem itemValue="7" itemLabel="Every One Week"/><f:selectItem itemValue="14" itemLabel="Every 2 Weeks"/><f:selectItem itemValue="21" itemLabel="Every 3 Weeks"/>
+                    <f:selectItem itemValue="30" itemLabel="Every One Month"/><f:selectItem itemValue="60" itemLabel="Every 2 Months"/><f:selectItem itemValue="90" itemLabel="Every 3 Months"/> <f:selectItem itemValue="180" itemLabel="Every 6 Months"/> <f:selectItem itemValue="270" itemLabel="Every 9 Months"/><f:selectItem itemValue="365" itemLabel="Every One Year"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="@next" styleClass="bold" value="Force Student To Change Password"/>
+                <p:selectOneMenu disabled="#{ldapsettings.enable_ldap==false}"  style="width:300px"  value="#{ldapsettings.force_change_for_student}" >
+                    <f:selectItem itemValue="0" itemLabel="Do not force Student to change Password"/>  
+                    <f:selectItem itemValue="1" itemLabel="Every one Day"/><f:selectItem itemValue="2" itemLabel="Every 2 Days"/><f:selectItem itemValue="3" itemLabel="Every 3 Days"/>
+                    <f:selectItem itemValue="4" itemLabel="Every 4 Days"/><f:selectItem itemValue="5" itemLabel="Every 5 Days"/><f:selectItem itemValue="6" itemLabel="Every 6 Days"/>
+                    <f:selectItem itemValue="7" itemLabel="Every One Week"/><f:selectItem itemValue="14" itemLabel="Every 2 Weeks"/><f:selectItem itemValue="21" itemLabel="Every 3 Weeks"/>
+                    <f:selectItem itemValue="30" itemLabel="Every One Month"/><f:selectItem itemValue="60" itemLabel="Every 2 Months"/><f:selectItem itemValue="90" itemLabel="Every 3 Months"/> <f:selectItem itemValue="180" itemLabel="Every 6 Months"/> <f:selectItem itemValue="270" itemLabel="Every 9 Months"/><f:selectItem itemValue="365" itemLabel="Every One Year"/>
+                </p:selectOneMenu>
+                <f:facet name="footer">
+                    <p:selectBooleanCheckbox disabled="#{ldapsettings.enable_ldap==false}" style="font-weight: bold;color:red;" itemLabel="Reject Student Password if it is Including Student ID." value="#{ldapsettings.reject_if_include_std_id}"/>
+                    <br/>
+                    <p:selectBooleanCheckbox disabled="#{ldapsettings.enable_ldap==false}" style="font-weight: bold;color:red;margin-top: 3px" itemLabel="Reject Student Password if it is Including Civil ID." value="#{ldapsettings.reject_if_include_std_civil_id}"/>
+                    <br/>
+                    <p:selectBooleanCheckbox  disabled="#{ldapsettings.enable_ldap==false}" style="font-weight: bold;color:red;margin-top: 3px" itemLabel="Reject Student Password if it is Including Student Mobile Number." value="#{ldapsettings.reject_if_include_std_mobile}"/>
+                </f:facet>
+            </h:panelGrid>
+    </p:card>
+        
+    <p:card>
+        <div style="text-align: center">
+            <p:commandButton action="#{ldapsettings.save()}" value="Save Settings" update="@form" icon="fa fa-fw fa-save"/>
+            <p:commandButton id="testbutton" disabled="#{ldapsettings.enable_ldap==false}" value="Test Connection" action="#{ldapsettings.test_connection()}" update="@form"/>
+        </div>
+    </p:card>
+        
+        
+    <p:card>
+    <f:facet name="header"><h:outputText value="OU (Organizational Unit) per Major" /></f:facet>    
+        <p:selectOneMenu style="width:200px" id="admission_fund_code" value="#{ldapsettings.search_college_id}" >
+            <f:selectItem itemValue="#{null}" itemLabel="Search Per College"/>
+            <f:selectItems value="#{ldapsettings.search_colleges_list}"/>
+            <p:ajax event="change" listener="#{ldapsettings.search_major()}" update="majorstable"/>
+        </p:selectOneMenu>
+            
+            
+        <p:dataTable styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" id="majorstable" style="width:100%" emptyMessage="No Majors Found." rowIndexVar="rowIndex" var="mm" value="#{ldapsettings.majors_list}">
+            <p:column width="200" headerText="College Name"><h:outputText style="color:Black; font-weight: bold;" value="#{mm.college_name}" /></p:column> 
+            <p:column headerText="Major Name"><h:outputText style="color:Black;" value="#{mm.major_name}" /></p:column> 
+            <p:column width="150" headerText="Admitted Students #" styleClass="center"><h:outputText style="color:blue; font-weight: bold;" value="#{mm.students_count}" /></p:column> 
+            <p:column headerText="OU (Organizational Unit)">
+               <p:inplace emptyLabel="Not Assigned"  editor="true" label="#{mm.active_directory_ou}" event="dblclick">
+                   <p:inputText autocomplete="off" converter="trim" style="width:80%"   value="#{mm.active_directory_ou}" maxlength="400"/>    
+                   <p:ajax update="myform:majorstable,myform:messages,myform:growl" event="save" listener="#{mm.update_ou()}"/> 
+               </p:inplace>
+            </p:column> 
+            <f:facet name="footer">
+               <h:outputText value="Double Click on OU to edit..." style="color:red;"/>
+            </f:facet>     
+        </p:dataTable>
+    </p:card>    
+                
+            
+                 
+</ui:define>
+</ui:composition>

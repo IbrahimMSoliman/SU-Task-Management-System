@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    
+    <ui:param name="show_toolbar" value="false"/>
+    
+    <ui:define name="PageTitle">Logs-#{task_schedule.job_title}</ui:define>
+     
+       
+     
+    <ui:define name="content">
+        <p:card style="margin:10px;">
+                <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" rowStyleClass="odd,even" id="dataTable" style="width:100%" rowIndexVar="rowIndex" emptyMessage="No LOG Found." value="#{task_schedule.logs_list}"  var="log" rows="10" paginator="true" rowsPerPageTemplate="10,25,100,200,500,1000,{ShowAll|'All'}">
+                <p:column width="40" headerText="#" ariaHeaderText="#"><h:outputText style="#{log.status=='SUCCESS'?'color:green;':'color:red;'}" value="#{rowIndex+1}" /></p:column>
+                <p:column width="110" headerText="Start Time"><h:outputText style="#{log.status=='SUCCESS'?'color:green;':'color:red;'}" value="#{log.start_time}" /></p:column>
+                <p:column width="110" headerText="End Time"><h:outputText style="#{log.status=='SUCCESS'?'color:green;':'color:red;'}" value="#{log.end_time}" /></p:column>
+                <p:column width="110" headerText="Elapsed Time"><h:outputText style="#{log.status=='SUCCESS'?'color:green;':'color:red;'}" value="#{log.duration}" /></p:column>
+                <p:column headerText="Message"><h:outputText style="#{log.status=='SUCCESS'?'color:green;':'color:red;'}" value="#{log.message}" /></p:column>
+                <p:column width="70" headerText="Status"><h:outputText style="font-weight: bold;#{log.status=='SUCCESS'?'color:green;':'color:red;'}" value="#{log.status}" /></p:column>
+                <f:facet name="footer"><h:outputText value="Total Records: "/> <h:outputText value="#{task_schedule.logs_list.size()}"/></f:facet>
+              </p:dataTable>
+        </p:card>
+    </ui:define>
+</ui:composition>   

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Email Settings</ui:define>
+    <ui:define name="MainTitle">Email Settings</ui:define>
+    <ui:param name="page_id" value="183"/>
+    <ui:define name="content"> 
+      <p:card>
+                    <p:panel header="Email Settings">
+                    <h:panelGrid style="width:100%;" columns="2" columnClasses="column1,column2"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd">
+                    
+                    <p:outputLabel for="email_server_ip" styleClass="bold" value="Email Server IP"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="email_server_ip" value="#{email_settings.email_server_ip}" maxlength="200" />
+                    
+                    <p:outputLabel for="email_server_port" styleClass="bold" value="Email Server Port"/>
+                    <p:inputNumber decimalPlaces="0" thousandSeparator="" size="6" style="width:300px" id="email_server_port" value="#{email_settings.email_server_port}" maxlength="50" />
+                    
+                    <p:outputLabel for="email_domain" styleClass="bold" value="Email Domain"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="email_domain" value="#{email_settings.email_domain}" maxlength="100" />
+                    
+                    
+                    <p:outputLabel for="email_address" styleClass="bold" value="System Email Address"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="email_address" value="#{email_settings.email_address}" maxlength="200" />
+                    
+                    <p:outputLabel for="email_password" styleClass="bold" value="System Email Password"/>
+                    <p:inplace emptyLabel="*****" label="*****" editor="false">
+                        <p:inputText autocomplete="off" converter="trim" label="text"  style="width:300px" id="email_password" value="#{email_settings.email_password}" maxlength="100" />
+                    </p:inplace>
+                    
+                    
+                    
+                    <p:outputLabel for="admin_email" styleClass="bold" value="Admin Email Address"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="admin_email" value="#{email_settings.admin_email}" maxlength="40" />
+                     
+                     
+                    <p:outputLabel for="ard_email" styleClass="bold" value="ARD Email Address"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ard_email" value="#{email_settings.ard_email}" maxlength="200" />
+                    
+                    
+                    <p:outputLabel for="finance_email" styleClass="bold" value="Finance Email Address"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="finance_email" value="#{email_settings.finance_email}" maxlength="40" />
+                    
+                     
+                    </h:panelGrid>
+                    <f:facet name="footer">
+                        <p:commandButton action="#{email_settings.save()}" value="Save Settings" update="@form" icon="fa fa-fw fa-save"/>
+                        <p:commandButton icon="fa fa-w fa-send" value="Send Test Email" action="#{email_settings.send_email()}" update="@form"/>
+                    </f:facet>
+                    </p:panel>
+                    
+                    
+                   
+      </p:card> 
+                
+            
+                 
+</ui:define>
+</ui:composition>

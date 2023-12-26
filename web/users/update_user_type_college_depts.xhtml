@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    <ui:define name="PageTitle">Change User Type/College/Dept.</ui:define>
+    
+     
+    <ui:define name="content">
+        <p:card style="margin:5px;">
+            <h:panelGrid  columns="2" width="100%">
+                <p:outputLabel value="User College/Depts."/>
+                <p:selectOneMenu disabled="#{user_details.show_alternative_college_dep_window==false}" style="width:200px"  value="#{user_details.alternative_college_dep_id}">
+                    <f:selectItems  value="#{user_details.alternative_list}" />
+                </p:selectOneMenu>
+                  
+                <p:outputLabel value="User Type"/>
+                <p:selectOneMenu disabled="#{user_details.show_acting_admin_window==false}" style="width:200px" id="user_type" value="#{user_details.alternative_user_type}">
+                    <f:selectItem itemLabel="Administrator" itemValue="Admin"/>
+                    <f:selectItem itemLabel="Instructor" itemValue="Inst"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <div class="center_button"><p:commandButton actionListener="#{user_details.apply_alternative_user_type_college()}" update="@form" icon="fa fa-w fa-check-square-o" value="Apply and Close" /></div>
+        </p:card>
+    </ui:define>
+</ui:composition>

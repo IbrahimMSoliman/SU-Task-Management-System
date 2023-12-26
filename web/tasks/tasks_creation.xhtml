@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Tasks Creation</ui:define>
+    <ui:define name="MainTitle">Tasks Creation</ui:define>
+    <ui:param name="page_id" value="10"/>
+    <ui:define name="content">  
+        <p:card>
+             <div style="text-align: right;"> 
+                <p:commandButton  immediate="true" value="New Task" ajax="true" actionListener="#{task_creation.open_new_window()}"  icon="fa fa-w fa-plus"><p:ajax event="dialogReturn" update="@form" /> </p:commandButton>
+             </div> 
+        </p:card>
+        <p:card>
+            <f:facet name="header"><h:outputText value="List Of Tasks" /></f:facet>
+            <p:dataView var="task" value="#{task_creation.tasks_list}" rows="12" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" gridIcon="pi pi-th-large" layout="grid" gridRowStyleClass="lg:col-6 xl:col-4" flex="true">
+                <p:dataViewGridItem class="grid">
+                    
+       <div class="field mb-2 col-12 md:col-3">
+            <div style="min-width:420px;border-left: solid #{task.priority_color} 5px;" class="surface-card shadow-2 border-rounded p-4">
+                <div class="flex flex-column  border-bottom-1 surface-border pb-3">
+                    <div style="text-align: center"><p:barcode style="width: 180px;" value="#{task.barcode}" type="code39"/></div>
+                    <br/><span class="text-lg text-900 font-bold mb-2">#{task.t_title}</span>
+                    <span class="text-600 font-medium mb-3">#{task.t_description}</span>
+                    <div class="p-1" title="Creation Date"><i style="color: #00BCD4" class="fa fa-clock-o mr-2"></i><span><pe:timeAgo style="color: black" value="#{task.adding_date}"/></span></div>
+                    <div class="p-1" title="Priority Level"><i style="color: #00BCD4" class="fa fa-list-ul mr-2"></i><h:outputText style="font-weight: bold" value="#{task.t_status}"/></div>
+                    <div class="p-1" title="Assigned Department"><i style="color: #00BCD4" class="fa fa-bank mr-2"></i><h:outputText style="color: black" value="#{task.t_dep_name}"/></div>
+                    <div class="p-1" title="Priority Level"><i style="color: #00BCD4" class="fa fa-sort-numeric-asc mr-2"></i><h:outputText style="color: #{task.priority_color}" value="#{task.priority_title}"/></div>
+                <h:outputText escape="false" value="#{task.skills}"/>
+                </div>
+                
+                <p:avatar title="User Who Created The Task" style="margin-top: 2px;" styleClass="mr-2" size="large" shape="circle">
+                <p:graphicImage url="/#{task.add_user_photo_path}"/>
+                </p:avatar>
+                
+                <div style="float: right">
+                    <p:avatarGroup styleClass="mb-3">
+                        <ui:repeat value="#{task.assigned_users_list}" var="uu">
+                            <p:avatar title="#{uu.display_name}" size="large" shape="circle"><p:graphicImage url="/#{uu.photo_path}"/></p:avatar>
+                        </ui:repeat>
+            </p:avatarGroup>
+                    
+                </div>
+                
+                <div>
+                    <p:commandButton update="@form" action="#{task.edit()}" value="Edit" icon="fa fa-edit" styleClass="ui-button-flat"><p:ajax event="dialogReturn" update="@form"/></p:commandButton>
+                    <p:commandButton update="@form" action="#{task.delete()}" value="Remove" icon="fa fa-trash" styleClass="ui-button-flat ui-button-danger"><p:confirm header="Confirmation" message="Are you sure about removing this Task....?" icon="fa fa-w fa-warning"/></p:commandButton>
+                </div>
+            </div>
+        </div>
+                </p:dataViewGridItem>
+            </p:dataView>
+        </p:card>
+    </ui:define>
+  </ui:composition>  

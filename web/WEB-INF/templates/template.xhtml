@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" href="#{request.contextPath}#{tmsApplicationBean.application_favicon_path}" type="image/x-icon"></link>
+            
+        </f:facet>
+        <title><ui:insert name="PageTitle">Tasks Management System-TMS</ui:insert></title>
+        <h:outputScript name="js/layout.js" library="rain-layout" />
+        <h:outputScript name="js/prism.js" library="rain-layout"/>
+        <h:outputScript name="sections.js" library="demo" />
+        <h:outputScript name="js/common.js" library="tms" />
+  
+      
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body styleClass="#{userPreferences.inputStyleClass}">
+        <div class="layout-wrapper layout-topbar-#{userPreferences.topbarTheme} layout-menu-#{userPreferences.menuTheme} #{userPreferences.menuMode}" >
+            <ui:include src="./sessionTimeOut.xhtml" />
+            <ui:include src="./topbar.xhtml"/>
+            <ui:include src="./menu.xhtml"/>
+            
+            <ui:include src="./config.xhtml" />
+ 
+            <div class="layout-main" id="layout_main_id"> 
+                
+                <!-- Breadcrumbs -->
+                <ui:fragment rendered="#{userPreferences.show_breadcrumbs}">
+                    <div  class="layout-breadcrumb"><div class="breadcrumb"><div class="route-bar-breadcrumb">
+                        <ui:repeat var="menu" value="#{user_details.get_breadcrumbs_model(page_id)}">
+                            
+                            <ui:fragment rendered="#{menu.link!='#'}">
+                                <li ><a href="#{request.contextPath}/#{menu.link}"><i class="#{menu.icon}"/> #{menu.title}</a></li>
+                                <ui:fragment rendered="#{menu.link=='dashboard.xhtml'}"><li><i class="pi pi-chevron-right"></i></li></ui:fragment> 
+                            </ui:fragment>
+                            
+                            <ui:fragment rendered="#{menu.link=='#'}">
+                                <li><i class="#{menu.icon}"/> #{menu.title}</li>
+                                <li><i class="pi pi-chevron-right"></i></li>
+                            </ui:fragment>
+                        </ui:repeat> 
+                    </div></div></div>
+                </ui:fragment>
+                
+                <div class="inner-page-title"><ui:insert name="MainTitle">Tasks Management System-TMS</ui:insert></div>
+                
+                <div  class="layout-content">
+                    <h:form id="myform"> 
+                        <p:messages escape="false" id="messages" showDetail="true" showSummary="false" closable="false" />
+                        <p:growl id="growl" showDetail="true" showSummary="false" sticky="false" escape="false"/> 
+                        <div class="p-grid table-demo">
+                            <div class="p-col-12">    
+                                <ui:insert name="content"></ui:insert>
+                            </div>
+                        </div>    
+                    </h:form>
+                </div>
+                <ui:include src="./footer.xhtml"/>
+            </div>
+         
+            <!--ajaxStatus--> 
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" style="position:fixed;right:50%;bottom:50%" >
+                <f:facet name="start">
+                    <p:graphicImage library="tms" width="70" height="70" name="images/loading.gif" />
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+            </p:ajaxStatus> 
+            <p:dialog styleClass="custom-header" style="opacity: 0 !important;" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+            <div class="layout-mask modal-in"></div>
+        </div>
+        <h:outputStylesheet name="css/primeicons.css" library="rain-layout" />
+        <h:outputStylesheet name="css/primeflex3.3.1.css" library="primeflex" />
+        <h:outputStylesheet name="css/#{userPreferences.layout}.css" library="rain-layout" />
+        <h:outputStylesheet name="css/demo-#{userPreferences.darkMode}.css" library="demo" />
+        <h:outputStylesheet name="css/attendance.css" library="tms" />
+        <h:outputStylesheet name="css/overrideCSS.css" library="tms" />
+        <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/all.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+        
+        <p:confirmDialog style="max-width: 400px;"  closeOnEscape="true" closable="false" global="true" showEffect="fade" hideEffect="explode">
+            <div class=" border-top-1 surface-border pt-3 flex">
+                <p:commandButton type="button" value="Yes" icon="pi pi-check"   styleClass="ui-confirmdialog-yes w-6 ml-2"/>
+                <p:commandButton type="button" value="Cancel" icon="pi pi-times" styleClass="ui-confirmdialog-no ui-button-outlined w-6 mr-2"/>
+            </div>
+        </p:confirmDialog>
+     
+        <p:scrollTop target="window" threshold="100" styleClass="custom-scrolltop" icon="pi pi-arrow-up" />   
+    </h:body>
+
+</html>

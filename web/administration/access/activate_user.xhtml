@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    
+    <ui:define name="PageTitle">User Activation</ui:define>
+    
+    
+    <ui:define name="content">
+    <p:card style="margin: 10px;">
+        <h:panelGrid style="width:600px" columns="4"   cellpadding="5" id="data"  width="100%" border="0" cellspacing="5" rowClasses="even,odd">
+            <p:outputLabel styleClass="bold" value="First Name"/><h:outputText  id="first_name" value="#{users_activation.first_name}"/>
+            <p:outputLabel styleClass="bold" value="Last Name"/><h:outputText   value="#{users_activation.last_name}" />
+            <p:outputLabel styleClass="bold" value="User Title"/><h:outputText   value="#{users_activation.title}" />
+            <p:outputLabel styleClass="bold" value="User Code"/><h:outputText   value="#{users_activation.user_code}" />
+            <p:outputLabel styleClass="bold" value="User Type"/><h:outputText   value="#{users_activation.user_type}" />
+            <p:outputLabel styleClass="bold" value="College/Dept."/> <h:outputText   value="#{users_activation.clg_dep_name}" />
+            <p:outputLabel styleClass="bold" value="Working Mode"/><h:outputText   value="#{users_activation.work_mode}" />
+            <p:outputLabel styleClass="bold" value="Nationality"/><h:outputText   value="#{users_activation.nationality}" />
+            <p:outputLabel styleClass="bold" value="Mobile"/><h:outputText   value="#{users_activation.mobile}" />
+                    
+            <p:outputLabel styleClass="bold" value="Inactive Period"/><h:outputText   value="#{users_activation.inactive_period}" />
+            <p:outputLabel styleClass="bold" value="Deactive.Date"/><h:outputText   value="#{users_activation.deactive_date}" />
+            <p:outputLabel styleClass="bold" style="width:84px;" value="Notes"/><h:outputText   value="#{users_activation.user_notes}" />
+
+
+            <p:outputLabel for="username" styleClass="bold" value="AD.Username"/><p:inputText autocomplete="off" converter="trim" id="username" onkeypress="return event.keyCode != 13" value="#{users_activation.username}" maxlength="40" size="20" ><p:ajax listener="#{users_activation.update_email}" event="keyup"  update="email" global="false" /></p:inputText>
+            <p:outputLabel for="email" styleClass="bold" style="width:84px;"  value="Email"/>
+            <p:inputText autocomplete="off" converter="trim" size="20" maxlength="40"  id="email" required="false"  value="#{users_activation.email}" validatorMessage="Email is not valid........." >
+               <f:validateRegex rendered="#{not empty users_activation.email}"  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+            </p:inputText>
+        </h:panelGrid>
+        <div class="center_button"><p:commandButton actionListener="#{users_activation.update_status()}" update="@form" icon="fa fa-w fa-save" value="Save" /></div>
+    </p:card>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+ 
+                 
+               
+                

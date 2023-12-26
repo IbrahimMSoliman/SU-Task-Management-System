@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    
+ <ui:composition>
+    <ui:fragment rendered="#{rendered}">
+        <ui:fragment rendered="#{empty showLoadButton or showLoadButton==false}">
+            <style>
+                .tui-image-editor-header-buttons{visibility: hidden !important}
+            </style>    
+        </ui:fragment>
+        <p:remoteCommand process="@this" name="remoteFunctionForUpdate"  actionListener="#{model.updateImageContents}">
+        </p:remoteCommand>    
+        <div style="height: 100% !important;margin: 0;min-height: 600px !important;" id="tui-image-editor-container"></div>
+        
+        <h:outputStylesheet name="css/image_editor/tui-image-editor.css" library="tms" />
+        <h:outputStylesheet name="css/image_editor/tui-color-picker.css" library="tms" />
+
+        <h:outputScript name="js/image_editor/fabric.js" library="tms"/>
+        <h:outputScript name="js/image_editor/tui-code-snippet.min.js" library="tms" />
+        <h:outputScript name="js/image_editor/tui-color-picker.js" library="tms" />
+        <h:outputScript name="js/image_editor/FileSaver.min.js" library="tms" />   
+        <h:outputScript name="js/image_editor/tui-image-editor.js?ver=90" library="tms" />
+        <h:outputScript name="js/image_editor/theme/white-theme.js" library="tms" />
+        <h:outputScript name="js/image_editor/theme/black-theme.js" library="tms" />
+        <script>
+        // Image editor
+        var imageEditor = new tui.ImageEditor('#tui-image-editor-container', {
+            includeUI: {
+            loadImage: {
+            path: '#{model.imageBase64}',
+            name: 'SISImage',
+            },
+            theme:whiteTheme , // or blackTheme
+            initMenu: 'crop',
+            menuBarPosition: 'bottom',
+            },
+        cssMaxWidth: 600,
+        cssMaxHeight: 300,
+        usageStatistics: false,
+        });
+        window.onresize = function () {
+        imageEditor.ui.resizeEditor();
+        };
+        
+        </script>   
+    </ui:fragment>
+ </ui:composition>
+</html>    

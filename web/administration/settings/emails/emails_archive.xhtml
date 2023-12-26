@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml" 
+                xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis">
+    <ui:define name="PageTitle">Emails Archive</ui:define>
+    <ui:define name="MainTitle">Emails Archive</ui:define>
+    <ui:param name="page_id" value="185"/>
+    <ui:define name="content"> 
+        
+        <p:dialog styleClass="custom-header" modal="true" width="400" id="dialog" dynamic="true" header="Message Body" widgetVar="dialog">
+            <h:outputText  escape="false" value="#{emails_archive.main_message_body}"/>
+            <br/>
+            <h:outputText rendered="#{not empty emails_archive.main_error_message}" escape="false" style="color:red;font-weight: bold;" value="Error Message"/>
+            <br/>
+            <h:outputText rendered="#{not empty emails_archive.main_error_message}" escape="false" style="color:red;" value="#{emails_archive.main_error_message}"/>
+        </p:dialog>
+        
+        <p:card>
+                <p:panel id="search_panel" style="width:400px !important;" styleClass="center_panel">
+                <f:facet name="header"><i class="fa fa-w fa-search"/><h:outputText value="Search"/><div style="float: right;"></div></f:facet>
+                <p:focus context="search_panel"/>
+                <h:panelGrid columns="2"  width="100%" border="0">
+                    
+                    <p:outputLabel styleClass="bold" value="Email Send Status" for="@next"/> 
+                    <p:selectOneMenu style="width:200px"  id="student_status" value="#{emails_archive.email_status}" > 
+                        <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                        <f:selectItems value="#{emails_archive.email_status_list}"/>
+                    </p:selectOneMenu>
+                       
+                    <p:outputLabel styleClass="bold" for="@next" value="From User Account"/>
+                    <p:selectCheckboxMenu filter="true" filterMatchMode="contains" style="width:200px"  id="reg_academic_semester_id" value="#{emails_archive.from_user}"> 
+                        <f:selectItems value="#{emails_archive.from_users_list}"/>
+                    </p:selectCheckboxMenu>
+                    
+                    
+                    <p:outputLabel styleClass="bold" for="@next" value="To Users"/>
+                    <p:selectCheckboxMenu filter="true" filterMatchMode="contains" style="width:200px"  id="graduation_academic_semester_id" value="#{emails_archive.to_user}"> 
+                        <f:selectItems value="#{emails_archive.to_users_list}"/>
+                    </p:selectCheckboxMenu>
+                    
+                    <p:outputLabel styleClass="bold" value="Email Date"/>
+                       <h:panelGrid columns="3" style="border:none !important" >
+                           <p:calendar autocomplete="off"  navigator="true" style="width:80px;" size="7" value="#{emails_archive.send_from_date}" pattern="dd/MM/yyyy" />
+                           <p:outputLabel value=":"/>
+                           <p:calendar autocomplete="off"  navigator="true" style="width:80px;" size="7" value="#{emails_archive.send_to_date}" pattern="dd/MM/yyyy" />
+                       </h:panelGrid>
+                        
+                        
+                </h:panelGrid>
+            </p:panel>
+     
+  
+          <div class="center_button">
+                <p:commandButton update="@form"  ajax="true"   value="Search" id="search" actionListener="#{emails_archive.Search()}" icon="fa fa-w fa-search" />
+                <p:commandButton immediate="false"  ajax="false"  value="Reset Search" id="resetsearch" actionListener="#{emails_archive.reset_search()}"/>
+          </div>
+      </p:card>
+      
+        <p:card>
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No data found." rowIndexVar="rowIndex"  id="dataTable" var="mail" value="#{emails_archive.emails_list}" rows="500" paginator="true" rowsPerPageTemplate="500,1000,2000,{ShowAll|'All'}">
+                <p:ajax event="filter" global="false" /> 
+                <f:facet name="header"><div class="customers-table-header">List Of Emails<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{emails_archive.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>
+          
+                <p:column width="40" headerText="#"><h:outputText value="#{rowIndex+1}" /></p:column>
+                <p:column filterBy="#{mail.send_user_account}" width="150" sortBy="#{mail.send_user_account}" headerText="From User Account" ><h:outputText style="font-weight: bold;#{mail.send_user_account=='SIS System'?'color:blue;':''}" value="#{mail.send_user_account}"/></p:column>
+                <p:column width="80" headerText="Status" sortBy="#{mail.send_status}" ><h:outputText style="#{mail.send_status=='SENT'?'color:green;':'color:red;'}font-weight: bold;" value="#{mail.send_status}" /></p:column>
+                <p:column filterBy="#{mail.send_date}" width="120" headerText="Email Date" ><h:outputText title="Send Date:#{mail.send_date}" value="#{mail.adding_date}" /></p:column>
+                <p:column  filterBy="#{mail.subject}" width="250" headerText="Email Subject"><h:outputText value="#{mail.subject}"/></p:column>
+                <p:column  filterBy="#{mail.to_emails}"  headerText="To Emails" style="text-overflow: ellipsis; white-space: nowrap;"><h:outputText title="#{mail.to_emails}" value="#{mail.to_emails}" /></p:column>
+                <p:column  filterBy="#{mail.cc_emails}" width="250" headerText="CC Emails" style="text-overflow: ellipsis; white-space: nowrap;"><h:outputText title="#{mail.cc_emails}" value="#{mail.cc_emails}" /></p:column>
+                
+                
+                <p:column filterBy="#{mail.send_attempts}" width="100" headerText="Attempts#" sortBy="#{mail.send_attempts}" style="text-align: center" ><h:outputText title="Send Attempts" style="color:blue;font-weight: bold;" value="#{mail.send_attempts}" /></p:column>
+                
+                <p:column width="60" headerText="Option"><p:commandButton update="myform:dialog" icon="fa fa-w fa-comment" title="Show Message Body" action="#{mail.show_message_body()}" oncomplete="PF('dialog').show()" /></p:column>
+                <f:facet name="footer">
+                   <h:outputText value="Total Records: "/> <h:outputText value="#{emails_archive.emails_list.size()}"/>                    
+                   <div class="center_button"><p:commandButton disabled="#{empty emails_archive.emails_list}" update="@form" value="Change Email Status As SENT" action="#{emails_archive.change_to_sent_status()}" ><p:confirm escape="false" header="Confirmation" message="Are you sure about changing the status to SENT?" icon="fa fa-w fa-warning" /> </p:commandButton> </div>
+                </f:facet>
+                
+            
+            
+            </p:dataTable>
+        </p:card>
+            
+            </ui:define>
+          </ui:composition>  

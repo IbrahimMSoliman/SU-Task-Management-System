@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/window_template.xhtml">
+    <ui:define name="PageTitle">Add/Edit Priority</ui:define>
+    <ui:define name="content">
+        <div class="surface-card p-2 shadow-2 border-round ui-fluid">
+            <div class="grid formgrid ui-fluid">
+                <div class="field mb-2 col-12 md:col-6">
+                    <p:outputLabel for="@next" styleClass="bold" value="Priority Title"/>
+                    <p:inputText autocomplete="off" converter="trim" value="#{tasks_priorities.priority_title}" required="true" maxlength="100" requiredMessage="Please enter Priority title....." />
+                </div>      
+                <div class="field mb-2 col-12 md:col-6">
+                    <p:outputLabel for="@next" styleClass="bold" value="Short Name"/>
+                    <p:inputText autocomplete="off" converter="trim" value="#{tasks_priorities.priority_short_name}" style="text-transform: uppercase" required="true" maxlength="5" requiredMessage="Please enter the short name....." />
+                </div> 
+                
+                <div class="field mb-2 col-12 md:col-6">
+                    <p:outputLabel for="@next" styleClass="bold" value="Priority Color"/>
+                    <p:colorPicker id="dark" converter="trim" required="true" requiredMessage="Kindly select the skill color..." value="#{tasks_priorities.priority_color}" theme="pill" themeMode="dark" clearButton="true" closeButton="true"   formatToggle="true" swatches="#067bc2, #84bcda, #80e377,  #ecc30b, #f37748, #d56062"/>
+                </div> 
+                
+                <div class="field mb-2 col-12 md:col-6">
+                    <p:outputLabel for="@next" styleClass="bold" value="Priority Level"/>
+                    <p:selectOneMenu required="true" requiredMessage="Select the Priority level" value="#{tasks_priorities.priority_level}">
+                        <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                        <f:selectItem itemValue="1" itemLabel="1"/>
+                        <f:selectItem itemValue="2" itemLabel="2"/>
+                        <f:selectItem itemValue="3" itemLabel="3"/>
+                        <f:selectItem itemValue="4" itemLabel="4"/>
+                        <f:selectItem itemValue="5" itemLabel="5"/>
+                        <f:selectItem itemValue="6" itemLabel="6"/>
+                        <f:selectItem itemValue="7" itemLabel="7"/>
+                        <f:selectItem itemValue="8" itemLabel="8"/>
+                        <f:selectItem itemValue="9" itemLabel="9"/>
+                    </p:selectOneMenu>
+                    <div style="color:red;">Low level number means High Priority</div>
+                </div> 
+                
+                
+                <div class="field mb-2 col-12 md:col-6">
+                  <p:outputLabel for="@next" styleClass="bold" value="Description"/>
+                  <p:inputTextarea converter="trim" value="#{tasks_priorities.priority_description}" maxlength="1000" />
+                </div>
+                <div class="field mb-2 col-12 md:col-6">
+                  <p:outputLabel for="@next" styleClass="bold" value="Notes"/>
+                  <p:inputTextarea converter="trim" value="#{tasks_priorities.priority_notes}" maxlength="1000" />
+                </div>   
+                <div class="surface-border border-top-1 opacity-50 mb-4 col-12"></div>
+            </div>
+            
+            <p:commandButton styleClass="w-auto" actionListener="#{tasks_priorities.save()}" update="@form" rendered="#{tasks_priorities.process_type=='new'}" icon="fa fa-w fa-plus" value="Add" />
+            <p:commandButton styleClass="w-auto" actionListener="#{tasks_priorities.save()}" update="@form" rendered="#{tasks_priorities.process_type!='new'}" icon="fa fa-w fa-save" value="Save" />
+        </div>
+    </ui:define>
+</ui:composition>
+
+
+ 
+                 
+             

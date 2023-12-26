@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+ <ui:composition>
+      <!--Normal Grades/scores--> 
+      <p:fragment rendered="#{model.there_is_sub_distribution==false}">
+      <div class="card" style="padding: 1px !important">
+          <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" tableStyleClass="grade_sheet_table" id="grades_table" value="null" >
+              
+              <f:facet name="header"><div style="text-align: left;"><h:outputText style="font-weight: bold;font-size: 13px" value="#{model.course_title}"/></div></f:facet>
+                  <p:columnGroup type="header">
+                        <p:row>
+                            <p:column width="130"  headerText="#{model.score_title1} of #{model.max_classwork}" />
+                            <p:column width="130" headerText="#{model.score_title2} of #{model.max_midterm}" />
+                            <p:column width="130" headerText="#{model.score_title3} of #{model.max_final}" />
+                            <p:column width="50" headerText="Total" />
+                            <p:column width="50" headerText="Points" />
+                            <p:column width="50" headerText="Grade" />
+                        </p:row>
+                  </p:columnGroup>
+                
+               
+              <p:column style="text-align:center;"><h:outputText rendered="#{not empty model.classwork_score}" value="#{model.classwork_score}"  style="font-weight: bold;color:Blue;"/> <h:outputText rendered="#{empty model.classwork_score}" value="-"  style="font-weight: bold;color:red;font-size: 20px;"/> </p:column>
+                 <p:column style="text-align:center;"><h:outputText rendered="#{not empty model.midterm_score and model.midterm_score!=-1}" value="#{model.midterm_score}" style="font-weight: bold;color:Blue;"/><h:outputText rendered="#{not empty model.midterm_score and model.midterm_score==-1}" value="Absent" style="font-weight: bold;color:red;"/><h:outputText rendered="#{empty model.midterm_score}" value="-"  style="font-weight: bold;color:red;font-size: 20px;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText rendered="#{model.is_final_saved and not empty model.final_score and model.final_score!=-1}" value="#{model.final_score}" style="font-weight: bold;color:Blue;"/><h:outputText rendered="#{model.is_final_saved and not empty model.final_score and model.final_score==-1}" value="Absent" style="font-weight: bold;color:red;"/><h:outputText rendered="#{empty model.final_score or model.is_final_saved==false}" value="-"  style="font-weight: bold;color:red;font-size: 20px;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText rendered="#{model.grand_total!=-1}" value="#{model.grand_total}" style="font-weight: bold;color:Blue;"/> <h:outputText rendered="#{model.grand_total==-1}" value="-" style="font-weight: bold;color:red;font-size: 20px;"/> </p:column>
+                 <p:column style="text-align:center;"><h:outputText rendered="#{model.grade!='IP' and model.grade!='I'}" value="#{model.points}" style="font-weight: bold;#{model.grade=='W' or model.grade=='F' or model.grade=='FA' or model.grade=='NP'?'color:red;':'color:blue;'};text-align:center;"/><h:outputText rendered="#{model.grade=='IP' or model.grade=='I'}" value="-" style="font-weight: bold;color:red;font-size: 20px;"/></p:column>
+                 <p:column style="text-align:center;"><h:outputText value="#{model.grade}" style="font-weight: bold;#{model.grade=='W' or model.grade=='F' or model.grade=='FA' or model.grade=='NP'?'color:red;':'color:blue;'};text-align:center;"/></p:column>
+               </p:dataTable>
+          </div>   
+      </p:fragment>
+      
+      
+      
+      <p:fragment rendered="#{model.there_is_sub_distribution}">
+       <div class="card" style="padding: 1px !important">       
+              <!--Sub-distribution-->
+               <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" tableStyleClass="grade_sheet_table" id="dataTable2" rowIndexVar="rowIndex" var="app" value="null">
+                    <f:facet name="header"><div style="text-align: left;"><h:outputText style="font-weight: bold;font-size: 13px" value="#{model.course_title}"/></div></f:facet>
+             
+                   <p:columnGroup type="header">
+                        <p:row>
+                            
+                            <p:column width="250" colspan="#{model.sub_distribution_header.classwork_columns_count}"  headerText="#{model.sub_distribution_header.main_title1}(#{model.sub_distribution_header.max_score1})" style="text-align:center;"/> 
+                            <p:column width="250"  colspan="#{model.sub_distribution_header.midterm_columns_count}"  headerText="#{model.sub_distribution_header.main_title2}(#{model.sub_distribution_header.max_score2})" style="text-align:center;"/> 
+                            <p:column width="250"  colspan="#{model.sub_distribution_header.final_exam_columns_count}"  headerText="#{model.sub_distribution_header.main_title3}(#{model.sub_distribution_header.max_score3})" style="text-align:center;"/> 
+                        
+                            <p:column colspan="#{model.sub_distribution_header.grand_total_columns_count+1}" width="200" headerText="Total" style="text-align:center;"/>
+                            <p:column rowspan="2" width="40" headerText="G.D."/>
+                            <p:column rowspan="2" width="40" headerText="Pnts"/>
+                        </p:row>
+                        <p:row>
+                            <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=1}" headerText="#{model.sub_distribution_header.classwork1_title}(#{model.sub_distribution_header.classwork1_max_score})"  style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=2}" headerText="#{model.sub_distribution_header.classwork2_title}(#{model.sub_distribution_header.classwork2_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=3}" headerText="#{model.sub_distribution_header.classwork3_title}(#{model.sub_distribution_header.classwork3_max_score})" style="text-align:center;"/> 
+                            
+                            <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=1}" headerText="#{model.sub_distribution_header.midterm1_title}(#{model.sub_distribution_header.midterm1_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=2}" headerText="#{model.sub_distribution_header.midterm2_title}(#{model.sub_distribution_header.midterm2_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=3}" headerText="#{model.sub_distribution_header.midterm3_title}(#{model.sub_distribution_header.midterm3_max_score})" style="text-align:center;"/> 
+                            
+                            
+                            <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=1}" headerText="#{model.sub_distribution_header.final_exam1_title}(#{model.sub_distribution_header.final_exam1_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=2}" headerText="#{model.sub_distribution_header.final_exam2_title}(#{model.sub_distribution_header.final_exam2_max_score})" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=3}" headerText="#{model.sub_distribution_header.final_exam3_title}(#{model.sub_distribution_header.final_exam3_max_score})" style="text-align:center;"/> 
+                            
+                            <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=1}" headerText="#{model.sub_distribution_header.grand_total_1_title}"  style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=2}" headerText="#{model.sub_distribution_header.grand_total_2_title}" style="text-align:center;"/> 
+                            <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=3}" headerText="#{model.sub_distribution_header.grand_total_3_title}" style="text-align:center;"/> 
+                            <p:column headerText="Grand" style="text-align:center;"/> 
+                            
+                            
+                        </p:row>
+                    </p:columnGroup>
+                    
+                    
+                    
+                    
+                    <!--Classwork1-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=1}" style="text-align:center;"><h:outputText value="#{model.classwork1_score}" style="font-weight: bold;color:Black;"/></p:column>
+                     <!--Classwork2-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=2}" style="text-align:center;"><h:outputText value="#{model.classwork2_score}" style="font-weight: bold;color:Black;"/></p:column>
+                     <!--Classwork3-->
+                     <p:column rendered="#{model.sub_distribution_header.classwork_columns_count>=3}" style="text-align:center;"><h:outputText value="#{model.classwork3_score}" style="font-weight: bold;color:Black;"/></p:column>
+                            
+                     <!--Midterm1-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=1}" style="text-align:center;">
+                        <h:panelGroup>
+                           <h:outputText rendered="#{model.midterm1_score!=-1}" value="#{model.midterm1_score}" style="font-weight: bold;color:Black;"/>
+                           <h:outputText styleClass="absent" rendered="#{model.midterm1_score==-1}" value="ABSENT"/>
+                        </h:panelGroup>
+                     </p:column>
+                     <!--Midterm2-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=2}" style="text-align:center;">
+                        <h:panelGroup>
+                                <h:outputText rendered="#{model.midterm2_score!=-1}" value="#{model.midterm2_score}" style="font-weight: bold;color:Black;"/>
+                                <h:outputText styleClass="absent" rendered="#{model.midterm2_score==-1}" value="ABSENT"/>
+                        </h:panelGroup>
+                     </p:column>
+                     <!--Midterm3-->
+                     <p:column rendered="#{model.sub_distribution_header.midterm_columns_count>=3}" style="text-align:center;">
+                        <h:panelGroup>
+                                <h:outputText rendered="#{model.midterm3_score!=-1}" value="#{model.midterm3_score}" style="font-weight: bold;color:Black;"/>
+                                <h:outputText styleClass="absent" rendered="#{model.midterm3_score==-1}" value="ABSENT"/>
+                        </h:panelGroup>
+                     </p:column>
+                     
+                     <!--Final Exam1-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=1}" style="text-align:center;">
+                           <h:panelGroup>
+                              <h:outputText rendered="#{model.is_final_saved and model.final_exam1_score!=-1}" value="#{model.final_exam1_score}" style="font-weight: bold;color:Black;"/>
+                              <h:outputText styleClass="absent" rendered="#{model.is_final_saved and model.final_exam1_score==-1}" value="ABSENT"/>
+                              <h:outputText rendered="#{model.is_final_saved==false}" value="-"  style="font-weight: bold;color:red;font-size: 20px;"/>
+                            </h:panelGroup> 
+                     </p:column>
+                     
+                     <!--Final Exam2-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=2}" style="text-align:center;">
+                         <h:panelGroup >
+                              <h:outputText rendered="#{model.is_final_saved and model.final_exam2_score!=-1}" value="#{model.final_exam2_score}" style="font-weight: bold;color:Black;"/>
+                              <h:outputText styleClass="absent" rendered="#{model.is_final_saved and model.final_exam2_score==-1}" value="ABSENT"/>
+                              <h:outputText rendered="#{model.is_final_saved==false}" value="-"  style="font-weight: bold;color:red;font-size: 20px;"/>
+                           </h:panelGroup>  
+                     </p:column>
+                     
+                     <!--Final Exam3-->
+                     <p:column rendered="#{model.sub_distribution_header.final_exam_columns_count>=3}" style="text-align:center;">
+                         <h:panelGroup >
+                              <h:outputText rendered="#{model.is_final_saved and model.final_exam3_score!=-1}" value="#{model.final_exam3_score}" style="font-weight: bold;color:Black;"/>
+                              <h:outputText styleClass="absent" rendered="#{model.is_final_saved and model.final_exam3_score==-1}" value="ABSENT"/>
+                              <h:outputText rendered="#{model.is_final_saved==false}" value="-"  style="font-weight: bold;color:red;font-size: 20px;"/>
+                         </h:panelGroup>  
+                     </p:column>
+                      
+                     <!--Total(1)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=1}" style="text-align:center"><h:outputText rendered="#{model.is_final_saved}" title="Min Score=#{model.sub_distribution_header.min_total_1}" value="#{model.total_1}" style="font-weight: bold;#{model.sub_distribution_header.min_total_1>model.total_1?'color:red;':'color:green;'}"/></p:column>
+                     <!--Total(2)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=2}" style="text-align:center"><h:outputText rendered="#{model.is_final_saved}" title="Min Score=#{model.sub_distribution_header.min_total_2}" value="#{model.total_2}" style="font-weight: bold;#{model.sub_distribution_header.min_total_2>model.total_2?'color:red;':'color:green;'}"/></p:column>
+                     <!--Total(3)-->
+                     <p:column rendered="#{model.sub_distribution_header.grand_total_columns_count>=3}" style="text-align:center"><h:outputText rendered="#{model.is_final_saved}" title="Min Score=#{model.sub_distribution_header.min_total_3}" value="#{model.total_3}" style="font-weight: bold;#{model.sub_distribution_header.min_total_3>model.total_3?'color:red;':'color:green;'}"/></p:column>
+                     <!--Grand Total-->
+                     <p:column style="text-align:center;" ><h:outputText rendered="#{model.is_final_saved and model.grand_total!=-1}" style="font-weight: bold;#{model.grade=='W' or model.grade=='F' or model.grade=='FA' or model.grade=='NP'?'color:red;':'color:blue;'}" value="#{model.grand_total}"/></p:column>
+                     <!--Grade-->
+                     <p:column style="text-align:center;"><h:outputText style="font-weight: bold;#{model.grade=='W' or model.grade=='F' or model.grade=='FA' or model.grade=='NP'?'color:red;':'color:blue;'};text-align:center;" value="#{model.grade}"/></p:column>
+                     <!--Points-->
+                     <p:column style="text-align:center;"><h:outputText  style="font-weight: bold;#{model.grade=='W' or model.grade=='F' or model.grade=='FA' or model.grade=='NP'?'color:red;':'color:blue;'};text-align:center;" value="#{model.points}"/></p:column>
+               </p:dataTable>
+              
+       </div>       
+      </p:fragment>
+      
+        
+       
+ </ui:composition>    
+  
+</html>

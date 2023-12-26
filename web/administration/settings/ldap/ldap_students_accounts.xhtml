@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml" 
+                xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis">
+    <ui:define name="PageTitle">LDAP Students' Accounts</ui:define>
+    <ui:define name="MainTitle">LDAP Students' Accounts</ui:define>
+    <ui:param name="page_id" value="372"/>
+    <ui:define name="content">   
+        <p:card>
+                <p:panel id="search_panel" style="width:400px !important;" styleClass="center_panel">
+                <f:facet name="header"><i class="fa fa-w fa-search"/><h:outputText value="Search"/><div style="float: right;"><sis:advancedSearch model="#{ldap_sdts_accounts.advanced_search}" show_student_id="true" /></div></f:facet>
+                <p:focus context="search_panel"/>
+                <h:panelGrid columns="2"  width="100%" border="0">
+                    
+                    <p:outputLabel styleClass="bold" value="Student Status" for="student_status"/> 
+                    <p:selectCheckboxMenu style="width:200px"  id="student_status" value="#{ldap_sdts_accounts.student_status}" label="Student Academic Status" > 
+                        <f:selectItems value="#{ldap_sdts_accounts.student_status_list}"/>
+                    </p:selectCheckboxMenu>
+                       
+                    <p:outputLabel styleClass="bold" for="reg_academic_semester_id" value="Registered In"/>
+                    <p:selectCheckboxMenu style="width:200px"  id="reg_academic_semester_id" value="#{ldap_sdts_accounts.reg_academic_semester_id}" label="Registration Academic Semesters" > 
+                        <f:selectItems value="#{ldap_sdts_accounts.reg_academic_semesters_list}"/>
+                    </p:selectCheckboxMenu>
+                    
+                    
+                    <p:outputLabel styleClass="bold" for="graduation_academic_semester_id" value="Graduated In"/>
+                    <p:selectCheckboxMenu style="width:200px"  id="graduation_academic_semester_id" value="#{ldap_sdts_accounts.graduation_academic_semester_id}" label="Graduation Academic Semesters" > 
+                        <f:selectItems value="#{ldap_sdts_accounts.graduation_academic_semesters_list}"/>
+                    </p:selectCheckboxMenu>
+                        
+                         
+                    <p:outputLabel styleClass="bold" for="placement_academic_semester_id" value="Enrolled In Placement In"/>
+                    <p:selectCheckboxMenu style="width:200px"  id="placement_academic_semester_id" value="#{ldap_sdts_accounts.placement_academic_semester_id}" label="Placement Exams' Academic Semesters" > 
+                        <f:selectItems value="#{ldap_sdts_accounts.placement_academic_semesters_list}"/>
+                    </p:selectCheckboxMenu>
+                        
+                    <p:outputLabel styleClass="bold" for="cat_academic_semester_id" value="Enrolled In C.A.T. In"/>
+                    <p:selectCheckboxMenu style="width:200px"  id="cat_academic_semester_id" value="#{ldap_sdts_accounts.cat_academic_semester_id}" label="C.A.T. Exams' Academic Semesters" > 
+                        <f:selectItems value="#{ldap_sdts_accounts.cat_academic_semesters_list}"/>
+                    </p:selectCheckboxMenu> 
+                    
+                    <p:outputLabel styleClass="bold" for="ldap_account_status" value="LDAP Account Status"/>
+                    <p:selectOneMenu style="width:200px"  id="ldap_account_status" value="#{ldap_sdts_accounts.ldap_account_status}" label="Acount Status" > 
+                        <f:selectItem itemLabel="All (Exist/Not Exist Account)" itemValue="#{null}" />
+                        <f:selectItem itemLabel="Existing LDAP Account)" itemValue="1" />
+                        <f:selectItem itemLabel="Missing LDAP Account" itemValue="0" />
+                    </p:selectOneMenu>   
+                        
+                        
+                </h:panelGrid>
+            </p:panel>
+     
+  
+          <div class="center_button">
+                <p:commandButton update="@form"  ajax="true"   value="Search" id="search" actionListener="#{ldap_sdts_accounts.Search()}" icon="fa fa-w fa-search" />
+                <p:commandButton immediate="false"  ajax="false"  value="Reset Search" id="resetsearch" actionListener="#{ldap_sdts_accounts.reset_search()}"/>
+          </div>
+        </p:card>   
+            
+        <p:card>
+           
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" disabledSelection="#{app.enable_selection==false}" selection="#{ldap_sdts_accounts.selected_students_list}" rowKey="#{app.app_id}" emptyMessage="No data found." rowIndexVar="rowIndex"  id="dataTable" var="app" widgetVar="table" value="#{ldap_sdts_accounts.students_list}" rows="500" paginator="true" rowsPerPageTemplate="500,1000,{ShowAll|'All'}">
+                <f:facet name="header"><div class="customers-table-header">List of Students<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{ldap_sdts_accounts.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>
+                <p:ajax event="rowSelect" update="create_acount_btn,remove_acount_btn" global="false"/>
+                <p:ajax event="rowUnselect" update="create_acount_btn,remove_acount_btn" global="false"/>
+                <p:ajax event="toggleSelect" update="create_acount_btn,remove_acount_btn" global="false"/>
+                
+                <p:ajax event="rowSelectCheckbox" update="create_acount_btn,remove_acount_btn" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="create_acount_btn,remove_acount_btn" global="false"/>
+                
+                <p:column width="40" ariaHeaderText="#" headerText="#"><h:outputText value="#{rowIndex+1}" /></p:column>
+                <p:column  selectionMode="multiple" style="width:40px;text-align:center"/>
+                <p:column filterBy="#{app.student_id}" width="80" sortBy="#{app.student_id}" headerText="Std.ID" ><sis:std_popup_window app_id="#{app.app_id}" student_id="#{app.student_id}" />  </p:column>
+                <p:column filterBy="#{app.civil_id}" width="90" sortBy="#{app.civil_id}" headerText="Civil ID" ><h:outputText style="color:Black;font-weight: bold" value="#{app.civil_id}" /></p:column>
+                
+                <p:column filterBy="#{app.en_name}" sortBy="#{app.en_name}" headerText="Student Name"  ><h:outputText style="color:Black;" value="#{app.en_name}" /></p:column>
+                <p:column filterBy="#{app.degree}" width="80" sortBy="#{app.degree}"  headerText="Degree"  ><h:outputText style="color:Black;" value="#{app.degree}" /></p:column>
+                <p:column filterBy="#{app.major_short_name}" width="80" headerText="Major" sortBy="#{app.major_short_name}" ><h:outputText style="color:Black;" value="#{app.major_short_name}" /></p:column>
+                <p:column filterBy="#{app.sponsor_name}" width="100" headerText="Sponsor" sortBy="#{app.sponsor_name}" ><h:outputText style="color:Black;" value="#{app.sponsor_name}" /></p:column>
+                <p:column filterBy="#{app.academic_status}" width="180" headerText="Student Status" sortBy="#{app.academic_status}" ><h:outputText style="font-weight: bold; #{app.academic_status=='Cancelled' or app.academic_status=='Dismissed' or app.academic_status=='Expired Admission' or app.academic_status=='Graduated-Cancelled' or app.academic_status=='Withdrawn'?'color:red;':app.academic_status=='Graduated'?'color:green;':'color:black;'}" value="#{app.academic_status}" /></p:column>
+                
+                
+                <p:column filterBy="#{app.studentDN}" width="200" headerText="LDAP DN" sortBy="#{app.studentDN}" ><h:outputText title="#{app.studentDN}" style="color:Black;" value="#{app.studentDN}" /></p:column>
+                
+                <p:column width="80" headerText="Exist?" sortBy="#{app.is_account_exist}" style="text-align: center;" ><p:outputPanel rendered="#{app.is_account_exist}"><i style="color: green;font-size: 25px;" class="fa fa-w fa-check-circle-o"/></p:outputPanel><p:outputPanel rendered="#{app.is_account_exist==false}"><i style="color: red;font-size: 25px;" class="fa fa-w fa-dot-circle-o"/></p:outputPanel></p:column>
+                <p:column width="150" headerText="Reset Password" style="text-align: center;" >
+                    <p:commandButton update="dataTable,myform:messages,myform:growl" disabled="#{app.is_account_exist==false}" value="Reset Password" action="#{app.reset_password()}"><p:confirm escape="false" header="Confirmation" message="Are you sure about resetting student password?" icon="fa fa-w fa-warning" /></p:commandButton>
+                </p:column>
+                
+                <f:facet name="footer">
+                    <h:outputText value="Total Records: "/> <h:outputText value="#{ldap_sdts_accounts.students_list.size()}"/> 
+                    <div style="text-align: left;">
+                        <p:commandButton update="dataTable,myform:messages,myform:growl" id="create_acount_btn" rendered="#{not empty ldap_sdts_accounts.students_list}" disabled="#{empty ldap_sdts_accounts.selected_students_list}"  value="Create LDAP Accounts" icon="fa fa-w fa-check-circle-o" action="#{ldap_sdts_accounts.create_account_for_selected_students()}"><p:confirm escape="false" header="Confirmation" message="Are you sure about creating LDAP accounts for the selected students?" icon="fa fa-w fa-warning" /></p:commandButton>
+                        <p:commandButton update="dataTable,myform:messages,myform:growl" id="update_acount_btn" rendered="#{not empty ldap_sdts_accounts.students_list}" value="Update First/Last Name" action="#{ldap_sdts_accounts.update_firstname_lastname_for_current_students()}"><p:confirm escape="false" header="Confirmation" message="Are you sure about updating First/Last Names for the list students?" icon="fa fa-w fa-warning" /></p:commandButton>
+                        <p:commandButton update="dataTable,myform:messages,myform:growl" id="remove_acount_btn" rendered="#{not empty ldap_sdts_accounts.students_list}" disabled="#{empty ldap_sdts_accounts.selected_students_list}"  value="Remove LDAP Accounts" styleClass="ui-button-danger" icon="fa fa-w fa-trash" style="color:red;" action="#{ldap_sdts_accounts.remove_account_for_selected_students()}"><p:confirm escape="false" header="Confirmation" message="Are you sure about removing LDAP accounts for the selected students?" icon="fa fa-w fa-warning" /></p:commandButton>
+                        <p:commandButton style="margin-right: 3px;" ajax="false" rendered="#{not empty ldap_sdts_accounts.students_list}"  value="Export Office 365 Users" icon="fa fa-w fa-file-excel-o" action="#{ldap_sdts_accounts.export_users_list()}"/>
+                        <p:commandButton style="margin-right: 3px;" ajax="false" rendered="#{not empty ldap_sdts_accounts.students_list}"  value="Export Office 365 Passwords" icon="fa fa-w fa-file-excel-o" action="#{ldap_sdts_accounts.export_passwords_list()}"/>
+                    </div>
+                </f:facet>                     
+            </p:dataTable>
+        </p:card>
+    </ui:define>
+</ui:composition>  

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" href="#{request.contextPath}#{tmsApplicationBean.application_favicon_path}" type="image/x-icon"></link>
+            
+        </f:facet>
+        <h:outputScript name="js/layout.js" library="rain-layout" />
+        <h:outputScript name="js/prism.js" library="rain-layout"/>
+        <h:outputScript name="sections.js" library="demo" />
+        <h:outputScript name="js/common.js" library="tms" />
+        
+       
+        <ui:insert name="head"/>
+    </h:head>
+   
+   
+    <h:body styleClass="#{userPreferences.inputStyleClass}">
+
+    <h:form id="myform2">
+     
+        <div  style="width:100%;height: 20px;" id="headerElement"/>
+        
+        <div class="dialog_main_content">
+            <div class="dialog_header">
+                <p:commandButton style="float: right;" id="closebtn" immediate="true" icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat p-mr-2 p-mb-2" action="#{tmsApplicationBean.close_dialog()}"/>
+                <div class="dialog_title"><ui:insert name="PageTitle"  > <h:outputText value="Add Title Herexxxxxxxxxxxxxxxxxxxxxxxxxxx"/></ui:insert></div>
+            </div>
+            
+            <div class="dialog_content">
+                <p:messages escape="false" id="messages" showDetail="true" showSummary="false" closable="false" />
+                <p:growl life="2000" id="growl" showDetail="true" keepAlive="false" showSummary="false" sticky="false" escape="true"/>
+                <div><ui:insert name="content"/></div>            
+            </div>
+        </div>
+    </h:form>
+        
+    <h:outputStylesheet name="css/primeicons.css" library="rain-layout" />
+     <h:outputStylesheet name="css/primeflex3.3.1.css" library="primeflex" />
+    <h:outputStylesheet name="css/#{userPreferences.layout}.css" library="rain-layout" />
+    <h:outputStylesheet name="css/demo-#{userPreferences.darkMode}.css" library="demo" />
+    <h:outputStylesheet name="css/attendance.css" library="tms" />
+    <h:outputStylesheet name="css/overrideCSS.css" library="tms" />
+    <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/all.min-jsf.css" />
+    <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+    <h:outputStylesheet library="webjars" name="font-awesome/5.15.4/css/all.min-jsf.css" />
+        
+    <!--ajaxStatus--> 
+    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" style="position:fixed;right:50%;bottom:50%" >
+        <f:facet name="start">
+            <p:graphicImage library="tms" width="70" height="70" name="images/loading.gif" />
+        </f:facet>
+
+        <f:facet name="complete">
+            <h:outputText value=""/>
+        </f:facet>
+    </p:ajaxStatus> 
+    <p:dialog styleClass="custom-header" style="opacity: 0 !important;" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false"></p:dialog>
+       
+    <p:confirmDialog style="max-width: 400px;" closeOnEscape="true" closable="false" global="true" showEffect="fade" hideEffect="explode">
+        <div class=" border-top-1 surface-border pt-3 flex">
+            <p:commandButton type="button" value="Yes" icon="pi pi-check"   styleClass="ui-confirmdialog-yes w-6 ml-2"/>
+            <p:commandButton type="button" value="Cancel" icon="pi pi-times" styleClass="ui-confirmdialog-no ui-button-outlined w-6 mr-2"/>
+        </div>
+    </p:confirmDialog>
+   
+    </h:body>
+
+</html>

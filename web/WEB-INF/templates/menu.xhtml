@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html" 
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pr="http://primefaces.org/rain">
+<div class="menu-wrapper">
+    <div class="layout-menu-container">
+        <ui:fragment rendered="#{userPreferences.profileMode == 'popup' ? false : true}">
+            <div class="layout-profile">
+                <a class="layout-profile-button" href="#">
+                    <span class="image-name">
+                        <p:avatar styleClass="p-mr-2" size="xlarge" shape="circle"><p:graphicImage style="width: 43px!important;margin-right: 0 !important;" rendered="#{not empty user_details.user_type}" cache="false" alt=" " url="#{user_details.photo_path}"/></p:avatar>
+                        <span class="layout-profile-userinfo">
+                            <span class="layout-profile-name">#{user_details.user_name}</span>
+                            <span class="layout-profile-mail">
+                                <h:outputText rendered="#{user_details.user_type!='Student'}" value="#{user_details.college_dep_name} / #{user_details.user_type=='Admin'?'Administrator':'Instructor'}"/>
+                                <h:outputText rendered="#{user_details.user_type=='Student'}" value="#{user_details.college_dep_name}"/>
+                            </span>
+                        </span>
+                    </span>
+                    <i class="layout-profile-icon pi pi-chevron-down"/>
+                </a>
+                <ul class="layout-profile-menu">
+                    <li><a href="#{request.contextPath}/users/profile.xhtml"><i class="pi pi-user"/><span>Profile</span></a></li>
+                    <p:fragment rendered="#{user_details.show_alternative_college_dep_window or user_details.show_acting_admin_window}"><li><p:commandLink ajax="true" actionListener="#{user_details.change_user_type_college_dep_window()}"><i class="fa fa-fw fa-random"></i><span>Change User Type/College/Dept.</span><p:ajax event="dialogReturn" update="@all"/></p:commandLink></li></p:fragment>
+                    <li><p:commandLink ajax="true" update="@all" actionListener="#{user_details.logout()}"  ><i class="fa fa-fw fa-power-off"></i><span>Logout</span></p:commandLink></li>
+                </ul>
+            </div>
+        </ui:fragment>
+        <h:form id="menuform">
+           <pr:menu model="#{user_details.menu_model}" widgetVar="RainMenuWidget"/>
+        </h:form>
+    </div>
+</div>
+
+</ui:composition>

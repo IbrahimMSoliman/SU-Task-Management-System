@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Tasks Priorities</ui:define>
+    <ui:define name="MainTitle">Tasks Priorities</ui:define>
+    <ui:param name="page_id" value="13"/>
+    <ui:define name="content">  
+        <p:card>
+             <div style="text-align: right;"> 
+                <p:commandButton  immediate="true" value="New Priority" ajax="true" actionListener="#{tasks_priorities.open_new_window()}"  icon="fa fa-w fa-plus"><p:ajax event="dialogReturn" update="dataTable" /> </p:commandButton>
+             </div> 
+        </p:card>
+        
+        <p:card>
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowsPerPageTemplate="25,50,100,{ShowAll|'All'}" rowHover="true"  paginator="true" rows="25" rowIndexVar="rowIndex" id="dataTable" var="lst" widgetVar="table" value="#{tasks_priorities.priority_list}">
+                <p:ajax event="filter" global="false" /> 
+                <f:facet name="header"><div class="customers-table-header">List Of Priorities<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{tasks_priorities.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" width="30" headerText="#"><h:outputText value="#{rowIndex+1}" /></p:column>
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" filterBy="#{lst.p_title}" width="200"  sortBy="#{lst.p_title}" headerText="Priority Title"><h:outputText style="font-weight: bold;color:black;" value="#{lst.p_title}" /></p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" filterBy="#{lst.p_short_name}" width="90" sortBy="#{lst.p_short_name}" headerText="Short Name"><h:outputText style="font-weight: bold;color:black;" value="#{lst.p_short_name}" /></p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" style="text-align: center"  width="110" sortBy="#{lst.p_level}" headerText="Priority Color">
+                    <p:avatar title="#{lst.p_level}" label="#{lst.p_level}" styleClass="mr-2" size="large" style="background-color:#{lst.p_color};" shape="circle"  />
+                </p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" filterBy="#{lst.p_description}" headerText="Description"><h:outputText value="#{lst.p_description}" /></p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" filterBy="#{lst.p_notes}" headerText="Notes"><h:outputText value="#{lst.p_notes}" /></p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}" width="70" headerText="Status">
+                    <p:inputSwitch value="#{lst.status}">
+                        <p:ajax listener="#{lst.change_status()}" update="dataTable,myform:messages,myform:growl"/>
+                    </p:inputSwitch>
+                </p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}"  filterBy="#{lst.tasks_count}" width="60" headerText="Tasks#" style="text-align: center"><h:outputText style="font-weight: bold;color:green;" value="#{lst.tasks_count}" /></p:column> 
+                <p:column styleClass="#{lst.status?'':'lightredbg'}"  width="80" headerText="Options">
+                    <p:commandButton action="#{lst.edit()}" styleClass="ui-button-success" icon="fa fa-w fa-edit" ajax="true"  title="Edit Department" ><p:ajax event="dialogReturn" update="dataTable" /> </p:commandButton> 
+                    <p:commandButton ajax="true" update="dataTable,myform:messages" disabled="#{lst.deletable==false}" action="#{lst.delete()}" styleClass="ui-button-danger" icon="fa fa-w fa-trash" title="Remove Department"><p:confirm escape="false" header="Confirmation" message="Are you sure about removing this priority?" icon="fa fa-w fa-warning" /></p:commandButton> 
+                </p:column>
+                <f:facet name="footer"><h:outputText value="Total Records: "/> <h:outputText value="#{tasks_priorities.priority_list.size()}"/></f:facet>
+            </p:dataTable>
+        </p:card>
+    </ui:define>
+  </ui:composition>  

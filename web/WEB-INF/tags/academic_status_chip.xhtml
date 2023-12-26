@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+ <h:head>
+ </h:head>
+   <ui:composition>
+       <p:chip rendered="#{value=='Cancelled' or value=='Graduated-Cancelled' or value=='Withdrawn' or value=='Expired Admission' or value=='Expired Admission(M.R)' or value=='Dismissed'}" icon="fa fa-ban" style="background:red;color:white;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Hold Registration' or value=='Graduated-Hold Registration'}" icon="fa fa-ban"  style="background: #FFC107;color:white;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Admitted'}" icon="fa fa-check-circle-o" style="background: #44b4de;color:white;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Registered' or value=='Graduated-Registered'}" icon="fa fa-thumbs-o-up" style="background: #00BFFF;color:white;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Graduated'}" icon="fa fa-check-circle" style="background: green;color:white;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+       <p:chip rendered="#{value=='Discontinuing' or value=='Graduated-Discontinuing'}" icon="fa fa-ban" style="background: #F48FB1;color:white;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+       <!--Other status-->
+       <p:chip icon="fa fa-certificate" rendered="#{value!='Registered' and value!='Graduated-Registered' and value!='Cancelled' and value!='Graduated-Cancelled' and value!='Withdrawn' and value!='Expired Admission' and value!='Expired Admission(M.R)' and value!='Dismissed' and value!='Hold Registration' and value!='Graduated-Hold Registration' and value!='Admitted' and value!='Graduated' and value!='Discontinuing' and value!='Graduated-Discontinuing'}" style="color:black;height: 25px;white-space: nowrap !important;" label="#{value}" styleClass="p-mr-2"/> 
+   </ui:composition>    
+</html>

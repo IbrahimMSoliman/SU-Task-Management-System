@@ -1,0 +1,576 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"  "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+  
+<facelet-taglib>
+    
+    <namespace>http://xmlns.jcp.org/jsf/composite/sis</namespace>
+    
+     <tag>
+        <description><![CDATA[timeRangePicker]]></description>
+	<tag-name>timeRangePicker</tag-name>
+        <source>tags/timeRangePicker.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>com.sis.TAGS.TimeRangePickerModel</type>
+	</attribute>
+        <attribute>
+	     <name>id</name>
+	     <required>true</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	    <name>disabled</name>
+	    <required>false</required>
+	    <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	    <name>required</name>
+	    <required>false</required>
+	    <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>requiredMessage1</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>requiredMessage2</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+    </tag> 
+    
+    <tag>
+        <description><![CDATA[Charts Tag]]></description>
+	<tag-name>charts</tag-name>
+        <source>tags/charts.xhtml</source>
+        <attribute>
+	    <name>model</name>
+	    <required>true</required>
+	    <type>sis.TAGS.Charts_model</type>
+	</attribute>
+        
+        <attribute>
+	    <name>title</name>
+	    <required>true</required>
+	    <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	    <name>disabled</name>
+	    <required>false</required>
+	    <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	    <name>rendered</name>
+	    <required>false</required>
+	    <type>java.lang.Boolean</type>
+      	</attribute>
+        <attribute>
+	    <name>actionListener</name>
+	    <required>false</required>
+	    <type>java.lang.String</type>
+      	</attribute>
+    </tag>
+    
+    
+    
+    <tag>
+        <description><![CDATA[Semester Table in Registration(Booking) Page]]></description>
+	<tag-name>bookingSemester</tag-name>
+        <source>tags/booking_semester.xhtml</source>
+        <attribute>
+	     <name>semester</name>
+	     <required>true</required>
+	     <type>sis.beans.registration.booking.registration_booking_page.semesters_class</type>
+	</attribute>
+        <attribute>
+	     <name>id</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+    </tag>
+    
+    
+    <tag>
+        <description><![CDATA[Semester Table in Registration(Booking) Page]]></description>
+	<tag-name>earlyBookingSemester</tag-name>
+        <source>tags/early_booking_semester.xhtml</source>
+        <attribute>
+	     <name>semester</name>
+	     <required>true</required>
+	     <type>sis.beans.students.registration.early_booking.semesters_class</type>
+	</attribute>
+        <attribute>
+	     <name>id</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+    </tag>
+    
+    
+     <tag>
+        <description><![CDATA[Find student panel Tag]]></description>
+        <tag-name>findStudentPanel</tag-name>
+        <source>tags/find_student_panel.xhtml</source>
+        
+        <attribute>
+	     <name>rendered</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>panelTitle</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>cardStyle</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>value</name>
+	     <required>true</required>
+	     <type>sis.application.FindStd</type>
+	</attribute>
+        
+        <attribute>
+	     <name>ignoreShortAdmission</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>forceSelection</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+    </tag>
+    
+     <tag>
+        <description><![CDATA[Academic Status chip]]></description>
+	<tag-name>academicStatusChip</tag-name>
+        <source>tags/academic_status_chip.xhtml</source>
+        <attribute>
+	     <name>value</name>
+	     <required>true</required>
+	     <type>java.lang.String</type>
+	</attribute>
+     </tag>
+     
+    <tag>
+        <description><![CDATA[Request Status chip]]></description>
+	<tag-name>RequestStatusChip</tag-name>
+        <source>tags/request_status_chip.xhtml</source>
+        <attribute>
+	     <name>value</name>
+	     <required>true</required>
+	     <type>java.lang.String</type>
+	</attribute>
+     </tag> 
+    
+     <tag>
+        <description><![CDATA[Student Details Tag]]></description>
+	<tag-name>studentDetails</tag-name>
+        <source>tags/student_details.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.student_details</type>
+	</attribute>
+        
+        <attribute>
+	     <name>miniView</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showTranscript</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showCurriculum</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showGraduationPlan</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showCoursesScores</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showRegHistory</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showStatusHistory</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showGpaCalculator</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showRegClassSchedule</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showFinanceStatement</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+    </tag>
+    
+       <tag>
+        <description><![CDATA[Student Details Mini Tag]]></description>
+	<tag-name>studentDetailsMini</tag-name>
+        <source>tags/student_details_mini.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.student_details</type>
+	</attribute>
+        
+          
+       
+        <attribute>
+	     <name>showTranscript</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showCurriculum</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showGraduationPlan</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showCoursesScores</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showRegHistory</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showStatusHistory</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showGpaCalculator</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showRegClassSchedule</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>showFinanceStatement</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+    </tag>
+    
+    <tag>
+        <description><![CDATA[Advanced Search Tag]]></description>
+	<tag-name>advancedSearch</tag-name>
+        <source>tags/advanced_search.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.AdvancedSearch</type>
+	</attribute>
+        
+         <attribute>
+	     <name>show_student_id</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+      	</attribute>
+        
+    </tag>
+    
+    
+    
+    <tag>
+        <description><![CDATA[Attendance Weeks Buttons Tag]]></description>
+	<tag-name>attendanceWeekButton</tag-name>
+        <source>tags/AttendanceWeekButton.xhtml</source>
+        
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.AttendanceWeekButton</type>
+	</attribute>
+    </tag>
+    
+    
+     <tag>
+        <description><![CDATA[attendance checkbox Tag]]></description>
+	<tag-name>attendanceCheckBox</tag-name>
+        <source>tags/AttendanceCheckBox.xhtml</source>
+        
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.AttendanceCheckBox</type>
+	</attribute>
+    </tag>
+    
+     
+    
+    <tag>
+        <description><![CDATA[Student popup window for Details Tag]]></description>
+	<tag-name>std_popup_window</tag-name>
+        <source>tags/std_popup_link.xhtml</source>
+        
+         <attribute>
+	     <name>app_id</name>
+	     <required>true</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+
+	<attribute>
+	     <name>student_id</name>
+	     <required>true</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+    </tag>
+
+
+    <tag>
+        <description><![CDATA[change grades Tag]]></description>
+	<tag-name>changeGrade</tag-name>
+        <source>tags/change_grade.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.change_grade_model</type>
+	</attribute>
+        
+        <attribute>
+	     <name>show_new_grades_row</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+    </tag>
+    
+    
+        <tag>
+        <description><![CDATA[Student Scores/Grade in Section Tag]]></description>
+	<tag-name>std_section_scores_grade</tag-name>
+        <source>tags/std_section_score_grade.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.std_section_score_grade_model</type>
+	</attribute>
+        
+    </tag>
+    
+    
+    <tag>
+        <description><![CDATA[student voucher popup window for Details Tag]]></description>
+	<tag-name>student_voucher_window</tag-name>
+        <source>tags/student_voucher_link.xhtml</source>
+        <attribute>
+            <name>student_voucher_id</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        
+        <attribute>
+            <name>student_voucher_number</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        
+    </tag>
+    
+    <tag>
+    	<tag-name>filesUploader</tag-name>
+        <source>tags/files_uploader.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.Files_uploader</type>
+	</attribute>
+        
+        <attribute>
+	     <name>multiple</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>disabled</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>allowTypes</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>invalidFileMessage</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	     <name>sizeLimit</name>
+	     <required>false</required>
+	     <type>java.lang.Integer</type>
+      	</attribute>
+        
+        
+        <attribute>
+	     <name>invalidSizeMessage</name>
+	     <required>false</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+        
+        <attribute>
+	    <name>filesLimit</name>
+	    <required>true</required>
+	    <type>java.lang.Integer</type>
+      	</attribute>
+        
+    </tag>
+    
+    
+    
+    <tag>
+    	<tag-name>ratingResult</tag-name>
+        <source>tags/rating_result.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.Rating_result_model</type>
+	</attribute>
+        
+        <attribute>
+	     <name>rendered</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>showDetails</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>showStdCount</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>showUsersCount</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        
+        
+        <attribute>
+	     <name>id</name>
+	     <required>true</required>
+	     <type>java.lang.String</type>
+      	</attribute>
+    </tag> 
+    
+       
+     <tag>
+    	<tag-name>bookingConfrmation</tag-name>
+        <source>tags/finance_booking_confirmation.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.Booking_confirmation_model</type>
+	</attribute>
+        
+        <attribute>
+	     <name>rendered</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+    </tag>          
+    
+       <tag>
+    	<tag-name>imageEditor</tag-name>
+        <source>tags/image_editor.xhtml</source>
+        <attribute>
+	     <name>model</name>
+	     <required>true</required>
+	     <type>sis.TAGS.Image_editor_model</type>
+	</attribute>
+        
+        <attribute>
+	     <name>rendered</name>
+	     <required>true</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+        <attribute>
+	     <name>showLoadButton</name>
+	     <required>false</required>
+	     <type>java.lang.Boolean</type>
+	</attribute>
+        
+    </tag>  
+    
+    
+</facelet-taglib>

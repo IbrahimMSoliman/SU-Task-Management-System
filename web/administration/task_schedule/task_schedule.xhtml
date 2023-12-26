@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Tasks Scheduler</ui:define>
+    <ui:define name="MainTitle">Tasks Scheduler</ui:define>
+    <ui:param name="page_id" value="115"/>
+    <ui:define name="content"> 
+        <f:metadata>
+        <f:event type="preRenderView" listener="#{task_schedule.Search()}"/>
+        </f:metadata>
+        <p:card style="text-align:right;"> 
+                <p:commandButton  immediate="true" value="New Task" ajax="true" actionListener="#{task_schedule.open_new_window()}"  icon="fa fa-w fa-plus"><p:ajax event="dialogReturn"  update="@form" /> </p:commandButton>
+        </p:card> 
+                
+        <p:card>
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No Tasks Found...." rowIndexVar="rowIndex" id="dataTable" var="tsk" widgetVar="table" value="#{task_schedule.tasks_list}">
+            <p:ajax event="filter" global="false" /> 
+            <f:facet name="header"><div class="customers-table-header">List Of Scheduled Tasks<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{task_schedule.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>
+            <p:column width="30" headerText="#"><h:outputText value="#{rowIndex+1}" /></p:column>
+            <p:column filterBy="#{tsk.t_job_title}" headerText="Job Title"><h:outputText style="font-weight: bold;#{tsk.t_status?'color:black;':'color:red;' }" value="#{tsk.t_job_title}" /></p:column> 
+            <p:column filterBy="#{tsk.t_type}" width="150" headerText="Task Type"><h:outputText style="#{tsk.t_status?'color:black;':'color:red;' }" value="#{tsk.t_type}" /></p:column> 
+            <p:column filterBy="#{tsk.t_cron_expression}" width="160" headerText="Cron Expression"><h:outputText style="#{tsk.t_status?'color:black;':'color:red;' }font-weight:bold;" value="#{tsk.t_cron_expression}" /></p:column> 
+            <p:column filterBy="#{tsk.t_success_emails}" width="120" headerText="Success Emails"><h:outputText style="#{tsk.t_status?'color:black;':'color:red;' }" value="#{tsk.t_success_emails}" /></p:column> 
+            <p:column filterBy="#{tsk.t_fail_emails}" width="120" headerText="Fail Emails"><h:outputText style="#{tsk.t_status?'color:black;':'color:red;' }" value="#{tsk.t_fail_emails}" /></p:column> 
+
+            <p:column filterBy="#{tsk.t_adding_date}" width="140" headerText="Adding Date"><h:outputText style="#{tsk.t_status?'color:black;':'color:red;' }" title="Added By: #{tsk.t_added_by}" value="#{tsk.t_adding_date}" /></p:column> 
+
+            <p:column filterBy="#{tsk.t_last_update_date}" width="140" headerText="Last Update Date"><h:outputText style="#{tsk.t_status?'color:black;':'color:red;' }" title="Last Update By: #{tsk.t_last_update_by}" value="#{tsk.t_last_update_date}" /></p:column> 
+
+            <p:column filterBy="#{tsk.t_last_run_date}" width="140" headerText="Last Run Date"><h:outputText style="#{tsk.t_last_run_status=='SUCCESS'?'color:green;':'color:red;' }" value="#{tsk.t_last_run_date}" /></p:column> 
+            <p:column filterBy="#{tsk.t_last_run_status}" width="110" headerText="Last Run Status"><h:outputText style="#{tsk.t_last_run_status=='SUCCESS'?'color:green;':'color:red;' }" value="#{tsk.t_last_run_status}" /></p:column> 
+
+            <p:column width="80" headerText="Status"><p:inputSwitch value="#{tsk.t_status}" onLabel="Active" offLabel="Disabled"><p:ajax listener="#{tsk.update_status()}" update="@form" /></p:inputSwitch></p:column>                      
+            <p:column width="150" headerText="Options">
+                <p:commandButton action="#{tsk.edit()}" styleClass="ui-button-success" icon="fa fa-w fa-edit" ajax="true"  title="Edit Task Schedule" ><p:ajax event="dialogReturn" update="dataTable" /> </p:commandButton> 
+                <p:commandButton ajax="true" update="myform:messages" action="#{tsk.open_log_window()}" icon="fa fa-w fa-clock-o" title="Run History/Log"></p:commandButton> 
+                <p:commandButton ajax="true" update="dataTable,myform:messages" disabled="#{tsk.t_status==false}" action="#{tsk.run_task()}" icon="fa fa-w fa-play-circle" title="Run Task Immediately"><p:confirm escape="false" header="Confirmation" message="Are you sure about running this task immediately?" icon="fa fa-w fa-warning" /></p:commandButton> 
+                <p:commandButton ajax="true" update="dataTable,myform:messages" action="#{tsk.delete()}" styleClass="ui-button-danger" icon="fa fa-w fa-trash" title="Remove Task Schedule"><p:confirm escape="false" header="Confirmation" message="Are you sure about removing this task?" icon="fa fa-w fa-warning" /></p:commandButton> 
+            </p:column>
+                 <f:facet name="footer"><h:outputText value="Total Records: "/> <h:outputText value="#{task_schedule.tasks_list.size()}"/></f:facet>    
+        </p:dataTable>
+        </p:card>    
+      </ui:define>
+   </ui:composition>   

@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">System Settings</ui:define>
+    <ui:define name="MainTitle">System Settings</ui:define>
+    <ui:param name="page_id" value="379"/>
+    <ui:define name="content"> 
+        <p:card>
+               <div style="text-align: right"><p:commandButton action="#{sys_settings.save()}" value="Save Settings" update="@form" icon="fa fa-fw fa-save"/></div>
+        </p:card>       
+        <p:card>       
+               <p:tabView >
+                 <p:tab>
+                    <f:facet name="title"><i class="fa fa-fw fa-institution"/><p:outputLabel value="University Settings"/></f:facet>
+                    <h:panelGrid  style="width:100%;" columns="4"  cellpadding="2" id="data"   border="0" cellspacing="1" rowClasses="even,odd">
+                    <p:outputLabel for="application_title" styleClass="bold" value="Application Title"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="application_title" value="#{sys_settings.application_title}" required="true" requiredMessage="Please enter the application title....." maxlength="300" />
+                    <p:outputLabel for="en_university_name" styleClass="bold" value="University Name[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_university_name" value="#{sys_settings.en_university_name}" required="true" requiredMessage="Please enter the university name[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_university_name" styleClass="bold" value="University Name[AR]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_university_name" value="#{sys_settings.ar_university_name}" required="true" requiredMessage="Please enter the university name[AR]....." maxlength="300" />
+                    
+                    <p:outputLabel for="@next" styleClass="bold" value="Institution Code"/>
+                    <p:inputText autocomplete="off" converter="trim" style="width:300px" id="institution_code" value="#{sys_settings.institution_code}"  maxlength="20" />
+                    
+                    
+                    <p:outputLabel for="university_website" styleClass="bold" value="University Website"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="university_website" value="#{sys_settings.university_website}"  maxlength="300" />
+                    
+                    <p:outputLabel for="en_ard_manager_name" styleClass="bold" value="ARD Manager Name[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_ard_manager_name" value="#{sys_settings.en_ard_manager_name}" required="true" requiredMessage="Please enter ARD Manager name[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_ard_manager_name" styleClass="bold" value="ARD Manager Name[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_ard_manager_name" value="#{sys_settings.ar_ard_manager_name}" required="true" requiredMessage="Please enter ARD Manager name[AR]....." maxlength="300" />
+                    <p:outputLabel for="en_ard_manager_position" styleClass="bold" value="ARD Manager Title[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_ard_manager_position" value="#{sys_settings.en_ard_manager_position}" required="true" requiredMessage="Please enter ARD Manager Title[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_ard_manager_position" styleClass="bold" value="ARD Manager Title[AR]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_ard_manager_position" value="#{sys_settings.ar_ard_manager_position}" required="true" requiredMessage="Please enter ARD Manager Title[AR]....." maxlength="300" />
+                    <p:outputLabel for="en_finance_manager_name" styleClass="bold" value="Finance Manager Name[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_finance_manager_name" value="#{sys_settings.en_finance_manager_name}" required="true" requiredMessage="Please enter the finance manager name[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_finance_manager_name" styleClass="bold" value="Finance Manager Name[AR]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_finance_manager_name" value="#{sys_settings.ar_finance_manager_name}" required="true" requiredMessage="Please enter the finance manager name[AR]....." maxlength="300" />
+                    <p:outputLabel for="en_finance_manager_position" styleClass="bold" value="Finance Manager Title[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_finance_manager_position" value="#{sys_settings.en_finance_manager_position}" required="true" requiredMessage="Please enter the Finance Manager Title[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_finance_manager_position" styleClass="bold" value="Finance Manager Title[AR]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_finance_manager_position" value="#{sys_settings.ar_finance_manager_position}" required="true" requiredMessage="Please enter the Finance Manager Title[AR]....." maxlength="300" />
+                    <p:outputLabel for="en_bank_name" styleClass="bold" value="University Bank Name[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_bank_name" value="#{sys_settings.en_bank_name}" required="true" requiredMessage="Please enter the University Bank Name[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_bank_name" styleClass="bold" value="University Bank Name[AR]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_bank_name" value="#{sys_settings.ar_bank_name}" required="true" requiredMessage="Please enter the University Bank Name[AR]....." maxlength="300" />
+                    <p:outputLabel for="en_bank_branch_name" styleClass="bold" value="Bank Branch Name[EN]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="en_bank_branch_name" value="#{sys_settings.en_bank_branch_name}" required="true" requiredMessage="Please enter the Bank Branch Name[EN]....." maxlength="300" />
+                    <p:outputLabel for="ar_bank_branch_name" styleClass="bold" value="Bank Branch Name[AR]"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="ar_bank_branch_name" value="#{sys_settings.ar_bank_branch_name}" required="true" requiredMessage="Please enter the Bank Branch Name[AR]....." maxlength="300" />
+                    <p:outputLabel for="bank_account_number" styleClass="bold" value="Bank Account Number"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="bank_account_number" value="#{sys_settings.bank_account_number}" required="true" requiredMessage="Please enter the Bank Account Number....." maxlength="300" />
+                    <p:outputLabel for="uni_code_in_mof" styleClass="bold" value="Financial Code In MOF"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="uni_code_in_mof" value="#{sys_settings.uni_code_in_mof}" required="true" requiredMessage="Please enter the Code In Ministry of Finance....." maxlength="300" />
+                    
+                    
+                    <p:outputLabel for="@next" styleClass="bold" value="Tax Registration No."/>
+                    <p:inputText autocomplete="off" converter="trim" style="width:300px" id="trn" value="#{sys_settings.trn}"  maxlength="20" />
+                   
+                    
+                    <p:outputLabel for="facebook_url" styleClass="bold" value="Facebook URL"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="facebook_url" value="#{sys_settings.facebook_url}"  maxlength="300" />
+                    <p:outputLabel for="youtube_url" styleClass="bold" value="Youtube URL"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="youtube_url" value="#{sys_settings.youtube_url}"  maxlength="300" />
+                    <p:outputLabel for="twitter_url" styleClass="bold" value="Twitter URL"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="twitter_url" value="#{sys_settings.twitter_url}" maxlength="300" />
+                    <p:outputLabel for="instagram_url" styleClass="bold" value="Instagram URL"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="instagram_url" value="#{sys_settings.instagram_url}" maxlength="300" />
+                    </h:panelGrid>
+                 </p:tab>
+                 
+                               
+                  <p:tab>
+                    <f:facet name="title"><i class="fa fa-fw fa-graduation-cap"/><p:outputLabel value="Academic Settings"/></f:facet>
+                    
+                            
+                    
+                    <p:panel header="General Settings">
+                        <h:panelGrid  style="width:100%;" columns="2"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd" columnClasses="column1,column2">
+                               
+                            <p:outputLabel for="no_dicon_to_cancel" styleClass="bold" value="No.of Discontinuing to Cancel Registration"/>
+                            <p:selectOneMenu autoWidth="false" value="#{sys_settings.no_dicon_to_cancel}" required="true" requiredMessage="Please Select (No.of Discontinuing to Cancel Registration)" id="no_dicon_to_cancel"  style="width:250px;">
+                                <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                <f:selectItems value="#{sys_settings.numbers_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="The number of Non-sequential Discontinuing which leads to registration cancelation"/>
+                                    
+                                    
+                                     
+                            <p:outputLabel for="no_sequent_dicon_to_cancel" styleClass="bold" value="No.of sequent Discontinuing to Cancel Reg."/>
+                            <p:selectOneMenu value="#{sys_settings.no_sequent_dicon_to_cancel}" required="true" requiredMessage="Please Select (No.of sequent Discontinuing to Cancel Registration)" id="no_sequent_dicon_to_cancel" style="width:250px;">
+                                <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                <f:selectItems value="#{sys_settings.numbers_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="The number of sequential Discontinuing which leads to registration cancelation"/>
+                                    
+                               
+                                    
+                            <p:outputLabel for="max_consecutive_teach_minutes" styleClass="bold" value="Max Consecutive Teaching Time"/>        
+                                  
+                            <p:selectOneMenu value="#{sys_settings.max_consecutive_teach_minutes}"  id="max_consecutive_teach_minutes"  style="width:250px;">
+                                
+                                <f:selectItems value="#{sys_settings.timing_minutes_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="The max allowed Consecutive Teaching for any instructor in the class schedule"/>
+                                 
+                                 
+                                 
+                                 
+                            <p:outputLabel for="min_consecutive_break_minutes" styleClass="bold" value="Min required Break Time"/>        
+                                  
+                            <p:selectOneMenu value="#{sys_settings.min_consecutive_break_minutes}" id="min_consecutive_break_minutes"  style="width:250px;">
+                                <f:selectItems value="#{sys_settings.timing_minutes_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="The Min required Break Time for the instructor teaching load in the class schedule"/>
+                                 
+                                 
+                                   
+                                    
+                            <p:outputLabel for="score_borderline_range" styleClass="bold" value="Score BorderLine Range"/>        
+                            <p:selectOneMenu value="#{sys_settings.score_borderline_range}" required="true" requiredMessage="Please Select Score BorderLine Range" id="score_borderline_range"  style="width:250px;">
+                                <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                <f:selectItems value="#{sys_settings.double_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value=" "/>
+                            
+                            <p:outputLabel for="f_np_borderline_range" styleClass="bold" value="F/NP Borderline Range"/>        
+                            <p:selectOneMenu value="#{sys_settings.f_np_borderline_range}" required="true" requiredMessage="Please Select F/NP Borderline Range" id="f_np_borderline_range"  style="width:250px;">
+                                    <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                    <f:selectItems value="#{sys_settings.double_list}"/>
+                                </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value=" "/>       
+                            
+                            <p:outputLabel for="class_sch_aprrov_group_id" styleClass="bold" value="Class Sch Approval Group"/>        
+                            <p:selectOneMenu value="#{sys_settings.class_sch_aprrov_group_id}" required="true" requiredMessage="Please Select Class Sch Approval Group" id="class_sch_aprrov_group_id"  style="width:250px;">
+                                <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                <f:selectItems value="#{sys_settings.access_group_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="The access group for user who allowed to control the class schedule approval."/>
+                            
+                            
+                           <p:outputLabel for="course_files_path" styleClass="bold" value="Course Files Location"/>        
+                           <p:inputText autocomplete="off" converter="trim" id="course_files_path" value="#{sys_settings.course_files_path}" maxlength="1000" style="width:250px;" required="true" requiredMessage="Please enter Course Files Location."/>
+                           <br/>
+                            <h:outputText value="Folder Path for uploaded course files"/>
+                         
+                            
+                            </h:panelGrid>
+                            </p:panel>
+                                
+                                
+                              
+                         
+                         
+                         
+                   
+                            
+                                
+                                
+                 </p:tab>
+                 
+                 
+                   <p:tab>
+                    <f:facet name="title"><i class="fa fa-fw fa-book"/><p:outputLabel value="Courses Booking Settings"/></f:facet>
+                    
+                            
+                    
+                    <p:panel header="General Settings">
+                        <h:panelGrid  style="width:100%;" columns="2"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd" columnClasses="column1,column2">
+                               
+                                  
+                                    
+                            <p:outputLabel for="booking_hours" styleClass="bold" value="Courses Booking Duration(Per Hour)"/>        
+                            <p:selectOneMenu value="#{sys_settings.booking_hours}" required="true" requiredMessage="Please Select Courses Booking Duration(Per Hour)" id="booking_hours"  style="width:250px;">
+                                 <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                 <f:selectItems value="#{sys_settings.numbers_list}"/>
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="The number of hours the system keep the courses booking, and during this period , the student must confirm the course booking otherwise, the courses booking will be expired."/>
+                            
+                            
+                            
+                            <p:outputLabel styleClass="bold" value="Incomplete Courses Booking"/>        
+                             <h:panelGrid  style="width:100%;" columns="1"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd">
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Enable Incomplete Courses Booking for The Administrators" value="#{sys_settings.inc_booking_admin}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Enable Incomplete Courses Booking for The Deans" value="#{sys_settings.inc_booking_dean}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Enable Incomplete Courses Booking for The Instructors" value="#{sys_settings.inc_booking_inst}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Enable Incomplete Courses Booking for The Students" value="#{sys_settings.inc_booking_student}"/> 
+                             </h:panelGrid>
+                            <br/>
+                            <h:outputText value="Enable the incomplete booking (keep the course booking while the booked credit/non-credit hours less than the required credit/non-credit hours) for the student during online registration or for the instructor/Admin/Dean during student advising."/>
+                            
+                             <p:outputLabel styleClass="bold" value="Force FA/F/NP Re-registration"/>        
+                             <h:panelGrid  style="width:100%;" columns="1"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd">
+                                
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade F/NP in Early Booking for Madatory(compulsory) curriculum groups." value="#{sys_settings.force_ebooking_f_np_mandatory}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade F/NP in Early Booking for elective curriculum groups." value="#{sys_settings.force_ebooking_f_np_elective}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade FA in Early Booking for Madatory(compulsory) curriculum groups." value="#{sys_settings.force_ebooking_fa_mandatory}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade FA in Early Booking for elective curriculum groups." value="#{sys_settings.force_ebooking_fa_elective}"/> 
+                                
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade F/NP in Booking/Add/Drop for Madatory(compulsory) curriculum groups." value="#{sys_settings.force_booking_f_np_mandatory}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade F/NP in Booking/Add/Drop for elective curriculum groups." value="#{sys_settings.force_booking_f_np_elective}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade FA in Booking/Add/Drop for Madatory(compulsory) curriculum groups." value="#{sys_settings.force_booking_fa_mandatory}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Force the student to re-register previous courses with grade FA in Booking/Add/Drop for elective curriculum groups." value="#{sys_settings.force_booking_fa_elective}"/> 
+                                <p:selectBooleanCheckbox style="font-weight:bold" itemLabel="Enable the academic advisor to bypass the re-registring courses with grade FA/F/NP" value="#{sys_settings.enable_ignore_for_ac_advisor}"/> 
+                               
+                             </h:panelGrid>
+                             
+                             
+                            <p:outputLabel for="score_borderline_range" styleClass="bold" value="Min Payment % For Online Confirmation"/>        
+                            <p:selectOneMenu value="#{sys_settings.min_payment_percent_for_tuition_fees}"  id="min_payment_percent_for_tuition_fees"  style="width:250px;">
+                                <f:selectItems value="#{sys_settings.double_list}"/>
+                            </p:selectOneMenu> 
+                             <br/>
+                            <h:outputText value="The minimum percent of the tuition fees the student should pay to enable him/her to confirm the booked courses"/>
+                            
+                             
+                             
+                            </h:panelGrid>
+                            </p:panel>
+                        </p:tab>        
+                                
+                              
+                         
+                         <p:tab>
+                    <f:facet name="title"><i class="fa fa-fw fa-check-square-o"/><p:outputLabel value="Attendance Settings"/></f:facet>
+                    
+                         
+                        <p:panel header="Attendance Settings">
+                        <h:panelGrid  style="width:100%;" columns="2"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd" columnClasses="column1,column2">
+                           
+                            <p:outputLabel for="@next" styleClass="bold" value="Absence Warnings"/>        
+                            <h:panelGrid columns="10">
+                                <p:outputLabel value="First Warning"/>
+                                <p:spinner stepFactor="0.5" size="6" suffix="%" max="100" min="1" value="#{sys_settings.first_absence_warning_percent}"/>
+                                <p:outputLabel value="Second Warning"/>
+                                <p:spinner stepFactor="0.5" size="6" suffix="%" max="100" min="1" value="#{sys_settings.second_absence_warning_percent}"/>
+                                <p:outputLabel value="Third (FA) Warning"/>
+                                <p:spinner stepFactor="0.5" size="6" suffix="%" max="100" min="1" value="#{sys_settings.fa_absence_warning_percent}"/>
+                            </h:panelGrid>
+                           
+                            <p:outputLabel for="@next" styleClass="bold" value="Week First Day"/>        
+                            <p:selectOneMenu value="#{sys_settings.week_first_day}" required="true" requiredMessage="Please Select Attendance Grace entry" style="width:250px;">
+                                <f:selectItem itemLabel="Saturday" itemValue="7" /> 
+                                <f:selectItem itemLabel="Sunday" itemValue="1" />
+                                <f:selectItem itemLabel="Monday" itemValue="2" />
+                                <f:selectItem itemLabel="Tuesday" itemValue="3" />
+                                <f:selectItem itemLabel="Wednesday" itemValue="4" />
+                                <f:selectItem itemLabel="Thursday" itemValue="5" />
+                                <f:selectItem itemLabel="Friday" itemValue="6" />
+                            </p:selectOneMenu>
+                            
+                            
+                            
+                           <p:outputLabel for="attendance_entry_hours" styleClass="bold" value="Attendance modification (For Instructor)"/>        
+                           <p:selectOneMenu value="#{sys_settings.attendance_entry_hours}" required="true" requiredMessage="Please Select Attendance Grace entry" id="attendance_entry_hours"  style="width:250px;">
+                               <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                               <f:selectItems value="#{sys_settings.timing_list}"/>
+                           </p:selectOneMenu>
+                           <br/>
+                            <h:outputText value="The duration per hours for the instructor to edit the students attendance."/>
+                            
+                           
+                           
+                        
+                           <p:outputLabel for="attendance_grace_hours" styleClass="bold" value="Attendance Grace After Lecture End Time"/>        
+                           <p:selectOneMenu value="#{sys_settings.attendance_grace_hours}" required="true" requiredMessage="Please Select Attendance Grace Hours(Per Hour)" id="attendance_grace_hours"  style="width:250px;">
+                                 <f:selectItem itemLabel=" " itemValue="#{null}"/>
+                                 <f:selectItems value="#{sys_settings.timing_list}"/>
+                           </p:selectOneMenu>
+                           <br/>
+                            <h:outputText value="The duaration where the instructor must fill the students attendance after the lecture end time, otherwise the system will block the attendance."/>
+                            
+                           
+                           
+                           <p:outputLabel for="attendance_ips" styleClass="bold" value="Allow Access IPs"/>        
+                           <p:inputTextarea id="attendance_ips" value="#{sys_settings.attendance_ips}"/>
+                           <br/>
+                            <h:outputText value="List of allowed IP ranges which allowed to access the students attendance(eg. 10.10.*.* or 10.10.10.*)."/>
+                            
+                              
+                             
+                        </h:panelGrid>
+                        </p:panel>   
+                            
+                                
+                                
+                 </p:tab>
+                 
+                <p:tab>
+                    <f:facet name="title"><i class="fa fa-fw fa-database"/><p:outputLabel value="DB Integration Settings"/></f:facet>
+                    
+               
+                    
+                    
+                    <p:panel header="MOHE DB Settings">
+                    <h:panelGrid style="width:100%;" columnClasses="column1,column2" columns="2"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd">
+                    <p:outputLabel for="mohe_db_url" styleClass="bold" value="MOHE DB URL"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="mohe_db_url" value="#{sys_settings.mohe_db_url}" maxlength="200" />
+                    
+                    <p:outputLabel for="mohe_db_username" styleClass="bold" value="MOHE DB Username"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="mohe_db_username" value="#{sys_settings.mohe_db_username}" maxlength="50" />
+                    
+                    <p:outputLabel for="mohe_db_password" styleClass="bold" value="MOHE DB Password"/>
+                    <p:password title="#{sys_settings.mohe_db_password}" redisplay="true"   style="width:300px" id="mohe_db_password" value="#{sys_settings.mohe_db_password}" maxlength="50" />
+                    
+                    <p:outputLabel for="mohe_di_schedule_days" styleClass="bold" value="Update Schedule Duration(Days)"/>
+                    <p:selectOneMenu id="mohe_di_schedule_days" value="#{sys_settings.mohe_di_schedule_days}" required="true" requiredMessage="Please enter MOHE DB Schedule Duration"  style="width:298px;">
+                          
+                         <f:selectItems value="#{sys_settings.numbers_list}"/>
+                    </p:selectOneMenu> 
+                    </h:panelGrid>
+                    </p:panel>
+                    
+                    
+                    <p:panel header="TECHNOVA DB Settings">
+                    <h:panelGrid style="width:100%;" columns="2" columnClasses="column1,column2"  cellpadding="2" border="0" cellspacing="1" rowClasses="even,odd">
+                    <p:outputLabel for="technova_db_url" styleClass="bold" value="TECHNOVA DB URL"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="technova_db_url" value="#{sys_settings.technova_db_url}" maxlength="200" />
+                    
+                    <p:outputLabel for="technova_db_username" styleClass="bold" value="TECHNOVA DB Username"/>
+                    <p:inputText autocomplete="off" converter="trim"   style="width:300px" id="technova_db_username" value="#{sys_settings.technova_db_username}" maxlength="50" />
+                    
+                    <p:outputLabel for="technova_db_password" styleClass="bold" value="TECHNOVA DB Password"/>
+                    <p:password  redisplay="true"   style="width:300px" id="technova_db_password" title="#{sys_settings.technova_db_password}" value="#{sys_settings.technova_db_password}" maxlength="50" />
+                    </h:panelGrid>
+                    </p:panel>
+                 </p:tab> 
+                 
+             
+                 
+              
+               <p:tab>
+                    <f:facet name="title"><i class="fa fa-fw fa-image"/><p:outputLabel value="Images/Logo Settings"/></f:facet>
+                    
+                    
+                            <div class="card card-w-title">
+                            <h1>Application Icon (Favicon) (<span style="color:red">Auto Save</span>)</h1>
+                             
+                              <p:graphicImage cache="false" width="48" id="application_favicon_path" url="#{sys_settings.application_favicon_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadIcon}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, Application icon image size should be less than 512KB."  
+                                            invalidFileMessage="Application icon should be GIF/JPG/PNG/BMP"
+                                            update="application_favicon_path" sizeLimit="524288"    allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"  />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/><br/>              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 48 X 48 px."/>              
+                            </div>
+                            
+                            
+                           <p:separator/>
+                            
+                            
+                            
+                            <div class="card card-w-title">
+                            <h1>Application Header Logo (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false" height="50" style="background:black" id="application_header_img_path" url="#{sys_settings.application_logo_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadHeaderImg}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, Application Header image size should be less than 512KB."  
+                                            invalidFileMessage="Application Header should be PNG"
+                                            update="application_header_img_path" sizeLimit="524288"   allowTypes="/(\.|\/)(png)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/><br/>              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 200 X 50 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                            
+                            
+                            <div class="card card-w-title">
+                            <h1>DashBoard Main Image (<span style="color:red">Auto Save</span>)</h1>
+                             
+                              <p:graphicImage cache="false" width="600" id="dashboard_main_image_path" url="#{sys_settings.dashboard_main_image_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadDASHBOARDMAIN}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, Application icon image size should be less than 512KB."  
+                                            invalidFileMessage="Application icon should be GIF/JPG/PNG/BMP"
+                                            update="application_favicon_path" sizeLimit="524288"    allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"  />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/><br/>              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 600 X 320 px."/>              
+                            </div>
+                            
+                            
+                           <p:separator/>
+                           
+                           <div class="card card-w-title">
+                            <h1>Student ID Card Header(Logo) (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false" height="50" style="background:black" id="student_id_card_logo_path" url="#{sys_settings.student_id_card_logo_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadIDCardLogo}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, Application Header image size should be less than 512KB."  
+                                            invalidFileMessage="Application Header should be PNG"
+                                            update="application_header_img_path" sizeLimit="524288"   allowTypes="/(\.|\/)(png)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/><br/>              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 250 X 35 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                           
+                            
+                            <div class="card card-w-title">
+                            <h1>PDF Transcript Header (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false" height="72" id="pdf_transcript_header_path" url="#{sys_settings.pdf_transcript_header_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadTranscriptHeader}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, PDF Transcript Header image size should be less than 512KB."  
+                                            invalidFileMessage="PDF Transcript Header should be GIF/JPG/PNG/BMP"
+                                            update="pdf_transcript_header_path" sizeLimit="1048576"   allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/>  <br/>            
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 1200 X 72 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                            
+                            <div class="card card-w-title">
+                            <h1>PDF Finance Statement Header (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false" height="72" id="pdf_finance_header_path" url="#{sys_settings.pdf_finance_header_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadFinanceHeader}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, PDF Finance Statement Header image size should be less than 512KB."  
+                                            invalidFileMessage="PDF Finance Statement Header image should be GIF/JPG/PNG/BMP"
+                                            update="pdf_finance_header_path" sizeLimit="1048576"    allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/>  <br/>            
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 1200 X 72 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                            
+                            <div class="card card-w-title">
+                            <h1>PDF Reports Header (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false"  height="72" id="pdf_report_header_path" url="#{sys_settings.pdf_report_header_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadReportHeader}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, PDF Portrait Reports Header image size should be less than 512KB."  
+                                            invalidFileMessage="PDF Portrait Reports Header image should be GIF/JPG/PNG/BMP"
+                                            update="pdf_report_header_path" sizeLimit="1048576"    allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/><br/>              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 1200 X 72 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                            
+                            <div class="card card-w-title">
+                            <h1>Student Class Schedule Header (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false"  height="72" id="student_class_sch_header_path" url="#{sys_settings.student_class_sch_header_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadStudentClassSchedule}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, PDF Landscape Reports Header image size should be less than 512KB."  
+                                            invalidFileMessage="PDF Landscape Reports Header image should be GIF/JPG/PNG/BMP"
+                                            update="student_class_sch_header_path" sizeLimit="1048576"  allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/> <br/>             
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 1200 X 72 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                            
+                             <div class="card card-w-title">
+                            <h1>Hostel Permissions Header (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false" height="72" id="hostel_permission_header_path" url="#{sys_settings.hostel_permission_header_path}"/>
+                              <p:fileUpload auto="true" uploadLabel="" listener="#{sys_settings.handleFileUploadHOSTEL_PERMISSION}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, PDF Landscape Reports Header image size should be less than 512KB."  
+                                            invalidFileMessage="PDF Landscape Reports Header image should be GIF/JPG/PNG/BMP"
+                                            update="hostel_permission_header_path" sizeLimit="1048576"  allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/> <br/>             
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 1200 X 72 px."/>              
+                            </div>
+                            
+                            <p:separator/>
+                            
+                            <div class="card card-w-title">
+                            <h1>Campus Permissions Header (<span style="color:red">Auto Save</span>)</h1>
+                              <p:graphicImage cache="false" height="72" id="campus_permission_header_path" url="#{sys_settings.campus_permission_header_path}"/>
+                              <p:fileUpload auto="true" uploadLabel=""  listener="#{sys_settings.handleFileUploadCAMPUS_PERMISSION}" mode="advanced" dragDropSupport="false" 
+                                            invalidSizeMessage="Ivalid image size, PDF Landscape Reports Header image size should be less than 512KB."  
+                                            invalidFileMessage="PDF Landscape Reports Header image should be GIF/JPG/PNG/BMP"
+                                            update="campus_permission_header_path" sizeLimit="1048576"  allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/" />
+                              
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image size is 512 KB."/> <br/>             
+                              <h:outputText style="color:red;font-weight: bold;" value="The recommended image Width/Height is 1200 X 72 px."/>              
+                            </div>
+                         
+                    
+                    
+                 </p:tab>   
+                 
+                 
+             </p:tabView>        
+             
+           
+        </p:card> 
+             
+             
+             <!--Update Transcript-->
+        <p:card>
+         <p:panel id="transcript_panel" >
+          <f:facet name="header"><i class="fa fa-fw fa-file-text-o"></i> <h:outputText value="Update Students' Transcript"/> </f:facet>
+                <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true"  style="width:100%" emptyMessage="No Changes Found." rowIndexVar="rowIndex"  value="#{sys_settings.transcript_update_list}" var="pp">
+                   <f:facet name="header"><h:outputText value="List of Updates"/></f:facet>
+                   <p:column width="40" headerText="#" ><h:outputText style="color:black;" value="#{rowIndex+1}" /></p:column>
+                   <p:column headerText="Last Update Date"><h:outputText style="color:Black; font-weight: bold;" value="#{pp.update_date}" /></p:column> 
+                   <p:column width="120" headerText="Students No." styleClass="center"><h:outputText style="color:red; font-weight: bold;" value="#{pp.students_count}" /></p:column> 
+                   
+                </p:dataTable>
+         </p:panel>
+             <div class="center_button">
+                <p:commandButton immediate="true" update="myform:transcript_panel" value="Update All Transcripts" action="#{sys_settings.update_all_transcripts()}"><p:confirm escape="false" header="Confirmation" message="Are you sure about updating all transcripts?" icon="fa fa-w fa-warning" /></p:commandButton>
+                <p:commandButton immediate="true" update="myform:transcript_panel" value="Update Old Transcripts" action="#{sys_settings.update_old_transcripts()}"><p:confirm escape="false" header="Confirmation" message="Are you sure about updating old transcripts?" icon="fa fa-w fa-warning" /></p:commandButton>
+                <p:commandButton immediate="true" update="myform:transcript_panel" value="Refresh" action="#{sys_settings.refresh_transcript_list()}"/>
+             </div>
+        </p:card>
+          
+             
+                
+            
+                 
+</ui:define>
+</ui:composition>

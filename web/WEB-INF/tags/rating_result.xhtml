@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+ <ui:composition>
+     <script>/*Rate*/$(document).ready(function(){var options = {max_value: #{model.max_starts_count},step_size: 0.2,readonly: true, initial_value: #{model.rating_average}}; $("##{id}").rate(options);});</script> 
+    <ui:fragment rendered="#{rendered}">
+        
+        <table class="ratingtag">
+            <tr>
+                <td style="vertical-align: top !important;">
+                    <div class="rating_div card">
+                        <h:outputText rendered="#{not empty model.header_text}" value="#{model.header_text}" style="color:black;font-weight: 700;font-size: 14px;position: relative"/>
+                        <h:panelGrid columns="3" style="text-align: center;padding-top: 10px;margin: 0 auto !important;">
+                            <h:outputText value="#{model.rating_average}" style="color:green;font-weight: 700;font-size: 20px;position: relative"/>
+                            <h:outputText value="/" style="color:blue;font-weight: 700;font-size: 15px;"/>
+                            <h:outputText value="#{model.max_starts_count}" style="color:black;font-weight: 700;font-size: 15px;"/>
+                        </h:panelGrid>
+                    <br/>
+                    <h:outputText value="#{model.total_percentage}%" style="color:black;font-weight: 700;font-size: 12px;"/>
+                    <div style="font-size: 35px; color: orange;" id="#{id}"></div>
+                    </div>
+                </td>
+                      
+                <td style="vertical-align: top !important;">
+                    <h:panelGrid columns="3" style="width:500px">
+                        <!--10-->
+                             <h:outputText rendered="#{model.max_starts_count>=10}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="10 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=10}" style="height: 25px;width: 400px;" value="#{model.rating_percentage10}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=10}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage10}%" />
+
+                        <!--9-->
+                             <h:outputText rendered="#{model.max_starts_count>=9}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="9 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=9}" style="height: 25px;width: 400px;" value="#{model.rating_percentage9}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=9}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage9}%" />
+                        <!--8-->
+                             <h:outputText rendered="#{model.max_starts_count>=8}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="8 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=8}" style="height: 25px;width: 400px;" value="#{model.rating_percentage8}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=8}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage8}%" />
+                        <!--7-->
+                             <h:outputText rendered="#{model.max_starts_count>=7}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="7 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=7}" style="height: 25px;width: 400px;" value="#{model.rating_percentage7}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=7}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage7}%" />
+                        <!--6-->
+                             <h:outputText rendered="#{model.max_starts_count>=6}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="6 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=6}" style="height: 25px;width: 400px;" value="#{model.rating_percentage6}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=6}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage6}%" />
+                        <!--5-->
+                             <h:outputText rendered="#{model.max_starts_count>=5}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="5 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=5}" style="height: 25px;width: 400px;" value="#{model.rating_percentage5}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=5}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage5}%" />
+                        <!--4-->
+                             <h:outputText rendered="#{model.max_starts_count>=4}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="4 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=4}" style="height: 25px;width: 400px;" value="#{model.rating_percentage4}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=4}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage4}%" />
+                        <!--3-->
+                             <h:outputText rendered="#{model.max_starts_count>=3}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="3 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=3}" style="height: 25px;width: 400px;" value="#{model.rating_percentage3}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=3}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage3}%" />
+                        <!--2-->
+                             <h:outputText rendered="#{model.max_starts_count>=2}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="2 Stars"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=2}" style="height: 25px;width: 400px;" value="#{model.rating_percentage2}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=2}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage2}%" />
+                        <!--1-->
+                             <h:outputText rendered="#{model.max_starts_count>=1}" style="white-space: nowrap;font-weight: bold;color:#0e68bd;" value="1 Star"/>
+                             <p:progressBar rendered="#{model.max_starts_count>=1}" style="height: 25px;width: 400px;" value="#{model.rating_percentage1}"/>  
+                             <h:outputText rendered="#{model.max_starts_count>=1}" style="font-weight: bold;color:#0e68bd;" value="#{model.rating_percentage1}%" />
+                    </h:panelGrid>
+                        </td>
+                      </tr>
+                  </table>  
+        
+        <ui:fragment rendered="#{showDetails}">
+            <h4><b>Rating Details</b></h4>
+              
+                   <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" value="null">
+                       <p:columnGroup type="header">
+                           <p:row>
+                            <p:column rendered="#{showStdCount}" rowspan="2" width="100" headerText="Students#" style="text-align:center;"/>
+                            <p:column rendered="#{showUsersCount}" rowspan="2" width="100" headerText="Users#" style="text-align:center;"/>
+                            <!--Rating Questions-->
+                             <!--1-->
+                             <p:column headerText="*" rendered="#{model.max_starts_count>=1}" style="text-align: center;"/>
+                             <!--2-->
+                             <p:column headerText="**" rendered="#{model.max_starts_count>=2}" style="text-align: center;"/>
+                             <!--3-->
+                             <p:column headerText="***" rendered="#{model.max_starts_count>=3}" style="text-align: center;"/>
+                             <!--4-->
+                             <p:column headerText="****" rendered="#{model.max_starts_count>=4}" style="text-align: center;"/>
+                             <!--5-->
+                             <p:column headerText="*****" rendered="#{model.max_starts_count>=5}" style="text-align: center;"/>
+                             <!--6-->
+                             <p:column headerText="6X*" rendered="#{model.max_starts_count>=6}" style="text-align: center;"/>
+                             <!--7-->
+                             <p:column headerText="7X*" rendered="#{model.max_starts_count>=7}" style="text-align: center;"/>
+                             <!--8-->
+                             <p:column headerText="8X*" rendered="#{model.max_starts_count>=8}" style="text-align: center;"/>
+                             <!--9-->
+                             <p:column headerText="9X*" rendered="#{model.max_starts_count>=9}" style="text-align: center;"/>
+                             <!--10-->
+                             <p:column headerText="10X*" rendered="#{model.max_starts_count>=10}" style="text-align: center;"/>
+
+
+                             <!--points-->
+                             <p:column rowspan="2" width="70" headerText="Points" style="text-align: center;"/>
+                             <!--total percentage-->
+                             <p:column rowspan="2" width="70" headerText="%" style="text-align: center;"/>
+                             <!--Average-->
+                             <p:column rowspan="2" width="70" headerText="Average" style="text-align: center;"/>
+                        </p:row>
+                           
+                           <p:row>
+                               
+                               <!--1-->
+                             <p:column headerText="#{model.rate_title1}" rendered="#{model.max_starts_count>=1}" style="text-align: center;"/>
+                             <!--2-->
+                             <p:column headerText="#{model.rate_title2}" rendered="#{model.max_starts_count>=2}" style="text-align: center;"/>
+                             <!--3-->
+                             <p:column headerText="#{model.rate_title3}" rendered="#{model.max_starts_count>=3}" style="text-align: center;"/>
+                             <!--4-->
+                             <p:column headerText="#{model.rate_title4}" rendered="#{model.max_starts_count>=4}" style="text-align: center;"/>
+                             <!--5-->
+                             <p:column headerText="#{model.rate_title5}" rendered="#{model.max_starts_count>=5}" style="text-align: center;"/>
+                             <!--6-->
+                             <p:column headerText="#{model.rate_title6}" rendered="#{model.max_starts_count>=6}" style="text-align: center;"/>
+                             <!--7-->
+                             <p:column headerText="#{model.rate_title7}" rendered="#{model.max_starts_count>=7}" style="text-align: center;"/>
+                             <!--8-->
+                             <p:column headerText="#{model.rate_title8}" rendered="#{model.max_starts_count>=8}" style="text-align: center;"/>
+                             <!--9-->
+                             <p:column headerText="#{model.rate_title9}" rendered="#{model.max_starts_count>=9}" style="text-align: center;"/>
+                             <!--10-->
+                             <p:column headerText="#{model.rate_title10}" rendered="#{model.max_starts_count>=10}" style="text-align: center;"/>
+                           </p:row>
+                        </p:columnGroup>
+                        
+                       <p:column rendered="#{showStdCount}" style="text-align: center;"><h:outputText style="color:Black;font-weight: bold;" escape="false" value="#{model.participant_students_cnt}" /><h:outputText style="color:blue;font-weight: bold;;font-size: 14px;" escape="false" rendered="#{model.target_students_cnt>0}" value="/#{model.target_students_cnt}" /></p:column>
+                       <p:column rendered="#{showUsersCount}" style="text-align: center;"><h:outputText style="color:Black;font-weight: bold;" escape="false" value="#{model.participant_user_cnt}" /><h:outputText style="color:Blue;font-weight: bold;font-size: 14px;" escape="false" rendered="#{model.target_user_cnt>0}" value="/#{model.target_user_cnt}" /></p:column>
+                       <!--Rating Questions-->
+                        <!--1-->
+                        <p:column rendered="#{model.max_starts_count>=1}" style="text-align: center;"> <h:outputText title="#{model.rate_title1}" style="color:Black;" value="#{model.rating_count1}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title1}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage1}%"/></p:column>
+                        <!--2-->
+                        <p:column rendered="#{model.max_starts_count>=2}" style="text-align: center;"> <h:outputText title="#{model.rate_title2}" style="color:Black;" value="#{model.rating_count2}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title2}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage2}%"/></p:column>
+                        <!--3-->
+                        <p:column rendered="#{model.max_starts_count>=3}" style="text-align: center;"> <h:outputText title="#{model.rate_title3}" style="color:Black;" value="#{model.rating_count3}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title3}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage3}%"/></p:column>
+                        <!--4-->
+                        <p:column rendered="#{model.max_starts_count>=4}" style="text-align: center;"> <h:outputText title="#{model.rate_title4}" style="color:Black;" value="#{model.rating_count4}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title4}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage4}%"/></p:column>
+                        <!--5-->
+                        <p:column rendered="#{model.max_starts_count>=5}" style="text-align: center;"> <h:outputText title="#{model.rate_title5}" style="color:Black;" value="#{model.rating_count5}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title5}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage5}%"/></p:column>
+                        <!--6-->
+                        <p:column rendered="#{model.max_starts_count>=6}" style="text-align: center;"> <h:outputText title="#{model.rate_title6}" style="color:Black;" value="#{model.rating_count6}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title6}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage6}%"/></p:column>
+                        <!--7-->
+                        <p:column rendered="#{model.max_starts_count>=7}" style="text-align: center;"> <h:outputText title="#{model.rate_title7}" style="color:Black;" value="#{model.rating_count7}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title7}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage7}%"/></p:column>
+                        <!--8-->
+                        <p:column rendered="#{model.max_starts_count>=8}" style="text-align: center;"> <h:outputText title="#{model.rate_title8}" style="color:Black;" value="#{model.rating_count8}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title8}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage8}%"/></p:column>
+                        <!--9-->
+                        <p:column rendered="#{model.max_starts_count>=9}" style="text-align: center;"> <h:outputText title="#{model.rate_title9}" style="color:Black;" value="#{model.rating_count9}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title9}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage9}%"/></p:column>
+                        <!--10-->
+                        <p:column rendered="#{model.max_starts_count>=10}" style="text-align: center;"> <h:outputText title="#{model.rate_title10}" style="color:Black;" value="#{model.rating_count10}" rendered="#{model.results_format!='percentage'}"/>  <h:outputText rendered="#{model.results_format=='value_percentage'}" style="color:black" value=" "/> <h:outputText rendered="#{model.results_format!='value'}" title="#{model.rate_title10}" style="color:blue;font-weight: bold;" value="#{model.rating_percentage10}%"/></p:column>
+
+                        
+                        <!--points-->
+                        <p:column style="text-align: center;"> <h:outputText style="font-weight: bold;color:Blue" value="#{model.points}"/></p:column>
+                        <!--total percentage-->
+                        <p:column style="text-align: center;"> <h:outputText style="font-weight: bold;color:black" value="#{model.total_percentage}%"/></p:column>
+                        <!--Average-->
+                        <p:column style="text-align: center;"> <h:outputText style="font-weight: bold;color:green" value="#{model.rating_average}"/></p:column>
+
+                   </p:dataTable>
+        </ui:fragment>
+        
+        
+        
+    </ui:fragment>
+ </ui:composition>
+</html>    

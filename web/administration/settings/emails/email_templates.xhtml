@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Email Templates</ui:define>
+    <ui:define name="MainTitle">Email Templates</ui:define>
+    <ui:param name="page_id" value="184"/>
+    <ui:define name="content">
+        <p:card>
+        <div style="text-align: right !important;">
+                <p:commandButton value="New Email Template" action="#{email_templates.add_new_window()}" ajax="true" icon="fa fa-w fa-plus" ><p:ajax event="dialogReturn"  listener="#{email_templates.Search()}" update="@form" /> </p:commandButton> 
+            </div>
+        </p:card>
+        <p:card>
+            
+            <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No data Found." rowIndexVar="rowIndex" id="dataTable"  var="ee" widgetVar="table" value="#{email_templates.templates_list}">
+                <p:ajax event="filter" global="false" /> 
+                <f:facet name="header"><div class="customers-table-header">List Of Email Templates<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{email_templates.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/></span></div></f:facet>
+                <p:column width="30" headerText="#" ><h:outputText value="#{rowIndex+1}" /></p:column>
+                <p:column filterBy="#{ee.t_title}" width="200" headerText="Template Title"><h:outputText style="text-align: left;font-weight: bold;color:#{ee.t_is_default_template?'Green':' '};" escape="false" value="#{ee.t_title}" /></p:column> 
+                <p:column filterBy="#{ee.added_by}" width="150" headerText="Added By"><h:outputText value="#{ee.added_by}" /></p:column> 
+                <p:column filterBy="#{ee.adding_date}" width="140" headerText="Adding Date"><h:outputText value="#{ee.adding_date}" /></p:column> 
+                <p:column filterBy="#{ee.last_update_by}" width="150" headerText="Updated By"><h:outputText value="#{ee.last_update_by}" /></p:column> 
+                <p:column filterBy="#{ee.last_update_date}" width="140" headerText="Updating Date"><h:outputText value="#{ee.last_update_date}" /></p:column> 
+                <p:column filterBy="#{ee.email_counts}" width="120" headerText="Emails#" style="text-align:center;"><h:outputText style="color:black;font-weight: bold;" value="#{ee.email_counts}" /></p:column> 
+                <p:column width="140" headerText="Set As Default" style="text-align:center;"><p:commandButton disabled="#{ee.t_is_default_template}" action="#{ee.set_as_default()}" value="Set As Default" icon="fa fa-w fa-check" update="@form"><p:confirm escape="false" header="Confirmation" message="Are you sure you want to set this tempalte as default template?" icon="fa fa-w fa-warning" /></p:commandButton>  </p:column> 
+                <p:column headerText="Template Notes"><h:outputText value="#{ee.t_notes}" /></p:column> 
+                <p:column width="120" headerText="Options">
+                    <p:commandButton action="#{ee.preview()}" title="Preview Template" icon="fa fa-w fa-eye" /> 
+                    <p:commandButton action="#{ee.edit()}" title="Edit Template" styleClass="ui-button-success" icon="fa fa-w fa-edit" ><p:ajax event="dialogReturn"  listener="#{email_templates.Search()}" update="@form" /> </p:commandButton> 
+                    <p:commandButton ajax="true" update="@form" disabled="#{ee.deletable==false or ee.t_is_default_template}" action="#{ee.delete()}" styleClass="ui-button-danger" icon="fa fa-w fa-trash"><p:confirm escape="false" header="Confirmation" message="Are you sure about removing this template?" icon="fa fa-w fa-warning" /></p:commandButton> 
+                </p:column>
+                <f:facet name="footer"><h:outputText value="Total Records: "/> <h:outputText value="#{email_templates.templates_list.size()}"/></f:facet>
+            </p:dataTable>
+        </p:card>               
+</ui:define>
+</ui:composition>

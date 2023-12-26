@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis"
+                template="/WEB-INF/templates/window_template.xhtml">
+    
+    <ui:define name="PageTitle">User Photo - #{users_management.display_name}</ui:define>
+     
+    <ui:define name="content">
+        <p:dialog styleClass="custom-header" position="center" modal="true" widgetVar="statusDialogdownload" header="File Uploading" draggable="false" closable="false" resizable="false">
+           <p:graphicImage library="tms" width="70" height="70" name="images/loading.gif" />
+        </p:dialog>   
+        
+        <style>
+            .ui-fileupload-buttonbar  {background: none   !important ;border: none !important ;margin: 0px 0px 0px 0px !important;padding: 0px 0px 0px 0px !important;}
+            .ui-fileupload-content {display: none;  }
+        </style>
+         <p:card >   
+            <p:fileUpload onstart="start()" oncomplete="stop()" auto="true" label="Upload Photo" update="@form" listener="#{users_management.image_model.handleFileUpload}" mode="advanced" style="width:220px !important;height:22px !important;"/> 
+            <br/>
+            <sis:imageEditor rendered="true" model="#{users_management.image_model}" showLoadButton="false"/>
+            <div class="center_button"><p:commandButton onclick="remoteFunctionForUpdate([{name: 'param1', value: imageEditor.toDataURL()}]);" value="Save Image" id="addbutton" ajax="true" update="@form"  action="#{users_management.save_user_photo()}" icon="fa fa-w fa-save"  /></div>
+        </p:card>
+         <script type="text/javascript">
+            function start() {
+                PF('statusDialogdownload').show();
+            }
+
+            function stop() {
+                PF('statusDialogdownload').hide();
+            }
+        </script>
+        
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+ <ui:composition>
+     <h:panelGrid id="#{id}" columns="3">
+         <p:selectOneMenu panelStyle="width:80px;" filter="true" filterMatchMode="contains" required="#{not empty required? required:false}" requiredMessage="#{requiredMessage1}" style="width:97px"  value="#{model.start_time}" label=""> 
+            <f:selectItem itemLabel=" " itemValue="#{null}"/>
+            <f:selectItems value="#{model.start_time_list}" />
+            <p:ajax event="change" listener="#{model.on_change()}" update="#{id}" global="false"/>
+        </p:selectOneMenu> 
+        
+        <h:outputText value=" : "/>
+        
+        <p:selectOneMenu panelStyle="width:80px;" filter="true" filterMatchMode="contains" required="#{not empty required? required:false}" requiredMessage="#{requiredMessage2}" style="width:97px"  value="#{model.end_time}" label=""> 
+            <f:selectItem itemLabel=" " itemValue="#{null}"/>
+            <f:selectItems value="#{model.end_time_list}" />
+        </p:selectOneMenu> 
+        
+        
+     </h:panelGrid>
+ </ui:composition>
+</html>    

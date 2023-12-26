@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="PageTitle">Users Management</ui:define>
+    <ui:define name="MainTitle">Users Management</ui:define>
+    <ui:param name="page_id" value="4"/>
+    <ui:define name="content"> 
+    <p:card>
+        <p:commandButton style="float: right;" immediate="true" value="New Users" ajax="true" actionListener="#{users_management.new_user}" icon="fa fa-w fa-plus"><p:ajax event="dialogReturn" update="@all" listener="#{users_management.Search()}" /></p:commandButton> 
+        <h:panelGrid columns="9">
+            <p:selectOneMenu autoWidth="false" style="width:260px" id="search_cdep_id" value="#{users_management.search_department}"> 
+                <p:ajax listener="#{users_management.Search()}" event="change"  update="dataTable"  /> 
+                <f:selectItem itemLabel="All Departments." itemValue="#{null}"/>
+                <f:selectItems value="#{users_management.search_departments_list}" />
+            </p:selectOneMenu>
+
+
+            <p:selectOneMenu autoWidth="false" style="width:200px" caseSensitive="false" id="search_groups" value="#{users_management.search_access_group}"> 
+                <p:ajax listener="#{users_management.Search()}" event="change"  update="dataTable"  /> 
+                <f:selectItem itemLabel="All Access Groups" itemValue="#{null}"/>
+                <f:selectItems value="#{users_management.groupsList}" />
+            </p:selectOneMenu>
+
+            <p:inputText autocomplete="off" converter="trim" style="width:150px"  onkeypress="return event.keyCode != 13" id="search_name" value="#{users_management.search_name}" placeholder="User Name">
+                <p:ajax global="false" listener="#{users_management.Search()}" event="keyup"  update="dataTable"  />
+            </p:inputText>
+        </h:panelGrid>
+    </p:card>
+    
+    <p:card>
+        <p:dataTable sortMode="multiple" styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true" emptyMessage="No data Found." rowIndexVar="rowIndex" id="dataTable" var="uu" widgetVar="table" value="#{users_management.users_list}" rows="25" paginator="true" rowsPerPageTemplate="25,50,100,{ShowAll|'All'}">
+            <p:ajax event="filter" global="false" /> 
+            <f:facet name="header"><div class="customers-table-header">List Of Users<span class="ui-input-icon-left filter-container"><i class="pi pi-search"></i><p:inputText style="width:250px" converter="trim" autocomplete="off"  id="globalFilter" onkeyup="PF('table').filter();" placeholder="Global Search"/> <p:commandButton action="#{users_management.Search()}" process="dataTable" update="dataTable" title="Refresh" style="margin-left: 20px !important;" icon="fa fa-w fa-refresh" styleClass="rounded-button ui-button-outlined p-mr-2 p-mb-2"/><p:commandButton style="margin-left:10px !important;" rendered="#{not empty users_management.users_list}" styleClass="ui-button-success" ajax="false"  value="Export To Excel" icon="fa fa-w fa-file-excel-o" action="#{users_management.export_to_excel}"/></span></div></f:facet>                         
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" width="30" rendered="#{users_management.search_status=='1' or users_management.search_status=='0'}" selectionMode="multiple" style="width:40px;text-align:center"/>
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" width="30" headerText="#" ><h:outputText value="#{rowIndex+1}" /></p:column>
+           
+             <p:column styleClass="#{uu.status?'':'lightredbg'}" width="60" headerText="Photo" >
+             
+             <p:avatar styleClass="mr-2" size="xlarge" shape="circle">
+                <p:graphicImage url="/#{uu.photo_path}"/>
+            </p:avatar>
+             </p:column>
+           
+            
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.u_display_name}" sortBy="#{uu.u_display_name}" headerText="User Display Name"><h:outputText style="font-weight: bold;" value="#{uu.u_display_name}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.u_first_name}" width="90" sortBy="#{uu.u_first_name}" headerText="First Name"><h:outputText value="#{uu.u_first_name}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.u_mid_name}" width="90" sortBy="#{uu.u_mid_name}" headerText="Mid Name"><h:outputText value="#{uu.u_mid_name}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.u_last_name}" width="90" sortBy="#{uu.u_last_name}" headerText="Last Name"><h:outputText value="#{uu.u_last_name}" /></p:column> 
+            
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.u_department_name}" width="180" sortBy="#{uu.u_department_name}" headerText="Department"><h:outputText  value="#{uu.u_department_name}" /></p:column> 
+            
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.skills}" width="120" sortBy="#{uu.skills}" headerText="User Skills" ><h:outputText escape="false" value="#{uu.skills}" /></p:column> 
+            
+            
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.tasks_count}" width="120" sortBy="#{uu.tasks_count}" headerText="Assigned Tasks" style="text-align: center"><h:outputText value="#{uu.tasks_count}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.completed_tasks_count}" width="120" sortBy="#{uu.completed_tasks_count}" headerText="Completed Tasks" style="text-align: center"><h:outputText style="color: green" value="#{uu.completed_tasks_count}" /></p:column> 
+            
+            
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" filterBy="#{uu.u_username}" width="100" sortBy="#{uu.u_username}" headerText="Username"><h:outputText  value="#{uu.u_username}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" width="100" headerText="Password"><h:outputText value="**********" title="#{uu.u_password}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" width="100" sortBy="#{uu.status}" headerText="User Status">
+                <p:inputSwitch value="#{uu.status}">
+                    <p:ajax listener="#{uu.update_user_status()}" event="change"  update="dataTable,myform:messages,myform:growl"  />
+                </p:inputSwitch>
+            </p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" width="130"  headerText="Last Login"><h:outputText value="#{uu.last_login}" /></p:column> 
+            <p:column styleClass="#{uu.status?'':'lightredbg'}" width="110" headerText="Options">
+               <p:commandButton action="#{uu.edit()}" title="Edit User" styleClass="ui-button-success" icon="fa fa-w fa-edit"><p:ajax event="dialogReturn" listener="#{users_management.Search()}" update="dataTable" /> </p:commandButton>
+               <p:commandButton action="#{uu.open_user_photo()}" title="Edit User Photo" icon="fa fa-w fa-image"><p:ajax event="dialogReturn" listener="#{users_management.Search()}" update="dataTable" /> </p:commandButton>
+               <p:commandButton update="dataTable,myform:messages,myform:growl" title="Delete User" disabled="#{uu.deletable==false}" action="#{uu.delete_user()}" styleClass="ui-button-danger" icon="fa fa-w fa-trash"><p:confirm escape="false" header="Confirmation" message="Are you sure about removing this user?" icon="fa fa-w fa-warning" /></p:commandButton>
+            </p:column> 
+            <f:facet name="footer">
+                <h:outputText value="Total Records: "/> <h:outputText value="#{users_management.users_list.size()}"/>
+            </f:facet>
+        </p:dataTable>
+    </p:card>
+</ui:define>
+</ui:composition>

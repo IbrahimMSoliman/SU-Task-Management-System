@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+ <h:head></h:head>
+   <ui:composition>
+       <p:card id="#{id}" header="">
+            <f:facet name="header">
+                <h:outputText rendered="#{semester.semester_index!='0' and semester.semester_index!='00'}" value="Semester (#{semester.semester_index})" style="font-size:13px;color:black;"/>
+                <h:outputText rendered="#{semester.semester_index=='0'}" value="Foundation Math" style="font-size:13px;color:blue;"/>
+                <h:outputText rendered="#{semester.semester_index=='00'}" value="Foundation IT" style="font-size:13px;color:blue;"/>
+            </f:facet>
+            <ui:repeat var="ggsem" value="#{semester.curriculum_groups_semester_list}">
+                <p:dataTable styleClass="ui-datatable-striped ui-datatable-sm ui-datatable-gridlines" rowHover="true"  emptyMessage="No courses Found." var="course" value="#{ggsem.courses_list}">
+                    <f:facet name="header"><h:outputText style="color: Blue;font-size: 13px;padding-left: 5px;" rendered="#{not empty ggsem.group_title}" value="#{ggsem.group_title}"/></f:facet>  
+                    <!--Delete-->
+                    <p:column responsivePriority="1" width="30" headerText=" " styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}"><p:commandButton styleClass="small_exp_del_buttons ui-button-danger" immediate="true" title="Remove Course Booking حذف حجز المساق"  ajax="true" update=":myform:#{id},myform:slideout_panel" rendered="#{course.selected_section_no!=''}" action="#{course.remove_selection()}" icon="fa fa-w fa-trash" /></p:column>
+                    <!--course title or selection button-->
+                    <p:column responsivePriority="1" headerText="Course Title" styleClass="course_button #{empty course.selected_section_no?'':'ui-state-highlight'}" style="width:auto">
+                        <h:outputText rendered="#{course.status!=''}" title="Course Title" style="#{course.status=='Completed' or course.status=='In Progress' or course.status=='Completed.G'?'color:green;font-weight: bold;':'' }" value="#{course.course_code} #{course.course_title}" />
+                        <p:commandButton rendered="#{course.status==''}" value="#{course.course_code} #{course.course_title}" action="#{course.open_sections_window()}" global="false"><p:ajax event="dialogReturn" update=":myform:#{id},myform:slideout_panel"/></p:commandButton> 
+                        <div style="float: right;"><p:commandLink style="color:blue" ajax="true" update="@form" rendered="#{course.show_waiting_list_link and course.status!=''}" value="[Waiting List]" action="#{registration_booking_page.add_course_to_wating_list(course.course_id)}"><p:confirm escape="false"  header="Confirmation" message="Are you sure about adding the course to waiting list.?" icon="fa fa-w fa-warning" /></p:commandLink></div>
+                    </p:column>
+                    <!--Section No.-->
+                    <p:column responsivePriority="2" width="40" headerText="S.NO" styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}" style="text-align:center;"><h:outputText style="font-weight: bold;color:blue" value="#{course.selected_section_no}" /></p:column>
+                    <!--Status-->
+                    <p:column responsivePriority="2" width="80" headerText="Status" styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}" style="text-align:center;">
+                        <h:outputText styleClass="small_font" rendered="#{course.status=='Not Offered' or course.status=='Ac.Level' or course.status=='C.Prerequisite' or course.status=='CH.Prerequisite'}" style="font-weight: bold;color:red" value="#{course.status}" />
+                        <h:outputText styleClass="small_font" rendered="#{course.status=='Completed' or course.status=='In Progress' or course.status=='Completed.G' }" style="font-weight: bold;color:green;" value="#{course.status}" />
+                        <h:outputText styleClass="small_font" rendered="#{course.status=='Early Booked' and user_details.user_type!='Student'}" style="font-weight: bold;color:Teal;" value="#{course.status}" />
+                        <p:commandLink styleClass="small_font" rendered="#{course.status=='Early Booked' and user_details.user_type=='Student'}" style="font-weight: bold;color:green;" value="#{course.status}"/>
+                        <h:outputText styleClass="small_font" rendered="#{course.status=='Full' and (registration_booking_page.enable_ceiling_raise==false or course.is_ceiling_raisable==false)}" style="font-weight: bold;color:red" value="Full" />
+                        <p:commandLink styleClass="small_font" rendered="#{course.status=='Full' and registration_booking_page.enable_ceiling_raise==true  and course.is_ceiling_raisable==true}" style="font-weight: bold;color:green" value="Full" action="#{course.open_sections_window()}" ><p:ajax event="dialogReturn"  update="@all" /></p:commandLink>
+                    </p:column> 
+                    <!--Exceptions window--> 
+                    <p:column responsivePriority="1" width="30" headerText=" " styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}" rendered="#{not empty registration_booking_page.courses_exceptions_list}"><p:commandButton styleClass="small_exp_del_buttons" style="#{not empty course.course_exceptions?'border:3px solid Fuchsia;':'border:1px solid green;'}margin-left:0 !important;" immediate="true" title="List of Exceptions"  ajax="true" update=":myform:#{id}" action="#{course.open_exception_window()}" icon="fa fa-w fa-star"><p:ajax event="dialogReturn" update=":myform:#{id}" /></p:commandButton></p:column> 
+                    <!--Prerequisite-->
+                    <p:column responsivePriority="3" width="70" headerText="Prereq." styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}" ><h:outputText escape="false" title="prerequisites" style="color:blue;font-size:10px !important;font-weight: bold;" value="#{course.prerequisites}" /></p:column> 
+                    <!--C.H.-->
+                    <p:column responsivePriority="4" width="30" headerText="C.H" styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}" style="text-align:center;"><h:outputText title="Course Credit Hours" style="font-weight: bold;color:black;" value="#{course.ch}" /></p:column> 
+                    <!--Grade-->
+                    <p:column responsivePriority="2" width="30" headerText="GD" styleClass="#{empty course.selected_section_no?'':'ui-state-highlight'}" style="text-align:left;"><h:outputText title="Grade" style="font-weight: bold;#{course.grade=='NP' or course.grade=='FA' or course.grade=='F'?'color:red':'color:green'}"  value="#{course.grade}" /></p:column> 
+                </p:dataTable>
+            </ui:repeat>
+       </p:card>
+   </ui:composition>
+</html>    

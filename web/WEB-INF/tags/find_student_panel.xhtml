@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:sis="http://xmlns.jcp.org/jsf/composite/sis">
+ <ui:composition>  
+     <p:card rendered="#{empty rendered or rendered}" style="#{cardStyle}" > 
+    <p:panel id="search_panel" style="width: 22em;margin:  auto;">     
+        <f:facet name="header"><i class="fa fa-w fa-search"/> #{empty panelTitle?'Search':panelTitle}</f:facet>
+        <p:focus context="search_panel"/>
+            <div class="ui-inputgroup">
+                <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                <p:autoComplete style="width: 100px !important;" id="searchb" value="#{value}" required="true" requiredMessage="Kindly, Select Student or enter the student ID....."
+                    completeMethod="#{searchStudentsAutocomplete.completeStudents}"
+                    var="std" itemLabel="#{std.returned_query_text}" itemValue="#{std}"
+                    converter="findStdAutocompleteConverter"
+                    forceSelection="#{forceSelection}"
+                    cache="true" autocomplete="off"   maxResults="10" size="27" scrollHeight="400" panelStyle="width:430px;" minQueryLength="3">
+                    <p:ajax event="itemSelect" update="searchb" global="false"/> 
+                    <f:attribute name="ignoreShortAdmission" value="#{ignoreShortAdmission}" />
+                    
+                    <p:column>
+                        <div class="surface-card shadow-2 border-rounded p-2">
+                            <div  class="flex border-bottom-1 surface-border pb-1">
+                                <div style="width: 80px !important;margin-right:3px;"><p:graphicImage  width="70" url="#{std.photo_path}"/></div>
+                                <div class="flex flex-column align-items-start">
+                                    <span>#{std.en_full_name}</span>
+                                    <span>#{std.ar_full_name}</span>
+                                    <span class="text-600 font-medium mb-2">#{std.college_name}-#{std.major_short_name}</span>
+                                    <span style="white-space: nowrap;">
+                                        <span class="fa fa-w fa-graduation-cap" style="margin-right: 5px;font-weight: bold;"> #{std.student_id}</span>
+                                        <span class="fa fa-w fa-newspaper-o" style="margin-right: 5px;font-weight: bold;"> #{std.national_id}</span>
+                                        <span class="fa fa-w fa-mobile-phone" style="font-weight: bold;"> #{std.mobile}</span>
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="text-align: center;padding-top: 3px"><sis:academicStatusChip value="#{std.student_status}"/></div>  
+                        </div>
+                    </p:column>
+                    <p:ajax event="query" global="false" />
+                </p:autoComplete>
+            </div>
+        <ui:insert />
+    </p:panel>
+    </p:card>
+ </ui:composition>
+</html>    
